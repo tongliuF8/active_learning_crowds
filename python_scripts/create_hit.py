@@ -29,8 +29,8 @@ URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
 AMOUNT = .72
 
-SANDBOX_HOST = 'mechanicalturk.sandbox.amazonaws.com'
-# real_host = 'mechanicalturk.amazonaws.com'
+HOST = 'mechanicalturk.sandbox.amazonaws.com'
+# HOST = 'mechanicalturk.amazonaws.com'
 
 
 TOTAL_CROWDFLOWER_TWEETS = 20
@@ -45,7 +45,7 @@ def get_client():
     client = boto.mturk.connection.MTurkConnection(
         aws_access_key_id=AWS_ACCESS_KEY_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        host=SANDBOX_HOST
+        host=HOST
     )
     return client
 
