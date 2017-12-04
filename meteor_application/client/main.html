@@ -1,0 +1,194 @@
+<head>
+    <title>Survey</title>
+    <link rel="icon" sizes="16x16" href="/favicon.ico">
+</head>
+
+<body class="bg-light-grey">
+
+{{>content}}
+
+</body>
+
+<template name="content">
+
+    {{#if validated}}
+
+        {{#if completed}}
+            <h4> Thank you for the contribution!</h4>
+        {{else}}
+            {{> loader}}
+            <div class="box margin white">
+                {{#if Template.subscriptionsReady}}
+                    {{>instruction}}
+                    <hr/>
+                    <div class="instructions">
+                        <div class="messages">
+                            {{document.time_message_3}} {{document.message_3}}<br/>
+                            {{document.time_message_2}} {{document.message_2}}<br/>
+                            {{document.time_message_1}} {{document.message_1}}
+                        </div>
+                        {{tweetNumber}}.  {{document.time_text}}  <b>{{document.text}}</b><br/>
+                        <div class="messages">
+                            {{document.time_message1}} {{document.message1}}<br/>
+                            {{document.time_message2}} {{document.message2}}<br/>
+                            {{document.time_message3}} {{document.message3}}
+                        </div>
+                    </div>
+                    {{>QandA}}
+                    <br/>
+                    {{#if backButton}}
+                        <div class="nextButton">
+                            <!--button class="back">Back</button-->
+                            <button class="next">Next</button>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        {{/if}}
+    {{else}}
+        {{>instruction}}
+        <div class="instructions">
+            <p> <b>Example:</b></p>
+            {{>sample}}
+            <br/>
+            <h4> You will be asked to label 12 tweets in this HIT. </h4>
+            <h4> We will place duplicate tweets to ensure quality of labels. </h4>
+            <h3> The survey starts once you accept the HIT.</h3>
+        </div>
+    {{/if}}
+</template>
+
+
+
+<template name="header">
+    <div class="container padding center"> <h1>Survey Testing</h1> </div>
+</template>
+
+<template name="instruction">
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <p>Please read the following definitions carefully which describe three employment statuses.<br><br>
+            <b>Employed</b> is defined as: <br>
+            • Working for pay (salary workers), or profit (self-employed) during the
+            census survey reference week. <br>
+            • Working in a family-operate business or farm (at least 15 hours per week
+            without pay).<br>
+            • Being temporarily absent from their regular jobs (no matter they were
+            paid or not during the time off) because of vocation, illness, maternity/-
+            paternity leave, family/personal obligations, labor dispute, bad weather
+            or other short-term reasons. <br><br>
+            <b>Unemployed</b> is defined as:<br>
+            • Not having a job at all during the survey reference week.<br>
+            • People made specific efforts to look for a job in the prior 4 weeks, such
+            as: contacting an employer or employment agency, submitting resumes
+            or job applications, placing or answering job advertisements, etc.<br>
+            • People were available for work, such as expecting to be recalled from
+            temporary layoff (unless temporarily ill).<br><br>
+            <b>Not in labor force</b> is defined as:<br>
+            • Neither having a job nor looking for one.
+        </p>
+        Then based on the above definitions, please finish three questions Q1, Q2, and Q3 following the target tweet (highlighted in bold).
+        <p>We provide tweets posted right before and after the target tweet as context information to help you understand the target tweet
+            and make judgments. They are presented in the order of [-3, -2, -1, target tweet, +1, +2 and +3] where “–” means before the target
+            tweet and “+” means after. The timestamp of the target tweet is provided in the format of "year-month-day, hour:minute:second".
+            Also, we provide the relative time differences between the context tweet and the target tweet in the form of "day,
+            hour:minute:second", with "-" denotes before the target tweet and "+" denotes after.</p>
+    </div>
+</template>
+
+<template name="QandA">
+    <div class="qa">
+        <form name='mturk_form' method='post' id='submitform' action='https://workersandbox.mturk.com/mturk/externalSubmit'>
+            <input type='hidden' value= {{assignmentID}} name='assignmentId' id='assignmentId' />
+            <p>Q1. Which of the following items best describes the point of view of job/employment-related
+                information in the target tweet?</p>
+            <input type="radio" name="q1" id="person1" value="person1">1st person<br/>
+            <input type="radio" name="q1" id="person2" value="person2">2nd person<br/>
+            <input type="radio" name="q1" id="person3" value="person3">3rd person<br/>
+            <input type="radio" name="q1" id="unclear" value="unclear">Unclear<br/>
+            <input type="radio" name="q1" id="notjobrealted" value="not_job_related">Not job-related<br/>
+            <p>Q2. Which of the following items could best describe the employment status
+                of the subject in the tweet?</p>
+            <input type="radio" name="q2" id="emp" value="Employed">Employed<br/>
+            <input type="radio" name="q2" id="unEmp" value="Unemployed">Unemployed<br/>
+            <input type="radio" name="q2" id="ns" value="NotInLabourforce">Not in labor force<br/>
+            <input type="radio" name="q2" id="unclear2" value="unclear">Unclear<br/>
+            <input type="radio" name="q2" id="notjobrealted2" value="not_job_related">Not job-related<br/>
+            <p>Q3. Does the subject specifically mention any job/employment transition
+                event in the tweet?</p>
+            <input type="checkbox" name="q3" id="hiring" value="getting_hiredjob_seeking">Getting hired<br/>
+            <input type="checkbox" name="q3" id="firing" value="getting_fired">Getting fired<br/>
+            <input type="checkbox" name="q3" id="quit" value="quitting_a_job">Quiting a job<br/>
+            <input type="checkbox" name="q3" id="losing" value="losing_job_some_other_way">Losing job some other way<br/>
+            <input type="checkbox" name="q3" id="promoted" value="getting_promotedraised">Getting promoted/raised<br/>
+            <input type="checkbox" name="q3" id="cut" value="getting_cut_in_hours">Getting cut in hours<br/>
+            <input type="checkbox" name="q3" id="complain" value="complaining_about_work">Complaining about work<br/>
+            <input type="checkbox" name="q3" id="support" value="offering_support">Offering support<br/>
+            <input type="checkbox" name="q3" id="work" value="going_to_work">Going to work<br/>
+            <input type="checkbox" name="q3" id="cominghome" value="coming_home_from_work">Coming home from work<br/>
+            <input type="checkbox" name="q3" id="none" value="none_of_the_above_but_jobrelated">None of the above but job-related<br/>
+            <input type="checkbox" name="q3" id="notjobrelated" value="not_jobrelated">Not job-related<br/>
+        </form>
+    </div>
+</template>
+
+<template name="sample">
+    <div class="sample">
+        <div class="instructions">
+            [-0, 03:06:31] I will be in Atlanta on the 25th of October!!!! Excited to be getting an early vacation<br/>
+            [-0, 00:01:52] Hot oil is the next best thing to shito!!!! 😋<br/>
+            [-0, 00:01:52] You up now but how long are you going to work paycheck to paycheck... No type of salary! 😂<br/>
+        </div>
+        1. [2013-10-04, 15:39:22] <b>Jobs but no career! 😂😂😂😂 You have to do better! You get older every not younger!</b><br/>
+        <div class=instructions>
+            [+0, 00:02:01] Might open a couple of businesses for fun and hire my TL 😂😂😩<br/>
+            [+0, 00:03:24] “@SOMEONE @SOMEONE salary aint always better” I'm not being specific<br/>
+            [+0, 00:04:30] Don't want to work for the devil<br/>
+        </div>
+        <p>Q1. Which of the following items best describes the point of view of job/employment-related
+            information in the target tweet?</p>
+        <input type="radio" name="q1" id="person1" value="person1">1st person<br/>
+        <input type="radio" name="q1" id="person2" value="person2">2nd person<br/>
+        <input type="radio" name="q1" id="person3" value="person3">3rd person<br/>
+        <input type="radio" name="q1" id="unclear" value="unclear">Unclear<br/>
+        <input type="radio" name="q1" id="notjobrealted" value="not_job_related">Not job-related<br/>
+        <p>Q2. Which of the following items could best describe the employment status
+            of the subject in the tweet?</p>
+        <input type="radio" name="q2" id="emp" value="Employed">Employed<br/>
+        <input type="radio" name="q2" id="unEmp" value="Unemployed">Unemployed<br/>
+        <input type="radio" name="q2" id="ns" value="NotInLabourforce">Not in labor force<br/>
+        <input type="radio" name="q2" id="unclear2" value="unclear">Unclear<br/>
+        <input type="radio" name="q2" id="notjobrealted2" value="not_job_related">Not job-related<br/>
+        <p>Q3. Does the subject specifically mention any job/employment transition
+            event in the tweet?</p>
+        <input type="checkbox" name="q3" id="hiring" value="getting_hiredjob_seeking">Getting hired<br/>
+        <input type="checkbox" name="q3" id="firing" value="getting_fired">Getting fired<br/>
+        <input type="checkbox" name="q3" id="quit" value="quitting_a_job">Quiting a job<br/>
+        <input type="checkbox" name="q3" id="losing" value="losing_job_some_other_way">Losing job some other way<br/>
+        <input type="checkbox" name="q3" id="promoted" value="getting_promotedraised">Getting promoted/raised<br/>
+        <input type="checkbox" name="q3" id="cut" value="getting_cut_in_hours">Getting cut in hours<br/>
+        <input type="checkbox" name="q3" id="complain" value="complaining_about_work">Complaining about work<br/>
+        <input type="checkbox" name="q3" id="support" value="offering_support">Offering support<br/>
+        <input type="checkbox" name="q3" id="work" value="going_to_work">Going to work<br/>
+        <input type="checkbox" name="q3" id="cominghome" value="coming_home_from_work">Coming home from work<br/>
+        <input type="checkbox" name="q3" id="none" value="none_of_the_above_but_jobrelated">None of the above but job-related<br/>
+        <input type="checkbox" name="q3" id="notjobrelated" value="not_jobrelated">Not job-related<br/>
+    </div>
+</template>
+
+<template name="loader">
+    <svg class="loader" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+  <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+    <animateTransform attributeType="xml"
+      attributeName="transform"
+      type="rotate"
+      from="0 25 25"
+      to="360 25 25"
+      dur="0.6s"
+      repeatCount="indefinite"></animateTransform>
+    </path>
+  </svg>
+</template>
+
+

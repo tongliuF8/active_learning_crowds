@@ -1,0 +1,68 @@
+<HTMLQuestion xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2011-11-11/HTMLQuestion.xsd">
+  <HTMLContent><![CDATA[
+  <!DOCTYPE html>
+  <html>
+   <head>
+  <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+  <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
+ </head>
+ <body>
+<form name='mturk_form' method='post' id='submitform' action='https://workersandbox.mturk.com/mturk/externalSubmit'>
+    <input type='hidden' value='' name='assignmentId' id='assignmentId' />
+    <input type='hidden' value='' name='nonrandom' id='nonrandom' />
+
+ At the end of the survey, you will receive a survey code to confirm that you completed the study.
+ Please paste the code into the box that appears below after accepting the hit to receive credit for taking our survey.<br/>
+
+    <script>
+        /* function to extract parameters from URL */
+        function turkGetParam( name ) {
+          var regexS = "[\?&]"+name+"=([^&#]*)";
+          var regex = new RegExp( regexS );
+          var tmpURL = fullurl;
+          var results = regex.exec( tmpURL );
+          if( results == null ) {
+            return "";
+          } else {
+            return results[1];
+          }
+        }
+
+
+        /* THIS IS THE LINE TO CAPTURE THE ACTUAL URL: */
+        var fullurl = window.location.href;
+
+        /* ASSIGNS THE URL PARAMETERS TO JAVASCRIPT VARIABLES */
+        var assign = turkGetParam('assignmentId');
+        var hit = turkGetParam('hitId');
+        var worker = turkGetParam('workerId');
+
+        if(assign=="ASSIGNMENT_ID_NOT_AVAILABLE")
+            {
+            document.write("<p style='font-weight:bold;text-align:center;'>The survey starts once you accept the HIT.</p>");
+            }
+        else
+            {
+            document.getElementById('assignmentId').value = assign;
+            var surveylink = new String("https://homanlab.org/?workerId=" + worker + "&assignmentId=" + assign + "&hitId=" + hit);
+
+            var iframe = document.createElement('iframe');
+            iframe.src = surveylink;
+            iframe.style.width = "100%";
+            iframe.style.height = "500px";
+            document.body.appendChild(iframe);
+
+            /* DISPLAY LINK */
+            //document.write("<p style='font-weight:bold;text-align:center;'><a href=\"" + surveylink + "\" target=\"frame\">Complete the Survey Here!</a></p><br />");
+            document.write("<p>Please enter the survey completion code:&nbsp;&nbsp;&nbsp;<input type='text' id='complete' name='complete' />&nbsp;&nbsp;&nbsp;<input type='submit' id='submitButton' value='Submit' /></p>");
+            }
+
+    </script>
+
+</form>
+</body>
+</html>
+      ]]>
+  </HTMLContent>
+  <FrameHeight>800</FrameHeight>
+</HTMLQuestion>
