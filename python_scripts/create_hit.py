@@ -3,6 +3,7 @@ Create a Human Intelligence Task in Mechanical Turk
 """
 import boto3
 import boto.mturk.connection
+from boto.mturk.qualification import Qualifications, PercentAssignmentsApprovedRequirement, LocaleRequirement
 import datetime
 
 import sys
@@ -28,8 +29,8 @@ URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
 AMOUNT = .72
 
-SANDBOX_HOST = 'mechanicalturk.sandbox.amazonaws.com'
-# real_host = 'mechanicalturk.amazonaws.com'
+HOST = 'mechanicalturk.sandbox.amazonaws.com'
+# HOST = 'mechanicalturk.amazonaws.com'
 
 
 TOTAL_CROWDFLOWER_TWEETS = 20
@@ -44,7 +45,7 @@ def get_client():
     client = boto.mturk.connection.MTurkConnection(
         aws_access_key_id=AWS_ACCESS_KEY_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        host=SANDBOX_HOST
+        host=HOST
     )
     return client
 
@@ -54,17 +55,10 @@ def get_requirement():
     Function to set the requirements. This is optional.
     :return: list
     """
-    local_requirements = [{
-        'QualificationTypeId': '00000000000000000071',
-        'Comparator': 'In',
-        'LocaleValues': [{
-            'Country': 'US'
-        }, {
-            'Country': 'CA'
-        }],
-        'RequiredToPreview': True
-    }]
-    return local_requirements
+    qualifications = Qualifications()
+    qualifications.add(PercentAssignmentsApprovedRequirement(comparator="GreaterThan", integer_value="90"))
+    qualifications.add(LocaleRequirement("EqualTo", "US"))
+    return qualifications
 
 
 def get_xml_file():
@@ -84,7 +78,7 @@ def create_hit(start_position=None, tweet_count=None):
 
     argument_length = len(sys.argv)
     client = get_client()
-    # requirements = get_requirement()
+    qualifications = get_requirement()
     # question = get_xml_file()
     questionform = boto.mturk.question.ExternalQuestion(URL, FRAME_HEIGHT)
     response = client.create_hit(
@@ -93,6 +87,7 @@ def create_hit(start_position=None, tweet_count=None):
         keywords=KEYWORDS,
         question=questionform,
         max_assignments=5,
+        qualifications=qualifications,
         reward=boto.mturk.price.Price(amount=AMOUNT),
         lifetime=datetime.timedelta(minutes=4320),
         duration=datetime.timedelta(minutes=15),
