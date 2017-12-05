@@ -22,7 +22,7 @@ with open(AWS_KEY_FILE, "r") as credential_file:
     AWS_SECRET_ACCESS_KEY = credentials.split('\n')[1]
 # ENDPOINT_URL = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 
-TITLE = "Label work-related tweets"
+TITLE = "Identify Work-Related Details Of Tweets"
 # DESCRIPTION = "External survey"
 KEYWORDS = "twitter, labeling, annotation"
 URL = "https://homanlab.org"
