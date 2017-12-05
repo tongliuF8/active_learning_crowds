@@ -33,7 +33,7 @@ HOST = 'mechanicalturk.sandbox.amazonaws.com'
 # HOST = 'mechanicalturk.amazonaws.com'
 
 
-TOTAL_CROWDFLOWER_TWEETS = 20
+TOTAL_CROWDFLOWER_TWEETS = 2000
 XML_FILE_PATH = "./xml_files/mturk.xml"
 
 
