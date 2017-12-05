@@ -104,15 +104,15 @@ def create_hit(logfile, start_position=None, tweet_count=None):
     else:
         create_crowdflower_document(hit_id, start_position, tweet_count)
 
-    logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id))
-    logfile.write("Your HIT ID is: {}\n".format(hit_id))
+    logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}\n".format(hit_type_id))
+    logfile.write("Your HIT ID is: {}\n\n".format(hit_id))
 
 if __name__ == '__main__':
     argument_length = len(sys.argv)
     logfile = open(get_data_path() + '/HITs.txt', 'w')
 
     if argument_length == 1:
-        create_hit()
+        create_hit(logfile)
     else:
         tweet_count = int(sys.argv[1])
         for i in range((TOTAL_CROWDFLOWER_TWEETS/tweet_count)):
