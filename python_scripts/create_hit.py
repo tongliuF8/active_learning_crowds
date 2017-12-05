@@ -11,6 +11,8 @@ import sys
 from create_hit_document import create_document
 from create_crowdflower_hit_document import create_crowdflower_document
 
+from insert_data_into_mongodb import get_data_path
+
 # REGION_NAME = 'us-east-1'
 AWS_KEY_FILE = "./AWS_key/credentials"
 AWS_ACCESS_KEY_ID = ''
@@ -101,10 +103,11 @@ def create_hit(start_position=None, tweet_count=None):
         create_document(hit_id)
     else:
         create_crowdflower_document(hit_id, start_position, tweet_count)
-    # print("Your HIT has been created. You can see it at this link:")
-    print("https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id))
-    print("Your HIT ID is: {}".format(hit_id))
-    print
+
+    logfile = open(get_data_path() + '/HITs.txt')
+    logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id))
+    logfile.write("Your HIT ID is: {}\n".format(hit_id))
+
 
 if __name__ == '__main__':
     argument_length = len(sys.argv)
