@@ -27,7 +27,7 @@ TITLE = "Identify Work-Related Details Of Tweets"
 KEYWORDS = "Twitter, job and employment, employment status, annotation"
 URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
-AMOUNT = .72
+AMOUNT = .84
 
 HOST = 'mechanicalturk.sandbox.amazonaws.com'
 # HOST = 'mechanicalturk.amazonaws.com'
@@ -104,7 +104,7 @@ def create_hit(start_position=None, tweet_count=None):
     # print("Your HIT has been created. You can see it at this link:")
     print("https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id))
     print("Your HIT ID is: {}".format(hit_id))
-    print()
+    print
 
 if __name__ == '__main__':
     argument_length = len(sys.argv)
