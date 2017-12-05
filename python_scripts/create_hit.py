@@ -104,7 +104,7 @@ def create_hit(start_position=None, tweet_count=None):
     else:
         create_crowdflower_document(hit_id, start_position, tweet_count)
 
-    logfile = open(get_data_path() + '/HITs.txt')
+    logfile = open(get_data_path() + '/HITs.txt', 'w')
     logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id))
     logfile.write("Your HIT ID is: {}\n".format(hit_id))
 
