@@ -5,9 +5,18 @@ from insert_data_into_mongodb import get_data_path
 
 FILE_NAME = "f1011589.csv"
 
-q3_options = ['getting_hiredjob_seeking', 'getting_fired', 'quitting_a_job', 'losing_job_some_other_way',
-              'getting_promotedraised', 'getting_cut_in_hours', 'complaining_about_work', 'offering_support',
-              'going_to_work', 'coming_home_from_work', 'none_of_the_above_but_jobrelated', 'not_jobrelated']
+q3_options = ['getting_hiredjob_seeking',
+            'getting_fired',
+            'quitting_a_job',
+            'losing_job_some_other_way',
+            'getting_promotedraised',
+            'getting_cut_in_hours',
+            'complaining_about_work',
+            'offering_support',
+            'going_to_work',
+            'coming_home_from_work',
+            'none_of_the_above_but_jobrelated',
+            'not_jobrelated']
 
 
 def get_data_from_file(file_path):

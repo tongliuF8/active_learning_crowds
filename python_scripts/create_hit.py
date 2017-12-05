@@ -24,7 +24,7 @@ with open(AWS_KEY_FILE, "r") as credential_file:
 
 TITLE = "Identify Work-Related Details Of Tweets"
 # DESCRIPTION = "External survey"
-KEYWORDS = "twitter, labeling, annotation"
+KEYWORDS = "Twitter, job and employment, employment status, annotation"
 URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
 AMOUNT = .72
@@ -90,7 +90,7 @@ def create_hit(start_position=None, tweet_count=None):
         qualifications=qualifications,
         reward=boto.mturk.price.Price(amount=AMOUNT),
         lifetime=datetime.timedelta(minutes=4320),
-        duration=datetime.timedelta(minutes=15),
+        duration=datetime.timedelta(minutes=120),
         response_groups=('Minimal', 'HITDetail'),
     )
 
@@ -101,10 +101,10 @@ def create_hit(start_position=None, tweet_count=None):
         create_document(hit_id)
     else:
         create_crowdflower_document(hit_id, start_position, tweet_count)
-    print("Your HIT has been created. You can see it at this link:")
+    # print("Your HIT has been created. You can see it at this link:")
     print("https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id))
     print("Your HIT ID is: {}".format(hit_id))
-
+    print()
 
 if __name__ == '__main__':
     argument_length = len(sys.argv)
