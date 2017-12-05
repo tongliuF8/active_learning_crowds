@@ -48,9 +48,9 @@
     {{else}}
         {{>instruction}}
         <div class="instructions">
-            <h4> You will be asked to label 12 tweets in this HIT. </h4>
+            <h4> You will be asked to answer questions for 12 target tweets in this HIT. </h4>
             <h4> We have duplicated random tweets for quality control purposes. </h4>
-            <h3> The survey starts once you accept the HIT.</h3><br/>
+            <h3> The survey starts once you click the "Accept HIT" button.</h3><br/>
             <p> <b>Example:</b></p>
             {{>sample}}
         </div>
@@ -66,19 +66,19 @@
 <template name="instruction">
     <div class="instructions">
         <h3>Instructions:</h3>
-        <p>Please read the following definitions carefully which describe three employment statuses: Employed, Unemployed and Not in labor force.<br>
-            <p class="instructions">
-            <b>Employed</b> is defined as one of the following: <br>
+        <p>Please read the following definitions carefully, which describe three employment levels: Employed, Unemployed, and Not in labor force.<br>
+        <p class="instructions">
+            <b>Employed</b> is defined as: <br>
             • Working for pay (salary workers), or profit (self-employed) during the
             census survey reference week. <br>
             • Working in a family-operate business or farm (at least 15 hours per week
             without pay).<br>
             • Being temporarily absent from their regular jobs (no matter they were
-            paid or not during the time off) because of vocation, illness, maternity/-
-            paternity leave, family/personal obligations, labor dispute, bad weather
+            paid or not during the time off) because of vocation, illness, maternity/paternity
+            leave, family/personal obligations, labor dispute, bad weather
             or other short-term reasons. <br><br>
-            <b>Unemployed</b> is defined as one of the following:<br>
-            • Not having a job at all during the survey reference week.<br>
+            <b>Unemployed</b> is defined as:<br>
+            • Not having a job at all during the census survey reference week.<br>
             • People made specific efforts to look for a job in the prior 4 weeks, such
             as: contacting an employer or employment agency, submitting resumes
             or job applications, placing or answering job advertisements, etc.<br>
@@ -86,13 +86,12 @@
             temporary layoff (unless temporarily ill).<br><br>
             <b>Not in labor force</b> is defined as:<br>
             • Neither having a job nor looking for one.
-            </p>
+        </p>
         </p>
         Then based on the above definitions, please finish three questions Q1, Q2, and Q3 following the target tweet (highlighted in bold).
-        <p>We provide three tweets posted before and three tweets after the target tweet as extra context information to help you understand
-            the target tweet and make judgments. They are presented in the chronological order with the target tweet in the middle.
+        <p>We provide the three tweets posted before and after the target tweet for context, along with the elapsed time before or after the target tweet.<br/>
             The timestamp of the target tweet is provided in the format of "Year-Month-Day, Hour: Minute: Second".
-            Also, we provide the relative time differences between the context tweet and the target tweet in the form of
+            The relative time differences between the context tweet and the target tweet are presented in the form of
             "Day, Hour: Minute: Second", with "-" denotes before the target tweet and "+" denotes after.</p>
     </div>
 </template>
@@ -195,5 +194,3 @@
     </path>
   </svg>
 </template>
-
-
