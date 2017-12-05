@@ -72,7 +72,7 @@ def get_xml_file():
     return question_file.read()
 
 
-def create_hit(start_position=None, tweet_count=None):
+def create_hit(logfile, start_position=None, tweet_count=None):
     """
     Function to create a Human Intelligence Task in mTurk
     :return: None
@@ -104,17 +104,16 @@ def create_hit(start_position=None, tweet_count=None):
     else:
         create_crowdflower_document(hit_id, start_position, tweet_count)
 
-    logfile = open(get_data_path() + '/HITs.txt', 'w')
     logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}".format(hit_type_id))
     logfile.write("Your HIT ID is: {}\n".format(hit_id))
 
-
 if __name__ == '__main__':
     argument_length = len(sys.argv)
+    logfile = open(get_data_path() + '/HITs.txt', 'w')
 
     if argument_length == 1:
         create_hit()
     else:
         tweet_count = int(sys.argv[1])
         for i in range((TOTAL_CROWDFLOWER_TWEETS/tweet_count)):
-            create_hit(i*tweet_count, tweet_count)
+            create_hit(logfile, i*tweet_count, tweet_count)
