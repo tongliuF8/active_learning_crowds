@@ -48,12 +48,11 @@
     {{else}}
         {{>instruction}}
         <div class="instructions">
-            <p> <b>Example:</b></p>
-            {{>sample}}
-            <br/>
             <h4> You will be asked to label 12 tweets in this HIT. </h4>
             <h4> We have duplicated random tweets for quality control purposes. </h4>
-            <h3> The survey starts once you accept the HIT.</h3>
+            <h3> The survey starts once you accept the HIT.</h3><br/>
+            <p> <b>Example:</b></p>
+            {{>sample}}
         </div>
     {{/if}}
 </template>
@@ -67,9 +66,9 @@
 <template name="instruction">
     <div class="instructions">
         <h3>Instructions:</h3>
-        <p>Please read the following definitions carefully which describe three employment statuses.<br>
+        <p>Please read the following definitions carefully which describe three employment statuses: Employed, Unemployed and Not in labor force.<br>
             <p class="instructions">
-            <b>Employed</b> is defined as: <br>
+            <b>Employed</b> is defined as one of the following: <br>
             • Working for pay (salary workers), or profit (self-employed) during the
             census survey reference week. <br>
             • Working in a family-operate business or farm (at least 15 hours per week
@@ -78,7 +77,7 @@
             paid or not during the time off) because of vocation, illness, maternity/-
             paternity leave, family/personal obligations, labor dispute, bad weather
             or other short-term reasons. <br><br>
-            <b>Unemployed</b> is defined as:<br>
+            <b>Unemployed</b> is defined as one of the following:<br>
             • Not having a job at all during the survey reference week.<br>
             • People made specific efforts to look for a job in the prior 4 weeks, such
             as: contacting an employer or employment agency, submitting resumes
@@ -90,11 +89,11 @@
             </p>
         </p>
         Then based on the above definitions, please finish three questions Q1, Q2, and Q3 following the target tweet (highlighted in bold).
-        <p>We provide tweets posted right before and after the target tweet as context information to help you understand the target tweet
-            and make judgments. They are presented in the order of [-3, -2, -1, target tweet, +1, +2 and +3] where “–” means before the target
-            tweet and “+” means after. The timestamp of the target tweet is provided in the format of "year-month-day, hour:minute:second".
-            Also, we provide the relative time differences between the context tweet and the target tweet in the form of "day,
-            hour:minute:second", with "-" denotes before the target tweet and "+" denotes after.</p>
+        <p>We provide three tweets posted before and three tweets after the target tweet as extra context information to help you understand
+            the target tweet and make judgments. They are presented in the chronological order with the target tweet in the middle.
+            The timestamp of the target tweet is provided in the format of "Year-Month-Day, Hour: Minute: Second".
+            Also, we provide the relative time differences between the context tweet and the target tweet in the form of
+            "Day, Hour: Minute: Second", with "-" denotes before the target tweet and "+" denotes after.</p>
     </div>
 </template>
 
