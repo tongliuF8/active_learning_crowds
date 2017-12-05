@@ -52,7 +52,7 @@
             {{>sample}}
             <br/>
             <h4> You will be asked to label 12 tweets in this HIT. </h4>
-            <h4> We will place duplicate tweets to ensure quality of labels. </h4>
+            <h4> We have duplicated random tweets for quality control purposes. </h4>
             <h3> The survey starts once you accept the HIT.</h3>
         </div>
     {{/if}}
@@ -67,7 +67,8 @@
 <template name="instruction">
     <div class="instructions">
         <h3>Instructions:</h3>
-        <p>Please read the following definitions carefully which describe three employment statuses.<br><br>
+        <p>Please read the following definitions carefully which describe three employment statuses.<br>
+            <p class="instructions">
             <b>Employed</b> is defined as: <br>
             • Working for pay (salary workers), or profit (self-employed) during the
             census survey reference week. <br>
@@ -86,6 +87,7 @@
             temporary layoff (unless temporarily ill).<br><br>
             <b>Not in labor force</b> is defined as:<br>
             • Neither having a job nor looking for one.
+            </p>
         </p>
         Then based on the above definitions, please finish three questions Q1, Q2, and Q3 following the target tweet (highlighted in bold).
         <p>We provide tweets posted right before and after the target tweet as context information to help you understand the target tweet
