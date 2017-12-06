@@ -114,9 +114,9 @@ if __name__ == '__main__':
 
     if argument_length == 1:
         hit_type_id = create_hit(logfile)
+        logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}\n".format(hit_type_id))
     else:
         tweet_count = int(sys.argv[1])
         for i in range((TOTAL_CROWDFLOWER_TWEETS/tweet_count)):
-            hit_type_id = create_hit(logfile, i*tweet_count, tweet_count)
-
-    logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}\n".format(hit_type_id))
+            hit_type_id = create_hit(logfile, 5*i*tweet_count, tweet_count)
+            logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}\n".format(hit_type_id))
