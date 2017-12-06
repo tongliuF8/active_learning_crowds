@@ -24,7 +24,8 @@ def delete_hits_from_file(client):
     with open(get_data_path() + '/HITs.txt') as input_file:
         for line in input_file:
             line_number += 1
-            if line_number%2 == 1:
+            validation = line.strip().split(":")[0]
+            if line_number%2 == 1 and validation == "Your HIT ID is":
                 hit_id = line.strip().split(":")[1]
                 hit_id_list.append(hit_id.strip())
 

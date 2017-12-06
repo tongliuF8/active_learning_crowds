@@ -91,8 +91,9 @@ def create_hit(logfile, start_position=None, tweet_count=None):
         max_assignments=5,
         qualifications=qualifications,
         reward=boto.mturk.price.Price(amount=AMOUNT),
-        lifetime=datetime.timedelta(minutes=4320),
+        lifetime=datetime.timedelta(minutes=14400),
         duration=datetime.timedelta(minutes=120),
+        approval_delay= datetime.timedelta(minutes=14400),
         response_groups=('Minimal', 'HITDetail'),
     )
 
