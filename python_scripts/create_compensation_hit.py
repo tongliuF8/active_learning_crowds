@@ -85,7 +85,7 @@ def create_hit():
         QualificationRequirements = requirement,
         LifetimeInSeconds = 259200,
         AssignmentDurationInSeconds = 600,
-        AutoApprovalDelayInSeconds = 1000000000,
+        AutoApprovalDelayInSeconds = 2592000,
         Question = question,
     )
 

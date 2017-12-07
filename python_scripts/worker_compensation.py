@@ -18,5 +18,5 @@ if __name__ == '__main__':
     client = get_client()
     # worker_id = sys.argv[1]
     worker_id = 'A3VOSKJ5LS9WB'
-    assignment_id = '3G5F9DBFOPW5KMQLO3UR8W7DNB2HV2'
-    pay_worker_bonus(client, worker_id, assignment_id, labels_count)
+    assignment_id = '3483FV8BEEIGQ6824AJC90LCHZX62M'
+    pay_worker_bonus(client, worker_id, assignment_id, 1)
