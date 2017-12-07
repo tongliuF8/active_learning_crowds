@@ -27,11 +27,11 @@ To install Meteor:
 
 	curl https://install.meteor.com/ | sh
 
-To start the meteor application:
+To start the meteor application and let it run continuously:
 
     Go to meteor_application directory and run the command:
 
-	    meteor --port 8080 &
+	    nohup meteor --port 8080 &
 
 To setup meteor :
 
