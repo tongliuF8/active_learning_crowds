@@ -8,16 +8,20 @@ AWS_KEY_FILE = "./AWS_key/credentials"
 AWS_ACCESS_KEY_ID = ''
 AWS_SECRET_ACCESS_KEY = ''
 
+
 with open(AWS_KEY_FILE, "r") as credential_file:
     credentials = credential_file.read()
     AWS_ACCESS_KEY_ID = credentials.split('\n')[0]
     AWS_SECRET_ACCESS_KEY = credentials.split('\n')[1]
 ENDPOINT_URL = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 
-TITLE = "ActiveLearning"
-DESCRIPTION = "External survey"
-KEYWORDS = "Testing"
-AMOUNT = .00
+TITLE = "Work tweets extension"
+DESCRIPTION = 'Only workers affected by our system could work on this task.'
+KEYWORDS = "Twitter, job and employment, employment status, annotation"
+URL = "https://homanlab.org"
+FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
+AMOUNT = 0.01
+
 
 SANDBOX_HOST = 'mechanicalturk.sandbox.amazonaws.com'
 # real_host = 'mechanicalturk.amazonaws.com'
@@ -39,23 +43,19 @@ def get_client():
                          )
     return client
 
-
 def get_requirement():
     """
     Function to set the requirements. This is optional.
     :return: list
     """
-    local_requirements = [{
-        'QualificationTypeId': '00000000000000000071',
-        'Comparator': 'In',
-        'LocaleValues': [{
-            'Country': 'US'
-        }, {
-            'Country': 'CA'
-        }],
+    requirement = [{
+        'QualificationTypeId': '37RZXPVRUCAHK9IR9K2HHRIN6ZO1L2',
+        'Comparator': 'EqualTo',
+        'IntegerValues': [1],
         'RequiredToPreview': True
     }]
-    return local_requirements
+
+    return requirement
 
 
 def get_xml_file():
@@ -73,18 +73,20 @@ def create_hit():
     :return: None
     """
     client = get_client()
-    # requirements = get_requirement()
+
+    requirement = get_requirement()
     question = get_xml_file()
     response = client.create_hit(
-        Title=TITLE,
-        Keywords= KEYWORDS,
-        Description= DESCRIPTION,
-        Reward='0.00',
-        MaxAssignments=10,
-        LifetimeInSeconds=100,
-        AssignmentDurationInSeconds=100,
-        AutoApprovalDelayInSeconds=10000,
-        Question=question,
+        Title = TITLE,
+        Keywords = KEYWORDS,
+        Description = DESCRIPTION,
+        Reward = str(AMOUNT),
+        MaxAssignments = 10,
+        QualificationRequirements = requirement,
+        LifetimeInSeconds = 259200,
+        AssignmentDurationInSeconds = 600,
+        AutoApprovalDelayInSeconds = 1000000000,
+        Question = question,
     )
 
     print "A new HIT has been created. You can preview it here:"
