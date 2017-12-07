@@ -11,8 +11,7 @@
     <input type='hidden' value='' name='assignmentId' id='assignmentId' />
     <input type='hidden' value='' name='nonrandom' id='nonrandom' />
 
- At the end of the survey, you will receive a survey code to confirm that you completed the study.
- Please paste the code into the box that appears below after accepting the hit to receive credit for taking our survey.<br/>
+    Please provide us with feedback......
 
     <script>
         /* function to extract parameters from URL */
@@ -29,6 +28,7 @@
         }
 
 
+
         /* THIS IS THE LINE TO CAPTURE THE ACTUAL URL: */
         var fullurl = window.location.href;
 
@@ -39,30 +39,26 @@
 
         if(assign=="ASSIGNMENT_ID_NOT_AVAILABLE")
             {
-            document.write("<p style='font-weight:bold;text-align:center;'>The survey starts once you accept the HIT.</p>");
+            document.write("<p style='font-weight:bold;text-align:center;'>The link is only available once you accept the HIT.</p>");
             }
         else
             {
-            document.getElementById('assignmentId').value = assign;
-            var surveylink = new String("https://homanlab.org/?workerId=" + worker + "&assignmentId=" + assign + "&hitId=" + hit);
 
-            var iframe = document.createElement('iframe');
-            iframe.src = surveylink;
-            iframe.style.width = "100%";
-            iframe.style.height = "500px";
-            document.body.appendChild(iframe);
+
+            //document.getElementById("nonrandom").value = sid[i];
+            document.getElementById('assignmentId').value = assign;
+            var surveylink = new String("http://localhost:3000/?workerId=" + worker + "&assignmentId=" + assign + "&turkSubmitTo=https://www.workersandbox.mturk.com/" +"&hitId=" + hit);
 
             /* DISPLAY LINK */
-            //document.write("<p style='font-weight:bold;text-align:center;'><a href=\"" + surveylink + "\" target=\"frame\">Complete the Survey Here!</a></p><br />");
-            document.write("<p>Please enter the survey completion code:&nbsp;&nbsp;&nbsp;<input type='text' id='complete' name='complete' />&nbsp;&nbsp;&nbsp;<input type='submit' id='submitButton' value='Submit' /></p>");
+            //document.write("<p style='font-weight:bold;text-align:center;'><a href=\"" + surveylink + "\" target=\"_blank\">Complete the Survey Here!</a></p><br />");
+            document.write("<p>Feedback (optional):&nbsp;&nbsp;&nbsp;<input type='text' id='complete' name='complete' />&nbsp;&nbsp;&nbsp;<input type='submit' id='submitButton' value='Submit' /></p>");
             }
 
     </script>
-
 </form>
 </body>
 </html>
       ]]>
   </HTMLContent>
-  <FrameHeight>800</FrameHeight>
+  <FrameHeight>450</FrameHeight>
 </HTMLQuestion>
