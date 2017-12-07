@@ -36,7 +36,6 @@ def union():
 
     logfile = open(get_data_path() + '/CompensationHIT.txt', 'w')
     response = create_hit(qualification_type_id)
-    # response = create_hit('3XPDWPNT8KOFEWRIJLNVWCHL9AW4D2')
 
     print("https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId'] + "\n")
     print("HITID = " + response['HIT']['HITId'])
