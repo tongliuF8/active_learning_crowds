@@ -31,11 +31,11 @@ URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
 AMOUNT = .84
 
-HOST = 'mechanicalturk.sandbox.amazonaws.com'
-# HOST = 'mechanicalturk.amazonaws.com'
+# HOST = 'mechanicalturk.sandbox.amazonaws.com'
+HOST = 'mechanicalturk.amazonaws.com'
 
 
-TOTAL_CROWDFLOWER_TWEETS = 2000
+TOTAL_CROWDFLOWER_TWEETS = 100
 XML_FILE_PATH = "./xml_files/mturk.xml"
 
 
