@@ -43,13 +43,13 @@ def get_client():
                          )
     return client
 
-def get_requirement():
+def get_requirement(qualification_type_id):
     """
     Function to set the requirements. This is optional.
     :return: list
     """
     requirement = [{
-        'QualificationTypeId': '37RZXPVRUCAHK9IR9K2HHRIN6ZO1L2',
+        'QualificationTypeId': qualification_type_id,
         'Comparator': 'EqualTo',
         'IntegerValues': [1],
         'RequiredToPreview': True
@@ -67,14 +67,14 @@ def get_xml_file():
     return question_file.read()
 
 
-def create_hit():
+def create_hit(qualification_type_id):
     """
     Function to create a Human Intelligence Task in mTurk
     :return: None
     """
     client = get_client()
 
-    requirement = get_requirement()
+    requirement = get_requirement(qualification_type_id)
     question = get_xml_file()
     response = client.create_hit(
         Title = TITLE,
@@ -89,9 +89,7 @@ def create_hit():
         Question = question,
     )
 
-    print "A new HIT has been created. You can preview it here:"
-    print "https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
-    print "HITID = " + response['HIT']['HITId'] + " (Use to Get Results)"
+    return response
 
 
 if __name__ == '__main__':
