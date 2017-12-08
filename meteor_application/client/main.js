@@ -28,6 +28,7 @@ _id = "";
 tweetList = [];
 NUMBER_OF_TWEETS_IN_HIT = 12;
 isShuffled = false;
+url = "";
 
 if(Meteor.isClient){
     var count = 0;
@@ -84,11 +85,19 @@ if(Meteor.isClient){
             assignmentID = turkGetParam('assignmentId');
             hitID = turkGetParam('hitId');
             workerID = turkGetParam('workerId');
+
             console.log(assignmentID);
             console.log(hitID);
             console.log(workerID);
             if(assignmentID !== "ASSIGNMENT_ID_NOT_AVAILABLE") {
                 insertWorkerInfo();
+                var turkToSubmit = turkGetParam('turkSubmitTo');
+                if (turkSubmitTo.indexOf("sandbox") > -1) {
+                    url = 'https://workersandbox.mturk.com/mturk/externalSubmit'
+                }
+                else {
+                    url = 'https://www.mturk.com/mturk/externalSubmit'
+                }
             }
             return !(workerID === "" || assignmentID === "ASSIGNMENT_ID_NOT_AVAILABLE");
 
@@ -242,6 +251,10 @@ if(Meteor.isClient){
         'assignmentID': function () {
             return assignmentID;
 
+        },
+
+        'url': function () {
+            return url;
         }
     });
 
