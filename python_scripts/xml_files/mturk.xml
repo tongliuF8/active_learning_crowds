@@ -43,7 +43,7 @@
         else
             {
             turkToSubmit = turkGetParam('turkSubmitTo');
-            if (turkSubmitTo.indexOf("sandbox") > -1) {
+            if (turkToSubmit.indexOf("sandbox") > -1) {
                 document.mturk_form.action = 'https://workersandbox.mturk.com/mturk/externalSubmit'
             }
             else {
