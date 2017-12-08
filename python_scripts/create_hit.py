@@ -5,7 +5,7 @@ import boto3
 import boto.mturk.connection
 from boto.mturk.qualification import Qualifications, PercentAssignmentsApprovedRequirement, LocaleRequirement
 import datetime
-
+from AMT_parameters import get_boto2_parameters, get_URL_parameters
 import sys
 
 from create_hit_document import create_document
@@ -32,15 +32,11 @@ URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
 AMOUNT = .84
 
-HOST = 'mechanicalturk.sandbox.amazonaws.com'
-# HOST = 'mechanicalturk.amazonaws.com'
-
-
 TOTAL_CROWDFLOWER_TWEETS = 100
 XML_FILE_PATH = "./xml_files/mturk.xml"
 
 
-def get_client():
+def get_client(environment):
     """
     Function to get the mturk client
     :return: mturk client
@@ -48,7 +44,7 @@ def get_client():
     client = boto.mturk.connection.MTurkConnection(
         aws_access_key_id=AWS_ACCESS_KEY_ID,
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-        host=HOST
+        host=get_boto2_parameters(environment)
     )
     return client
 
@@ -73,14 +69,13 @@ def get_xml_file():
     return question_file.read()
 
 
-def create_hit(logfile, start_position=None, tweet_count=None):
+def create_hit(logfile, environment, start_position=None, tweet_count=None):
     """
     Function to create a Human Intelligence Task in mTurk
     :return: None
     """
 
-    argument_length = len(sys.argv)
-    client = get_client()
+    client = get_client(environment)
     qualifications = get_requirement()
     # question = get_xml_file()
     questionform = boto.mturk.question.ExternalQuestion(URL, FRAME_HEIGHT)
@@ -116,11 +111,17 @@ if __name__ == '__main__':
     logfile = open(get_log_directory('HITs') + get_timestamp() + '.txt', 'w')
 
     hit_type_id = ""
-    if argument_length == 1:
-        hit_type_id = create_hit(logfile)
-    else:
-        tweet_count = int(sys.argv[1])
-        for i in range((TOTAL_CROWDFLOWER_TWEETS/tweet_count)):
-            hit_type_id = create_hit(logfile, 5*i*tweet_count, tweet_count)
+    if argument_length < 4:
+        print("3 arguments required ....\n"
+              "example: python script.py sandbox crowdflower 10..")
+        sys.exit(0)
 
-    logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId={}\n".format(hit_type_id))
+    environment = sys.argv[1]
+    if sys.argv[2] == 'unlabeled':
+        hit_type_id = create_hit(logfile, environment)
+    if sys.argv[2] == 'crowdflower':
+        tweet_count = int(sys.argv[3])
+        for i in range((TOTAL_CROWDFLOWER_TWEETS/tweet_count)):
+            hit_type_id = create_hit(logfile, environment, 5*i*tweet_count, tweet_count)
+
+    logfile.write(get_URL_parameters(environment) + "{}\n".format(hit_type_id))
