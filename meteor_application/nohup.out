@@ -1,0 +1,47 @@
+[[[[[ ~/active_learning_crowds/meteor_application ]]]]]
+
+=> Started proxy.
+=> Started MongoDB.
+[34mI20171205-16:36:07.008(0)? [39mServer is running.....
+=> Started your app.
+
+=> App running at: http://localhost:8000/
+[[[[[ ~/active_learning_crowds/meteor_application ]]]]]
+
+=> Started proxy.
+Unexpected mongo exit code 100. Restarting.
+Unexpected mongo exit code 100. Restarting.
+Unexpected mongo exit code 100. Restarting.
+Can't start Mongo server.
+MongoDB had an unspecified uncaught exception.
+This can be caused by MongoDB being unable to write to a local database.
+Check that you have permissions to write to .meteor/local. MongoDB does
+not support filesystems like NFS that do not allow file locking.
+[[[[[ ~/active_learning_crowds/meteor_application ]]]]]
+
+=> Started proxy.
+Unexpected mongo exit code 100. Restarting.
+Unexpected mongo exit code 100. Restarting.
+Unexpected mongo exit code 100. Restarting.
+Can't start Mongo server.
+MongoDB had an unspecified uncaught exception.
+This can be caused by MongoDB being unable to write to a local database.
+Check that you have permissions to write to .meteor/local. MongoDB does
+not support filesystems like NFS that do not allow file locking.
+[[[[[ ~/active_learning_crowds/meteor_application ]]]]]
+
+=> Started proxy.
+=> Started MongoDB.
+[34mI20171205-16:42:56.883(0)? [39mServer is running.....
+=> Started your app.
+
+=> App running at: http://localhost:8080/
+=> Client modified -- refreshing=> Client modified -- refreshing (x2)=> Client modified -- refreshing (x3)[[[[[ ~/active_learning_crowds/meteor_application ]]]]]
+
+=> Started proxy.
+=> Started MongoDB.
+[34mI20171207-14:15:39.601(0)? [39mServer is running.....
+=> Started your app.
+
+=> App running at: http://localhost:8080/
+=> Client modified -- refreshing
