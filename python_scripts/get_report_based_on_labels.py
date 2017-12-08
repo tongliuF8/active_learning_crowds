@@ -36,8 +36,8 @@ def get_worker_id_who_sent_email():
 
 
 def print_results_to_file(report, result):
-    with open(get_data_path() + "/hit_report.csv", 'w') as output_file:
-        output_file.write("S.No, WorkerID, total labels, Cost for labeling, Attempting bonus, email bonus, Total cost\n")
+    with open(get_data_path() + "/hit_report2.csv", 'w') as output_file:
+        output_file.write("S.No, WorkerID, Total labels, Basic cost, Attempting bonus, Email bonus, CompHIT pay, Total cost\n")
         count = 1
         for info in report:
             output_file.write(str(count) + ", " + ", ".join(str(x) for x in info) + "\n")
@@ -72,6 +72,7 @@ def get_report(label_collection_name, worker_collection_name):
     total_email_bonus = 0
     total_labels = 0
     cost_without_bonus = 0
+    total_compHIT_pay = 0
     for worker_id in worker_id_set:
         count = 0
         bonus = 0
@@ -95,20 +96,23 @@ def get_report(label_collection_name, worker_collection_name):
         total_labels += count
         cost_without_bonus += label_amount
 
-        amount = round(label_amount + bonus + bonus_email, 2)
-        report.append((worker_id, count, label_amount, bonus, bonus_email, amount))
+        compHIT_pay = 0.01 # minimum per policy
+        total_compHIT_pay += compHIT_pay
+
+        amount = round(label_amount + bonus + bonus_email + compHIT_pay, 2)
+        report.append((worker_id, count, label_amount, bonus, bonus_email, compHIT_pay, amount))
         total_amount += amount
 
     sandbox_hit_set = hit_set - set(hit_id_list)
 
-    report = sorted(report, key=lambda x: x[5])
+    report = sorted(report, key=lambda x: x[6])
     print("Workers report based on labels:\n")
     for info in report:
         print info
 
     print("Total amount for the labeling task: {}".format(total_amount))
-    result = " , , {}, {}, {}, {}, {}".format(total_labels, cost_without_bonus, total_attempt_bonus,
-                                              total_email_bonus, total_amount)
+    result = " , , {}, {}, {}, {}, {}, {}".format(total_labels, cost_without_bonus, total_attempt_bonus,
+                                              total_email_bonus, total_compHIT_pay, total_amount)
     print_results_to_file(report, result)
 
 if __name__ == '__main__':
