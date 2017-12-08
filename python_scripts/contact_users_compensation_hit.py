@@ -4,6 +4,7 @@ create_compensation_hit.py
 create_qualification.py
 assign_worker_qualification.py
 """
+import sys
 
 from create_compensation_hit import create_hit, get_client
 from create_qualification import create_qualification_typeID
@@ -39,12 +40,11 @@ def send_worker_message(client, worker_id, HIT_URL):
     client.notify_workers(WorkerIds=worker_ids, Subject=SUBJECT, MessageText=message_text)
 
 
-def main():
+def main(environment):
 
-    client = get_client()
+    client = get_client(environment)
 
     qualification_type_id = create_qualification_typeID(client)
-
 
     logfile = open(get_log_directory('CompensationHIT') + get_timestamp() + '.txt', 'w')
     response = create_hit(qualification_type_id)
@@ -64,4 +64,11 @@ def main():
         send_worker_message(client, worker_id, HIT_URL)
 
 if __name__ == '__main__':
-    main()
+    argument_length = len(sys.argv)
+    if argument_length < 2:
+        print("Enter the environment type in the argument ('sandbox' or 'production')\n"
+              "example: python script.py sandbox ..")
+        sys.exit(0)
+
+    environment = int(sys.argv[1])
+    main(environment)

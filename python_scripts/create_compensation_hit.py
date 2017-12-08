@@ -2,6 +2,7 @@
 Create a Human Intelligence Task in Mechanical Turk
 """
 import boto3
+from AMT_parameters import get_boto3_parameters
 
 REGION_NAME = 'us-east-1'
 AWS_KEY_FILE = "./AWS_key/credentials"
@@ -15,10 +16,6 @@ with open(AWS_KEY_FILE, "r") as credential_file:
     AWS_SECRET_ACCESS_KEY = credentials.split('\n')[1]
 
 
-# ENDPOINT_URL = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
-# Uncomment this line to use in production
-ENDPOINT_URL = 'https://mturk-requester.us-east-1.amazonaws.com'
-
 
 TITLE = "Work tweets extension"
 DESCRIPTION = 'Only workers affected by our system could work on this task.'
@@ -31,7 +28,7 @@ AMOUNT = 0.01
 XML_FILE_PATH = "./xml_files/mturk.xml"
 
 
-def get_client():
+def get_client(environment):
     """
     Function to get the mturk client
     :return: mturk client
@@ -40,7 +37,7 @@ def get_client():
                          aws_access_key_id=AWS_ACCESS_KEY_ID,
                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
                          region_name=REGION_NAME,
-                         endpoint_url=ENDPOINT_URL
+                         endpoint_url=get_boto3_parameters(environment)
                          )
     return client
 
