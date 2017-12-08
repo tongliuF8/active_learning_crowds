@@ -92,7 +92,7 @@ if(Meteor.isClient){
             if(assignmentID !== "ASSIGNMENT_ID_NOT_AVAILABLE") {
                 insertWorkerInfo();
                 var turkToSubmit = turkGetParam('turkSubmitTo');
-                if (turkSubmitTo.indexOf("sandbox") > -1) {
+                if (turkToSubmit.indexOf("sandbox") > -1) {
                     url = 'https://workersandbox.mturk.com/mturk/externalSubmit'
                 }
                 else {
