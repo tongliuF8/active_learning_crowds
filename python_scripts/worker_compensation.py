@@ -1,22 +1,41 @@
 import sys
-import boto
-from create_hit import get_client
-
-UNIT_PRICE = 0.07
+from create_compensation_hit import get_client
+from check_hitinfo_payment import get_workerid_assignmentid
+from insert_data_into_mongodb import get_data_path
 
 MESSAGE = 'text'
 
-def pay_worker_bonus(client, worker_id, assignment_id, labels_count):
+def pay_worker_bonus(client, worker_id, total_money):
 
-    AMOUNT = UNIT_PRICE * labels_count
+    workerid_assignmentid_dict = get_workerid_assignmentid(client)
 
-    # http://boto.cloudhackers.com/en/latest/ref/mturk.html#boto.mturk.connection.MTurkConnection.grant_bonus
-    client.grant_bonus(worker_id=worker_id, assignment_id=assignment_id, bonus_price=boto.mturk.price.Price(amount=AMOUNT), reason=MESSAGE)
+    assignment_id = workerid_assignmentid_dict[worker_id]
 
+    # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.send_bonus
+    client.send_bonus(WorkerId=worker_id, AssignmentId=assignment_id, BonusAmount=total_money, Reason=MESSAGE)
+
+def check_money_right(worker_id, total_money):
+
+    with open(get_data_path() + "/fake.csv") as input_file:
+        header = next(input_file)
+        for line in input_file:
+            info = line.strip().split(", ")
+            workerid = info[1]
+            money = info[6]
+
+            if (worker_id == workerid) and (total_money == money):
+                return True
+
+        print('Your input does not match our calculation.\nPlease re-enter!!')
+        sys.exit(1)
 
 if __name__ == '__main__':
-    client = get_client()
-    # worker_id = sys.argv[1]
-    worker_id = 'A3VOSKJ5LS9WB'
-    assignment_id = '3483FV8BEEIGQ6824AJC90LCHZX62M'
-    pay_worker_bonus(client, worker_id, assignment_id, 1)
+    environment = sys.argv[1]
+    worker_id = sys.argv[2]
+    total_money = sys.argv[3]
+
+    client = get_client(environment)
+    if check_money_right(worker_id, total_money):
+        pay_worker_bonus(client, worker_id, total_money)
+
+    # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB']
