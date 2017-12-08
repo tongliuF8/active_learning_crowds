@@ -43,11 +43,11 @@
         else
             {
             turkToSubmit = turkGetParam('turkSubmitTo');
-           if (turkSubmitTo.indexOf("sandbox") > -1) {
+            if (turkSubmitTo.indexOf("sandbox") > -1) {
                 document.mturk_form.action = 'https://workersandbox.mturk.com/mturk/externalSubmit'
             }
             else {
-             document.mturk_form.action = 'https://www.mturk.com/mturk/externalSubmit'
+                document.mturk_form.action = 'https://www.mturk.com/mturk/externalSubmit'
             }
 
             //document.getElementById("nonrandom").value = sid[i];
