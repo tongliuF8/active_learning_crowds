@@ -7,7 +7,8 @@
   <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
  </head>
  <body>
-<form name='mturk_form' method='post' id='submitform' action='https://workersandbox.mturk.com/mturk/externalSubmit'>
+<form name='mturk_form' method='post' id='submitform' action='https://www.mturk.com/mturk/externalSubmit'>
+<!-- <form name='mturk_form' method='post' id='submitform' action='https://workersandbox.mturk.com/mturk/externalSubmit'> -->
     <input type='hidden' value='' name='assignmentId' id='assignmentId' />
     <input type='hidden' value='' name='nonrandom' id='nonrandom' />
 

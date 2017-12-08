@@ -10,17 +10,17 @@ with open(AWS_KEY_FILE, "r") as credential_file:
     credentials = credential_file.read()
     AWS_ACCESS_KEY_ID = credentials.split('\n')[0]
     AWS_SECRET_ACCESS_KEY = credentials.split('\n')[1]
-endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 
+endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 # Uncomment this line to use in production
 # endpoint_url = 'https://mturk-requester.us-east-1.amazonaws.com'
 
 client = boto3.client(
-  'mturk',
-  endpoint_url=endpoint_url,
-  region_name=region_name,
-  aws_access_key_id=AWS_ACCESS_KEY_ID,
-  aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    'mturk',
+    endpoint_url=endpoint_url,
+    region_name=region_name,
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
 )
 
 hit_id = "3XAOZ9UYRYQ0OJBWADSVM2WIENWQ1Y"

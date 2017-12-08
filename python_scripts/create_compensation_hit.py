@@ -13,7 +13,12 @@ with open(AWS_KEY_FILE, "r") as credential_file:
     credentials = credential_file.read()
     AWS_ACCESS_KEY_ID = credentials.split('\n')[0]
     AWS_SECRET_ACCESS_KEY = credentials.split('\n')[1]
-ENDPOINT_URL = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
+
+
+# ENDPOINT_URL = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
+# Uncomment this line to use in production
+ENDPOINT_URL = 'https://mturk-requester.us-east-1.amazonaws.com'
+
 
 TITLE = "Work tweets extension"
 DESCRIPTION = 'Only workers affected by our system could work on this task.'
@@ -21,10 +26,6 @@ KEYWORDS = "Twitter, job and employment, employment status, annotation"
 URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
 AMOUNT = 0.01
-
-
-SANDBOX_HOST = 'mechanicalturk.sandbox.amazonaws.com'
-# real_host = 'mechanicalturk.amazonaws.com'
 
 
 XML_FILE_PATH = "./xml_files/mturk.xml"

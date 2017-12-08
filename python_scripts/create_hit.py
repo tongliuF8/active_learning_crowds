@@ -12,6 +12,7 @@ from create_hit_document import create_document
 from create_crowdflower_hit_document import create_crowdflower_document
 
 from insert_data_into_mongodb import get_data_path
+from helper_functions import get_timestamp, get_log_directory
 
 # REGION_NAME = 'us-east-1'
 AWS_KEY_FILE = "./AWS_key/credentials"
@@ -111,7 +112,8 @@ def create_hit(logfile, start_position=None, tweet_count=None):
 
 if __name__ == '__main__':
     argument_length = len(sys.argv)
-    logfile = open(get_data_path() + '/HITs.txt', 'w')
+
+    logfile = open(get_log_directory('HITs') + get_timestamp() + '.txt', 'w')
 
     hit_type_id = ""
     if argument_length == 1:

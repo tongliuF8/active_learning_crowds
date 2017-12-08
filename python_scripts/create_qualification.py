@@ -1,11 +1,12 @@
 from create_compensation_hit import get_client
 from insert_data_into_mongodb import get_data_path
-
+from helper_functions import get_timestamp, get_log_directory
 
 def create_qualification_typeID(client):
-    logfile = open(get_data_path() + '/Qualification.txt', 'w')
+
+    logfile = open(get_log_directory('Qualification') + get_timestamp() + '.txt', 'w')
     response = client.create_qualification_type(
-        Name = "11",
+        Name = "22",
         Description = "Only workers affected by our system could work on this task.",
         QualificationTypeStatus = "Active",
         AutoGranted = True,
