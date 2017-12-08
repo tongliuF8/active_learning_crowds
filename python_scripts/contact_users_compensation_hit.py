@@ -10,6 +10,7 @@ from create_compensation_hit import create_hit, get_client
 from create_qualification import create_qualification_typeID
 from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
+from AMT_parameters import get_URL_parameters
 
 SUBJECT = "Test"
 MESSAGE = "Please visit this URL: \n"
@@ -47,9 +48,11 @@ def main(environment):
     qualification_type_id = create_qualification_typeID(client)
 
     logfile = open(get_log_directory('CompensationHIT') + get_timestamp() + '.txt', 'w')
-    response = create_hit(qualification_type_id)
-    # HIT_URL = "https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
-    HIT_URL = "https://www.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
+    response = create_hit(qualification_type_id, environment)
+
+    HIT_URL = get_URL_parameters(environment) + response['HIT']['HITGroupId']
+    # # HIT_URL = "https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
+    # HIT_URL = "https://www.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
     HIT_ID = response['HIT']['HITId']
     print(HIT_URL + "\n")
     print("HITID = " + HIT_ID)
@@ -70,5 +73,5 @@ if __name__ == '__main__':
               "example: python script.py sandbox ..")
         sys.exit(0)
 
-    environment = int(sys.argv[1])
+    environment = sys.argv[1]
     main(environment)

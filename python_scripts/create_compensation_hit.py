@@ -65,12 +65,12 @@ def get_xml_file():
     return question_file.read()
 
 
-def create_hit(qualification_type_id):
+def create_hit(qualification_type_id, environment):
     """
     Function to create a Human Intelligence Task in mTurk
     :return: None
     """
-    client = get_client()
+    client = get_client(environment)
 
     requirement = get_requirement(qualification_type_id)
     question = get_xml_file()

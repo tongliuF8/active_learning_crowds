@@ -18,3 +18,10 @@ def get_boto3_parameters(environment):
 
     raise RuntimeError("Enter the environment type in the argument ('sandbox' or 'production')\n"
                        "example: python script.py sandbox ..")
+
+
+def get_URL_parameters(environment):
+    if environment == 'sandbox':
+        return "https://workersandbox.mturk.com/mturk/preview?groupId="
+    if environment == 'production':
+        return "https://www.mturk.com/mturk/preview?groupId="

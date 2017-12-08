@@ -6,7 +6,7 @@ def create_qualification_typeID(client):
 
     logfile = open(get_log_directory('Qualification') + get_timestamp() + '.txt', 'w')
     response = client.create_qualification_type(
-        Name = "22",
+        Name = "25",
         Description = "Only workers affected by our system could work on this task.",
         QualificationTypeStatus = "Active",
         AutoGranted = True,
