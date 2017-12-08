@@ -7,7 +7,7 @@
   <script type='text/javascript' src='https://s3.amazonaws.com/mturk-public/externalHIT_v1.js'></script>
  </head>
  <body>
-<form name='mturk_form' method='post' id='submitform' action='https://workersandbox.mturk.com/mturk/externalSubmit'>
+<form name='mturk_form' method='post' id='submitform' action='/'>
     <input type='hidden' value='' name='assignmentId' id='assignmentId' />
     <input type='hidden' value='' name='nonrandom' id='nonrandom' />
 
@@ -28,7 +28,6 @@
         }
 
 
-
         /* THIS IS THE LINE TO CAPTURE THE ACTUAL URL: */
         var fullurl = window.location.href;
 
@@ -36,14 +35,20 @@
         var assign = turkGetParam('assignmentId');
         var hit = turkGetParam('hitId');
         var worker = turkGetParam('workerId');
-
+        var turkSubmitTo = turkGetParam('turkSubmitTo')
         if(assign=="ASSIGNMENT_ID_NOT_AVAILABLE")
             {
             document.write("<p style='font-weight:bold;text-align:center;'>The link is only available once you accept the HIT.</p>");
             }
         else
             {
-
+            turkToSubmit = turkGetParam('turkSubmitTo');
+           if (turkSubmitTo.indexOf("sandbox") > -1) {
+                document.mturk_form.action = 'https://workersandbox.mturk.com/mturk/externalSubmit'
+            }
+            else {
+             document.mturk_form.action = 'https://www.mturk.com/mturk/externalSubmit'
+            }
 
             //document.getElementById("nonrandom").value = sid[i];
             document.getElementById('assignmentId').value = assign;
@@ -51,7 +56,8 @@
 
             /* DISPLAY LINK */
             //document.write("<p style='font-weight:bold;text-align:center;'><a href=\"" + surveylink + "\" target=\"_blank\">Complete the Survey Here!</a></p><br />");
-            document.write("<p>Feedback (optional):&nbsp;&nbsp;&nbsp;<input type='text' id='complete' name='complete' />&nbsp;&nbsp;&nbsp;<input type='submit' id='submitButton' value='Submit' /></p>");
+            document.write("<p>Feedback (optional):&nbsp;&nbsp;&nbsp;<input type='text' id='complete' name='complete' size='100'/>&nbsp;&nbsp;&nbsp;</p>");
+            document.write("<p><input type='submit' id='submitButton' value='Submit' /></p>");
             }
 
     </script>

@@ -4,11 +4,16 @@ create_compensation_hit.py
 create_qualification.py
 assign_worker_qualification.py
 """
+import sys
 
 from create_compensation_hit import create_hit, get_client
 from create_qualification import create_qualification_typeID
 from insert_data_into_mongodb import get_data_path
+from helper_functions import get_timestamp, get_log_directory
+from AMT_parameters import get_URL_parameters
 
+SUBJECT = "Test"
+MESSAGE = "Please visit this URL: \n"
 
 def get_worker_id():
     worker_id_list = list()
@@ -21,26 +26,52 @@ def get_worker_id():
 
 
 def assign(client, worker_id, qualification_type_id, value=1):
+    # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.associate_qualification_with_worker
     response = client.associate_qualification_with_worker(QualificationTypeId=qualification_type_id,
                                                           WorkerId=worker_id, IntegerValue=value,
                                                           SendNotification=False)
 
 
-def union():
-    client = get_client()
+def send_worker_message(client, worker_id, HIT_URL):
+
+    worker_ids = [worker_id]
+    message_text = MESSAGE + HIT_URL
+
+    # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.notify_workers
+    client.notify_workers(WorkerIds=worker_ids, Subject=SUBJECT, MessageText=message_text)
+
+
+def main(environment):
+
+    client = get_client(environment)
+
     qualification_type_id = create_qualification_typeID(client)
+
+    logfile = open(get_log_directory('CompensationHIT') + get_timestamp() + '.txt', 'w')
+    response = create_hit(qualification_type_id, environment)
+
+    HIT_URL = get_URL_parameters(environment) + response['HIT']['HITGroupId']
+    # # HIT_URL = "https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
+    # HIT_URL = "https://www.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
+    HIT_ID = response['HIT']['HITId']
+    print(HIT_URL + "\n")
+    print("HITID = " + HIT_ID)
+    logfile.write(HIT_URL + "\n")
+    logfile.write("HITID = " + HIT_ID)
+
     # worker_id_list = get_worker_id()
-    worker_id_list = ['A3VOSKJ5LS9WB', 'A2MGXHBK15GC8Y']
+    worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB']
+
     for worker_id in worker_id_list:
         assign(client, worker_id, qualification_type_id)
-
-    logfile = open(get_data_path() + '/CompensationHIT.txt', 'w')
-    response = create_hit(qualification_type_id)
-
-    print("https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId'] + "\n")
-    print("HITID = " + response['HIT']['HITId'])
-    logfile.write("https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId'] + "\n")
-    logfile.write("HITID = " + response['HIT']['HITId'])
+        send_worker_message(client, worker_id, HIT_URL)
 
 if __name__ == '__main__':
-    union()
+    argument_length = len(sys.argv)
+    if argument_length < 2:
+        print("Enter the environment type in the argument ('sandbox' or 'production')\n"
+              "example: python script.py sandbox ..")
+        sys.exit(0)
+
+    environment = sys.argv[1]
+    main(environment)
