@@ -5,7 +5,7 @@ from insert_data_into_mongodb import get_data_path
 def create_qualification_typeID(client):
     logfile = open(get_data_path() + '/Qualification.txt', 'w')
     response = client.create_qualification_type(
-        Name = "7",
+        Name = "11",
         Description = "Only workers affected by our system could work on this task.",
         QualificationTypeStatus = "Active",
         AutoGranted = True,
