@@ -18,13 +18,14 @@ def is_worker_info_available(worker_id, collection):
 
 def store_assignement_info_on_submission(client):
 
-    with open(get_log_directory('CompHIT_submission') + get_timestamp() + '.txt', 'w') as logfile:
+    mongo_client = MongoClient('localhost', 8081)
+    db = mongo_client.meteor
+    collection = db[FEEDBACK_COLLECTION]
+    while(True):
 
-        mongo_client = MongoClient('localhost', 8081)
-        db = mongo_client.meteor
-        collection = db[FEEDBACK_COLLECTION]
-        while(True):
-            time.sleep(10)
+        time.sleep(10)
+        with open(get_log_directory('CompHIT_submission') + '/records.txt', 'a') as logfile:
+
             assignment_info = get_workerid_assignmentid(client)
 
             for worker_id in assignment_info:
