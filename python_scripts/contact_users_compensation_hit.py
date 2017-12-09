@@ -29,6 +29,7 @@ def get_worker_id():
 
 def get_Emailgroup():
     
+    Emailgroup = []
     with open(get_data_path() + '/email_received_worker_id') as input_file:
         for line in input_file:
             Emailgroup.append(line.strip())
