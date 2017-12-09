@@ -24,9 +24,14 @@ def get_workerid_assignmentid(client):
         answer = assignment['Answer']
         # print 'The Worker with ID {} submitted assignment {} and gave the answer {}'.format(WorkerId,assignmentId, answer)
         tree = ET.fromstring(answer)
+        feedback = tree[1][1].text
         # print("WorkerID: {}".format(WorkerId))
         # print("AssignmentID: {}".format(assignmentId))
-        workerid_assignmentid_dict[WorkerId] = assignmentId
+        document = {
+            'assignmentID': assignmentId,
+            'feedback': feedback
+        }
+        workerid_assignmentid_dict[WorkerId] = document
         # # print("Code: {}".format(tree[1][1].text))
         # if assignment['AssignmentStatus'] == 'Submitted':
         #     print 'Approving Assignment {}'.format(assignmentId)

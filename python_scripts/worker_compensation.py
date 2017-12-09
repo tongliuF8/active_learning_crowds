@@ -2,17 +2,23 @@ import sys
 from create_compensation_hit import get_client
 from check_hitinfo_payment import get_workerid_assignmentid
 from insert_data_into_mongodb import get_data_path
+from store_worker_feedback import store_feedback_in_db
 
 MESSAGE = 'text'
+
 
 def pay_worker_bonus(client, worker_id, total_money):
 
     workerid_assignmentid_dict = get_workerid_assignmentid(client)
 
-    assignment_id = workerid_assignmentid_dict[worker_id]
+    assignment_id = workerid_assignmentid_dict[worker_id]['assignmentID']
+    feedback = workerid_assignmentid_dict[worker_id]['feedback']
+
+    store_feedback_in_db(worker_id, assignment_id, feedback)
 
     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.send_bonus
     client.send_bonus(WorkerId=worker_id, AssignmentId=assignment_id, BonusAmount=total_money, Reason=MESSAGE)
+
 
 def check_money_right(worker_id, total_money):
 
