@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 from create_compensation_hit import get_client
+from helper_functions import get_timestamp
 
 hit_id = "3JMQI2OLFY49DHEGAEK9JA2MYAQNDE"
 
@@ -40,6 +41,8 @@ def get_workerid_assignmentid(client):
         #         RequesterFeedback='good',
         #         OverrideRejection=False,
         #     )
+
+    print(get_timestamp())
     print('The number of workers is {}'.format(len(workerid_assignmentid_dict)))
 
     print(len(workerid_assignmentid_dict) == len(assignments))

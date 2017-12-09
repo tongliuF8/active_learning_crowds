@@ -20,7 +20,7 @@ def store_assignement_info_on_submission(client):
     db = mongo_client.meteor
     collection = db[FEEDBACK_COLLECTION]
     while(True):
-        time.sleep(5)
+        time.sleep(10)
         assignment_info = get_workerid_assignmentid(client)
 
         for worker_id in assignment_info:
@@ -34,7 +34,7 @@ def store_assignement_info_on_submission(client):
                     'feedback': feedback
                 }
                 collection.insert_one(document)
-
+                print("Worker %s has submitted." % worker_id)
 
 def main(environment):
     client = get_client(environment)
