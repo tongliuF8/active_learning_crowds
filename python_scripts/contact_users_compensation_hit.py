@@ -12,8 +12,11 @@ from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
 from AMT_parameters import get_URL_parameters
 
-SUBJECT = "Test"
-MESSAGE = "Please visit this URL: \n"
+SUBJECT = "Apology and payment updates for “Identify Work-Related Details Of Tweets” HIT"
+
+MESSAGE_Emailgroup = "Thank you for taking part in our tasks and providing useful feedback to us. We sincerely apologize for the inconvenience that is caused by our system. We appreciate your contributions and will pay you $0.07 for each data item you labeled, according to our records. Additionally, we will pay you extra $0.50 for your feedback to help improve our system. We warmly welcome you to participate in our future tasks. Wish you have a nice day!\n\nTo complete the payment process, please visit the provided URL in the message to submit a HIT designed specifically for you. Mechanical Turk will then process the payment in the form of the bonus as we promised. You’ll have 72 hours to complete the HIT. If you need more time or have any comments or feedback to our tasks, please feel free to leave us a message.\n\nRegards,\nChristopher M. Homan"
+
+MESSAGE_others = "Thank you for taking part in our tasks. We sincerely apologize for the inconvenience that is caused by our system. We appreciate your contributions and will pay you $0.07 for each data item you labeled, according to our records. Additionally, we will pay you extra $0.20 for your troubles. We warmly welcome you to participate in our future tasks. Wish you have a nice day!\n\nTo complete the payment process, please visit the provided URL in the message to submit a HIT designed specifically for you. Mechanical Turk will then process the payment in the form of the bonus as we promised. You’ll have 72 hours to complete the HIT. If you need more time or have any comments or feedback to our tasks, please feel free to leave us a message.\n\nRegards,\nChristopher M. Homan"
 
 def get_worker_id():
     worker_id_list = list()
@@ -51,8 +54,6 @@ def main(environment):
     response = create_hit(qualification_type_id, environment)
 
     HIT_URL = get_URL_parameters(environment) + response['HIT']['HITGroupId']
-    # # HIT_URL = "https://workersandbox.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
-    # HIT_URL = "https://www.mturk.com/mturk/preview?groupId=" + response['HIT']['HITGroupId']
     HIT_ID = response['HIT']['HITId']
     print(HIT_URL + "\n")
     print("HITID = " + HIT_ID)

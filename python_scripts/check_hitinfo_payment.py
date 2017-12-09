@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 from create_compensation_hit import get_client
 
-hit_id = "3OWZNK3RYKOZ5X09AQFFIQJG4R52UO"
+hit_id = "3JMQI2OLFY49DHEGAEK9JA2MYAQNDE"
 
 def get_workerid_assignmentid(client):
 
