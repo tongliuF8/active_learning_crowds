@@ -38,7 +38,7 @@ def store_assignement_info_on_submission(client):
                     'feedback': feedback
                 }
                 collection.insert_one(document)
-                logfile.write("Worker %s has submitted at %." % (worker_id, get_timestamp()))
+                logfile.write("Worker %s has submitted at %s." % (worker_id, get_timestamp()))
 
 def main(environment):
     client = get_client(environment)
