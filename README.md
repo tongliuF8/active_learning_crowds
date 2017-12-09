@@ -89,6 +89,8 @@ Get compensation report:
 
 Create qualification type, compensation HIT and assign qualification:
 
+    Go to python_scripts directory and run the command:
+
     To create a qualification type, compensation HIT and assigning workers with the qualification in the sandbox environment:
 
 	    python contact_users_compensation_hit.py sandbox
@@ -96,7 +98,6 @@ Create qualification type, compensation HIT and assign qualification:
 	To create a qualification type, compensation HIT and assigning workers with the qualification in the production environment:
 
 	    python contact_users_compensation_hit.py production
-
 
 
 	To monitor the submission of the compensation HIT and to store the HIT information into mongoDB in the sandbox environment:
@@ -114,6 +115,8 @@ Create qualification type, compensation HIT and assign qualification:
 
 
 Pay workers:
+
+    Go to python_scripts directory and run the command:
 
     To pay a worker with worker ID and the compensation amount in sandbox environment:
 
