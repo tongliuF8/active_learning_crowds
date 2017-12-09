@@ -22,7 +22,7 @@ def pay_worker_bonus(client, worker_id, total_money):
 
 def check_money_right(worker_id, total_money):
 
-    with open(get_data_path() + "/hit_report2.csv") as input_file:
+    with open(get_data_path() + "/fake.csv") as input_file:
         header = next(input_file)
         for line in input_file:
             info = line.strip().split(", ")
@@ -44,5 +44,3 @@ if __name__ == '__main__':
     client = get_client(environment)
     if check_money_right(worker_id, total_money):
         pay_worker_bonus(client, worker_id, total_money)
-
-    # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB']
