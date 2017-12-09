@@ -18,7 +18,7 @@ def is_worker_info_available(worker_id, collection):
 
 def store_assignement_info_on_submission(client):
 
-    logfile = open(get_log_directory('CompHIT_submission') + get_timestamp() + '.txt', 'a')
+    logfile = open(get_log_directory('CompHIT_submission') + get_timestamp() + '.txt', 'w')
 
     mongo_client = MongoClient('localhost', 8081)
     db = mongo_client.meteor
