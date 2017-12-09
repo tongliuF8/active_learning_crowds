@@ -99,7 +99,7 @@ def get_report(label_collection_name, worker_collection_name):
         compHIT_pay = 0.01 # minimum per policy
         total_compHIT_pay += compHIT_pay
 
-        amount = round(label_amount + bonus + bonus_email + compHIT_pay, 2)
+        amount = round(label_amount + bonus + bonus_email - compHIT_pay, 2)
         report.append((worker_id, count, label_amount, bonus, bonus_email, compHIT_pay, amount))
         total_amount += amount
 
