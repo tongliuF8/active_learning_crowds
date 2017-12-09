@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "collect_compensation_hit_results.py", line 6, in <module>
+    from check_hitinfo_payment import get_workerid_assignmentid
+  File "/home/tongliu/active_learning_crowds/python_scripts/check_hitinfo_payment.py", line 5, in <module>
+    with open(get_log_directory('CompensationHIT') + '/records.txt', 'r') as f:
+NameError: name 'get_log_directory' is not defined
