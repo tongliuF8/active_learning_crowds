@@ -50,9 +50,9 @@ Load data into meteor mongo:
 
     Go to python_scripts directory and run the commands:
 
-	    python insert_data_into_mongodb.py
+	    python insert_data_into_mongodb.py (To add 1 year twitter data in mongoDB)
 
-	    python insert_crowdflower_data.py
+	    python insert_crowdflower_data.py (To add crowdflower data in mongoDB)
 
 Create HITS:
 
@@ -60,4 +60,4 @@ Create HITS:
 
 	    python create_hit.py (To create HITS using data which is not labeled)
 
-	    python create_hit.py 10 (To create HITS using crowdflower data containing 10 tweets per HIT)
+	    python create_hit.py sandbox crowdflower 10 (To create HITS using crowdflower data containing 10 tweets per HIT)
