@@ -14,8 +14,8 @@ def get_workerid_assignmentid(client):
         AssignmentStatuses=['Submitted'],
     )
 
-    assignments = response['Assignments']
-    print 'The number of submitted assignments is {}'.format(len(assignments))
+    # assignments = response['Assignments']
+    # print 'The number of submitted assignments is {}'.format(len(assignments))
 
     workerid_assignmentid_dict = {}
 
@@ -42,9 +42,8 @@ def get_workerid_assignmentid(client):
         #         OverrideRejection=False,
         #     )
 
-    print(get_timestamp())
-    print('The number of workers is {}'.format(len(workerid_assignmentid_dict)))
+    # print('The number of workers is {}'.format(len(workerid_assignmentid_dict)))
 
-    print(len(workerid_assignmentid_dict) == len(assignments))
+    # print(len(workerid_assignmentid_dict) == len(assignments))
 
     return workerid_assignmentid_dict

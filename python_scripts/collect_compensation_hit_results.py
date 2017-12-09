@@ -5,6 +5,7 @@ from pymongo import MongoClient
 
 from check_hitinfo_payment import get_workerid_assignmentid
 from create_compensation_hit import get_client
+from helper_functions import get_timestamp, get_log_directory
 
 FEEDBACK_COLLECTION = "compensationHITSubmission"
 
@@ -16,6 +17,9 @@ def is_worker_info_available(worker_id, collection):
 
 
 def store_assignement_info_on_submission(client):
+
+    logfile = open(get_log_directory('CompHIT_submission') + get_timestamp() + '.txt', 'a')
+
     mongo_client = MongoClient('localhost', 8081)
     db = mongo_client.meteor
     collection = db[FEEDBACK_COLLECTION]
@@ -34,7 +38,7 @@ def store_assignement_info_on_submission(client):
                     'feedback': feedback
                 }
                 collection.insert_one(document)
-                print("Worker %s has submitted." % worker_id)
+                logfile.write("Worker %s has submitted at %." % (worker_id, get_timestamp()))
 
 def main(environment):
     client = get_client(environment)
