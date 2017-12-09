@@ -4,7 +4,7 @@ FEEDBACK_COLLECTION = "compensationHITInfo"
 
 
 def store_feedback_in_db(worker_id, assignment_id, feedback):
-    mongo_client = MongoClient('localhost', 3001)
+    mongo_client = MongoClient('localhost', 8081)
     db = mongo_client.meteor
     collection = db[FEEDBACK_COLLECTION]
     document = {
