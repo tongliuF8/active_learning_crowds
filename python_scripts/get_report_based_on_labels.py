@@ -37,7 +37,7 @@ def get_worker_id_who_sent_email():
 
 def print_results_to_file(report, result):
     with open(get_data_path() + "/hit_report2.csv", 'w') as output_file:
-        output_file.write("S.No, WorkerID, Total labels, Basic cost, Attempting bonus, Email bonus, CompHIT pay, Total cost\n")
+        output_file.write("S.No, WorkerID, Total labels, Basic cost, Attempting bonus, Email bonus, CompHIT pay, Money to enter\n")
         count = 1
         for info in report:
             output_file.write(str(count) + ", " + ", ".join(str(x) for x in info) + "\n")

@@ -20,7 +20,7 @@ MESSAGE_others = "Thank you for taking part in our tasks. We sincerely apologize
 
 def get_worker_id():
     worker_id_list = list()
-    with open(get_data_path() + "/hit_report.csv") as input_file:
+    with open(get_data_path() + "/hit_report2.csv") as input_file:
         header = next(input_file)
         for line in input_file:
             info = line.strip().split(", ")
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     argument_length = len(sys.argv)
     if argument_length < 2:
         print("Enter the environment type in the argument ('sandbox' or 'production')\n"
-              "example: python script.py sandbox ..")
+              "example: python script.py sandbox")
         sys.exit(0)
 
     environment = sys.argv[1]
