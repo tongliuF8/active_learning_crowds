@@ -76,7 +76,8 @@ def main(environment):
     CompHITlog.write(HIT_ID)
 
     # worker_id_list = get_worker_id()
-    worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB']
+    worker_id_list = ['A3VOSKJ5LS9WB']
+    # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB']
     # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB', 'A389861VXHBHWU']
 
     for worker_id in worker_id_list:
