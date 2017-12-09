@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 from create_compensation_hit import get_client
-from helper_functions import get_timestamp
+from helper_functions import get_timestamp, get_log_directory
 
 with open(get_log_directory('CompensationHIT') + '/records.txt', 'r') as f:
     hit_id = f.readline().strip()
