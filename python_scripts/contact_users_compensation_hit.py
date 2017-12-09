@@ -29,7 +29,7 @@ def get_worker_id():
 
 def get_Emailgroup():
     
-    Emailgroup = ['A3VOSKJ5LS9WB']
+    Emailgroup = ['A3VOSKJ5LS9WB', 'A389861VXHBHWU']
     # with open(get_data_path() + '/email_received_worker_id') as input_file:
     #     for line in input_file:
     #         Emailgroup.append(line.strip())
@@ -74,7 +74,7 @@ def main(environment):
     logfile.write("HITID = " + HIT_ID)
 
     # worker_id_list = get_worker_id()
-    worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB']
+    worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB', 'A389861VXHBHWU']
 
     for worker_id in worker_id_list:
         assign(client, worker_id, qualification_type_id)
