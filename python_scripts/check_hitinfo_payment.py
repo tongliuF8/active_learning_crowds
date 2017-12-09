@@ -14,7 +14,7 @@ def get_workerid_assignmentid(client):
         AssignmentStatuses=['Submitted'],
     )
 
-    # assignments = response['Assignments']
+    assignments = response['Assignments']
     # print 'The number of submitted assignments is {}'.format(len(assignments))
 
     workerid_assignmentid_dict = {}
