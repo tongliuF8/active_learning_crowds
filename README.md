@@ -76,6 +76,7 @@ Create HITS:
 		Compensation HIT and Worker Payment
 ===============================================
 
+Get compensation report:
 
     Go to python_scripts directory and run the commands:
 
@@ -86,6 +87,7 @@ Create HITS:
     The report is generated in a csv file (/data/hit_report2.csv)
 
 
+Create qualification type, compensation HIT and assign qualification:
 
     To create a qualification type, compensation HIT and assigning workers with the qualification in the sandbox environment:
 
@@ -110,6 +112,8 @@ Create HITS:
         nohup python collect_compensation_hit_results.py production & (To execute the script as a background process in the server)
 
 
+
+Pay workers:
 
     To pay a worker with worker ID and the compensation amount in sandbox environment:
 
