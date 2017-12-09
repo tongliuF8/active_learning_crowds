@@ -79,11 +79,11 @@ def create_hit(qualification_type_id, environment):
         Keywords = KEYWORDS,
         Description = DESCRIPTION,
         Reward = str(AMOUNT),
-        MaxAssignments = 10,
+        MaxAssignments = 173,
         QualificationRequirements = requirement,
         LifetimeInSeconds = 259200,
         AssignmentDurationInSeconds = 600,
-        AutoApprovalDelayInSeconds = 2592000,
+        AutoApprovalDelayInSeconds = 864000,
         Question = question,
     )
 
