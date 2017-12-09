@@ -2,7 +2,8 @@ import xml.etree.ElementTree as ET
 from create_compensation_hit import get_client
 from helper_functions import get_timestamp
 
-hit_id = "3OWZNK3RYKOZ5X09AQCE1M3C9FUU24"
+with open(get_log_directory('CompensationHIT') + '/records.txt', 'r') as f:
+    hit_id = f.readline().strip()
 
 def get_workerid_assignmentid(client):
 
