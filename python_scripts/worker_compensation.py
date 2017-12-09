@@ -30,6 +30,7 @@ def check_money_right(worker_id, total_money):
             money = info[6]
 
             if (worker_id == workerid) and (total_money == money):
+                print('Paid worker %s: %s\n' % (worker_id, total_money))
                 return True
 
         print('Your input does not match our calculation.\nPlease re-enter!!')
