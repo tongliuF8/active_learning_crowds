@@ -4,7 +4,7 @@ from check_hitinfo_payment import get_workerid_assignmentid
 from insert_data_into_mongodb import get_data_path
 from store_worker_feedback import store_feedback_in_db
 
-MESSAGE = 'text'
+MESSAGE = "Please receive our payment for your contributions in our \"Identify Work-Related Details Of Tweets\" tasks. We apologize again for the inconvenience and thank you!\n\nRegards,\nChristopher M. Homan"
 
 
 def pay_worker_bonus(client, worker_id, total_money):
