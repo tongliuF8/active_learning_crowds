@@ -51,7 +51,7 @@ def send_worker_message(client, worker_id, HIT_URL):
         MESSAGE = MESSAGE_others
 
     worker_ids = [worker_id]
-    message_text = MESSAGE + '\n\nYour HIT:' + HIT_URL
+    message_text = MESSAGE + '\n\nYour HIT: ' + HIT_URL
 
     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.notify_workers
     client.notify_workers(WorkerIds=worker_ids, Subject=SUBJECT, MessageText=message_text)

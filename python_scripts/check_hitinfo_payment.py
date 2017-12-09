@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 from create_compensation_hit import get_client
 from helper_functions import get_timestamp
 
-hit_id = "3DFYDSXB2VZZBTYHHBI603PTBQGJUG"
+hit_id = "3OWZNK3RYKOZ5X09AQCE1M3C9FUU24"
 
 def get_workerid_assignmentid(client):
 
