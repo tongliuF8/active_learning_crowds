@@ -29,10 +29,9 @@ def get_worker_id():
 
 def get_Emailgroup():
     
-    Emailgroup = ['A389861VXHBHWU']
-    # with open(get_data_path() + '/email_received_worker_id') as input_file:
-    #     for line in input_file:
-    #         Emailgroup.append(line.strip())
+    with open(get_data_path() + '/email_received_worker_id') as input_file:
+        for line in input_file:
+            Emailgroup.append(line.strip())
 
     return Emailgroup
 
@@ -75,8 +74,8 @@ def main(environment):
     logfile.write("HITID = " + HIT_ID)
     CompHITlog.write(HIT_ID)
 
-    # worker_id_list = get_worker_id()
-    worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB']
+    worker_id_list = get_worker_id()
+    worker_id_list.append('A2MGXHBK15GC8Y')
     # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB', 'A389861VXHBHWU']
 
     for worker_id in worker_id_list:

@@ -22,7 +22,7 @@ def pay_worker_bonus(client, worker_id, total_money):
 
 def check_money_right(worker_id, total_money):
 
-    with open(get_data_path() + "/fake.csv") as input_file:
+    with open(get_data_path() + "/hit_report2.csv") as input_file:
         header = next(input_file)
         for line in input_file:
             info = line.strip().split(", ")
