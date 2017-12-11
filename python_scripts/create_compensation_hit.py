@@ -65,7 +65,7 @@ def get_xml_file():
     return question_file.read()
 
 
-def create_hit(qualification_type_id, environment):
+def create_hit(qualification_type_id, environment, number_of_assignments):
     """
     Function to create a Human Intelligence Task in mTurk
     :return: None
@@ -79,12 +79,13 @@ def create_hit(qualification_type_id, environment):
         Keywords = KEYWORDS,
         Description = DESCRIPTION,
         Reward = str(AMOUNT),
-        MaxAssignments = 173,
+        MaxAssignments = number_of_assignments,
         QualificationRequirements = requirement,
         LifetimeInSeconds = 259200,
         AssignmentDurationInSeconds = 600,
         AutoApprovalDelayInSeconds = 864000,
         Question = question,
+        RequesterAnnotation='good'
     )
 
     return response

@@ -91,6 +91,7 @@ def create_hit(logfile, environment, start_position=None, tweet_count=None):
         duration=datetime.timedelta(minutes=120),
         approval_delay= datetime.timedelta(minutes=14400),
         response_groups=('Minimal', 'HITDetail'),
+        annotation='good'
     )
 
     hit_info = response[0]

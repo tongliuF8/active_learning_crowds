@@ -63,9 +63,11 @@ def main(environment):
 
     qualification_type_id = create_qualification_typeID(client)
 
+    worker_id_list = get_worker_id()
+
     logfile = open(get_log_directory('CompensationHIT') + get_timestamp() + '.txt', 'w')
     CompHITlog = open(get_log_directory('CompensationHIT') + '/records.txt', 'w')
-    response = create_hit(qualification_type_id, environment)
+    response = create_hit(qualification_type_id, environment, len(worker_id_list))
 
     HIT_URL = get_URL_parameters(environment) + response['HIT']['HITGroupId']
     HIT_ID = response['HIT']['HITId']
@@ -75,7 +77,7 @@ def main(environment):
     logfile.write("HITID = " + HIT_ID)
     CompHITlog.write(HIT_ID)
 
-    worker_id_list = get_worker_id()
+
     worker_id_list.append('A2MGXHBK15GC8Y')
     # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB', 'A389861VXHBHWU']
 
