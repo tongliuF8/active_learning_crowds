@@ -4,7 +4,7 @@ create_compensation_hit.py
 create_qualification.py
 assign_worker_qualification.py
 """
-import sys
+import sys, csv
 
 from create_compensation_hit import create_hit, get_client
 from create_qualification import create_qualification_typeID
@@ -19,22 +19,26 @@ MESSAGE_Emailgroup = "Thank you for taking part in our tasks and providing usefu
 MESSAGE_others = "Thank you for taking part in our tasks. We sincerely apologize for the inconvenience that is caused by our system. We appreciate your contributions and will pay you $0.07 for each data item you labeled, according to our records. Additionally, we will pay you extra $0.20 for your troubles. We warmly welcome you to participate in our future tasks. Wish you have a nice day!\n\nTo complete the payment process, please visit the provided URL in the message to submit a HIT designed specifically for you. Mechanical Turk will then process the payment in the form of the bonus as we promised. You will have 72 hours to complete the HIT. If you need more time or have any comments or feedback to our tasks, please feel free to leave us a message.\n\nRegards,\nChristopher M. Homan"
 
 def get_worker_id():
-    worker_id_list = list()
-    with open(get_data_path() + "/hit_report2.csv") as input_file:
-        header = next(input_file)
-        for line in input_file:
-            info = line.strip().split(", ")
-            worker_id_list.append(info[1])
-    return worker_id_list[: len(worker_id_list)-1]
+
+    worker_id_list = []
+
+    with open(get_data_path() + "/hit_report2.csv") as csvfile:
+        next(csvfile)
+        spamreader = csv.reader(csvfile, delimiter=',')
+        for row in spamreader:
+            if row[1].strip():
+                worker_id_list.append(row[1].strip())
+
+    return worker_id_list
 
 def get_Emailgroup():
     
-    Emailgroup = []
+    Emailgroup = set()
     with open(get_data_path() + '/email_received_worker_id') as input_file:
         for line in input_file:
-            Emailgroup.append(line.strip())
+            Emailgroup.add(line.strip())
 
-    return Emailgroup
+    return list(Emailgroup)
 
 def assign(client, worker_id, qualification_type_id, value=1):
     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.associate_qualification_with_worker
@@ -64,6 +68,9 @@ def main(environment):
     qualification_type_id = create_qualification_typeID(client)
 
     worker_id_list = get_worker_id()
+    print(len(worker_id_list))
+    # worker_id_list = ['A2MGXHBK15GC8Y']
+    # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB', 'A389861VXHBHWU']
 
     logfile = open(get_log_directory('CompensationHIT') + get_timestamp() + '.txt', 'w')
     CompHITlog = open(get_log_directory('CompensationHIT') + '/records.txt', 'w')
@@ -76,10 +83,6 @@ def main(environment):
     logfile.write(HIT_URL + "\n")
     logfile.write("HITID = " + HIT_ID)
     CompHITlog.write(HIT_ID)
-
-
-    worker_id_list.append('A2MGXHBK15GC8Y')
-    # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB', 'A389861VXHBHWU']
 
     for worker_id in worker_id_list:
         assign(client, worker_id, qualification_type_id)

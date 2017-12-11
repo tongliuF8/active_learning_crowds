@@ -14,7 +14,6 @@ from create_crowdflower_hit_document import create_crowdflower_document
 from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
 
-# REGION_NAME = 'us-east-1'
 AWS_KEY_FILE = "./AWS_key/credentials"
 AWS_ACCESS_KEY_ID = ''
 AWS_SECRET_ACCESS_KEY = ''
@@ -23,10 +22,8 @@ with open(AWS_KEY_FILE, "r") as credential_file:
     credentials = credential_file.read()
     AWS_ACCESS_KEY_ID = credentials.split('\n')[0]
     AWS_SECRET_ACCESS_KEY = credentials.split('\n')[1]
-# ENDPOINT_URL = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 
 TITLE = "Identify Work-Related Details Of Tweets"
-# DESCRIPTION = "External survey"
 KEYWORDS = "Twitter, job and employment, employment status, annotation"
 URL = "https://homanlab.org"
 FRAME_HEIGHT = 700 # the height of the iframe holding the external hit
@@ -81,7 +78,6 @@ def create_hit(logfile, environment, start_position=None, tweet_count=None):
     questionform = boto.mturk.question.ExternalQuestion(URL, FRAME_HEIGHT)
     response = client.create_hit(
         title=TITLE,
-        # description=DESCRIPTION,
         keywords=KEYWORDS,
         question=questionform,
         max_assignments=5,
