@@ -60,7 +60,7 @@ def get_report(label_collection_name, worker_collection_name):
         if document['hitID'] in hit_id_list:
             worker_id_set.add(document['workerID'])
 
-    worker_id_set.remove("")
+    # worker_id_set.remove("")
     label_document = list()
     for document in label_collection.find():
         label_document.append(document)
