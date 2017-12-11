@@ -89,7 +89,7 @@ if(Meteor.isClient){
             console.log(assignmentID);
             console.log(hitID);
             console.log(workerID);
-            if(assignmentID !== "ASSIGNMENT_ID_NOT_AVAILABLE") {
+            if(assignmentID !== "ASSIGNMENT_ID_NOT_AVAILABLE" && assignmentID !== "") {
                 insertWorkerInfo();
                 var turkToSubmit = turkGetParam('turkSubmitTo');
                 if (turkToSubmit.indexOf("sandbox") > -1) {
