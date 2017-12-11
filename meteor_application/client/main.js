@@ -26,7 +26,7 @@ _id = "";
 
 // List of tweets corresponding to the HIT
 tweetList = [];
-NUMBER_OF_TWEETS_IN_HIT = 12;
+NUMBER_OF_TWEETS_IN_HIT = 1000; // Just a random number and will be replaced by actually number of tweets.
 isShuffled = false;
 url = "";
 
@@ -121,9 +121,10 @@ if(Meteor.isClient){
                 var data = activeTweets.find({'hitID': hitID}).fetch();
                 _id = data[0]['_id'];
                 tweetList = data[0]['tweets'];
+                NUMBER_OF_TWEETS_IN_HIT = tweetList.length;
                 if(!isShuffled) {
                     shuffle(tweetList);
-                    console.log(tweetList);
+                    //console.log(tweetList);
                     activeTweets.update({'_id': _id}, {
                         $set: { tweets: tweetList },
                     });
