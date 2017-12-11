@@ -1,4 +1,4 @@
-S.No, WorkerID, Total labels, Basic cost, Attempting bonus, Email bonus, CompHIT pay, Money to enter
+S.No (*TL), WorkerID, Total labels, Basic cost, Attempting bonus, Email bonus, CompHIT pay, Money to enter
 1, APY5858P6BTDY, 0, 0.0, 0.2, 0, 0.01, 0.19
 2, A1S88VQY8G8CNC, 0, 0.0, 0.2, 0, 0.01, 0.19
 3, A1N2O9SRQSVL03, 0, 0.0, 0.2, 0, 0.01, 0.19
@@ -171,4 +171,5 @@ S.No, WorkerID, Total labels, Basic cost, Attempting bonus, Email bonus, CompHIT
 170, A1CE2XPYCDRHVZ, 36, 2.52, 0.2, 0.3, 0.01, 3.01
 171, A1VJ8QJXPYF7S4, 49, 3.43, 0.2, 0, 0.01, 3.62
 172, A1KI4KRY6K7237, 62, 4.34, 0.2, 0, 0.01, 4.53
+173*, A2MGXHBK15GC8Y, 0, 0, 0.2, 0, 0.01, 0.19
  , , 1731, 121.17, 34.4, 4.2, 1.72, 158.05
