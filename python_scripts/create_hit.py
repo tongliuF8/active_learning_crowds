@@ -135,9 +135,10 @@ if __name__ == '__main__':
             tweet_count = int(sys.argv[4])
 
             for i in range(number_of_hits):
+                start_pos = 5 * last_data_index
                 hit_type_id, number_of_tweets = create_hit(client, logfile, sys.argv[2],
                                                            qualification_type_id=qualification_type_id,
-                                                           start_position=5* i * (last_data_index + tweet_count),
+                                                           start_position=start_pos,
                                                            tweet_count=tweet_count)
                 last_data_index += tweet_count
                 total_tweet_used_in_batch += number_of_tweets
