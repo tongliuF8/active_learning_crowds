@@ -7,7 +7,7 @@ assign_worker_qualification.py
 import sys, csv
 
 from create_compensation_hit import create_hit, get_client
-from create_qualification import create_qualification_typeID
+# from create_qualification import create_qualification_typeID
 from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
 from AMT_parameters import get_URL_parameters
@@ -44,7 +44,7 @@ def assign(client, worker_id, qualification_type_id, value=1):
     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.associate_qualification_with_worker
     response = client.associate_qualification_with_worker(QualificationTypeId=qualification_type_id,
                                                           WorkerId=worker_id, IntegerValue=value,
-                                                          SendNotification=False)
+                                                          SendNotification=True)
 
 
 def send_worker_message(client, worker_id, HIT_URL):

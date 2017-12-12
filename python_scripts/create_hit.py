@@ -13,7 +13,7 @@ from create_crowdflower_hit_document import create_crowdflower_document
 
 from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
-from create_qualification import create_qualification_typeID_boto2
+# from create_qualification import create_qualification_typeID_boto2
 
 AWS_KEY_FILE = "./AWS_key/credentials"
 AWS_ACCESS_KEY_ID = ''
