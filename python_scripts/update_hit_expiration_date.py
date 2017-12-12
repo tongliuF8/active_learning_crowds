@@ -9,7 +9,7 @@ def update_date(client, datetime_object):
         HITId='3V7ICJJAZ9FUCC6QEDH86FOQ0KQ4B2',
         ExpireAt=datetime_object
     )
-
+    print(datetime_object)
 
 if __name__ == '__main__':
     environment = sys.argv[1]
