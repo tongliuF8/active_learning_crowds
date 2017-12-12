@@ -104,7 +104,7 @@ if __name__ == '__main__':
     hit_type_id = ""
     if argument_length < 4:
         print("4 arguments required ....\n"
-              "example: python script.py sandbox crowdflower 5 10..")
+              "example: python script.py sandbox crowdflower 5 10")
         sys.exit(0)
 
     environment = sys.argv[1]
