@@ -2,6 +2,7 @@ import sys
 
 from create_hit import get_client
 from insert_data_into_mongodb import get_data_path
+from helper_functions import get_timestamp, get_log_directory
 
 
 def delete_hit(client, hit_id):
@@ -9,6 +10,8 @@ def delete_hit(client, hit_id):
 
 
 def delete_all_hits(client):
+    logfile = open(get_log_directory('DeletionLog') + get_timestamp() + '.txt', 'w')
+    logfile.write("HITs deleted in this batch:\n")
     response = client.get_all_hits()
     hit_id_list = list()
     for hit in response:
@@ -16,8 +19,9 @@ def delete_all_hits(client):
 
     for hit_id in hit_id_list:
         delete_hit(client, hit_id)
+        logfile.write(hit_id + "\n")
 
-
+"""
 def delete_hits_from_file(client):
     line_number = 0
     hit_id_list = list()
@@ -31,11 +35,9 @@ def delete_hits_from_file(client):
 
     for hit_id in hit_id_list:
         delete_hit(client, hit_id)
+"""
 
 if __name__ == '__main__':
-    client = get_client()
-    argument_length = len(sys.argv)
-    if argument_length == 1:
-        delete_hits_from_file(client)
-    else:
-        delete_all_hits(client)
+    environment = sys.argv[1]
+    client = get_client(environment)
+    delete_all_hits(client)
