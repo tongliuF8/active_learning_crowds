@@ -72,7 +72,7 @@ def create_hit(client, logfile, data_type, qualification_type_id=None, start_pos
         title=TITLE,
         keywords=KEYWORDS,
         question=questionform,
-        max_assignments=5,
+        max_assignments=1,
         qualifications=qualifications,
         reward=boto.mturk.price.Price(amount=AMOUNT),
         lifetime=datetime.timedelta(minutes=14400),
