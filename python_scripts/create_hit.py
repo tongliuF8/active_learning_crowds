@@ -115,7 +115,7 @@ if __name__ == '__main__':
     if sys.argv[2] == 'crowdflower':
 
         qualification_type_id = create_qualification_typeID_boto2(client)
-        with open(get_log_directory("HITcreation") +"/test_log", 'a+') as input_file:
+        with open(get_log_directory("HITcreation") +"/tweet_usage_log", 'a+') as input_file:
             line = ""
             for line in input_file:
                 pass
@@ -129,22 +129,22 @@ if __name__ == '__main__':
                 counter = line.strip().split(" ")[3]
                 counter_value = int(counter.split(":")[1])
 
-
             total_tweet_used_in_batch = 0
             start_index = last_data_index
             number_of_hits = int(sys.argv[3])
             tweet_count = int(sys.argv[4])
 
             for i in range(number_of_hits):
-                hit_type_id, number_of_tweets = create_hit(client, qualification_type_id, logfile,
-                                                           sys.argv[2], 5* i * (last_data_index + tweet_count),
-                                                           tweet_count)
+                hit_type_id, number_of_tweets = create_hit(client, logfile, sys.argv[2],
+                                                           qualification_type_id=qualification_type_id,
+                                                           start_position=5* i * (last_data_index + tweet_count),
+                                                           tweet_count=tweet_count)
                 last_data_index += tweet_count
                 total_tweet_used_in_batch += number_of_tweets
             end_index = last_data_index - 1
 
-            input_file.write("timestamp:{} start:{}-0 end:{}-4 counter:{}\n".format(
+            input_file.write("timestamp:{} start:{}-0 end:{}-4 accumulative_counter:{} HIT_count:{} tweet_Count:{}\n".format(
                 get_timestamp(), str(start_index), str(end_index),
-                counter_value+total_tweet_used_in_batch))
+                counter_value+total_tweet_used_in_batch, number_of_hits, tweet_count))
 
     logfile.write(get_URL_parameters(environment) + "{}\n".format(hit_type_id))

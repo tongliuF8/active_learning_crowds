@@ -53,6 +53,10 @@ def insert_document(collection_name, final_collection, hit_id, start, tweet_coun
         i += 1
     count = i
     random_number_list = list()
+
+    if len(tweet_list) < 2:
+        return count
+
     for i in range(2):
         random_number = randint(0, tweet_count-1)
         while random_number in random_number_list:
