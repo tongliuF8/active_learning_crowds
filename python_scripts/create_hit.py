@@ -55,7 +55,7 @@ def get_requirement(qualification_type_id):
     qualifications = Qualifications()
     qualifications.add(PercentAssignmentsApprovedRequirement(comparator="GreaterThan", integer_value="90"))
     qualifications.add(LocaleRequirement("EqualTo", "US"))
-    qualifications.add(Requirement(qualification_type_id=qualification_type_id, comparator="EqualTo", integer_value="1"))
+    # qualifications.add(Requirement(qualification_type_id=qualification_type_id, comparator="EqualTo", integer_value="1"))
     return qualifications
 
 
@@ -66,13 +66,12 @@ def create_hit(client, logfile, data_type, qualification_type_id=None, start_pos
     """
 
     qualifications = get_requirement(qualification_type_id)
-    # question = get_xml_file()
     questionform = boto.mturk.question.ExternalQuestion(URL, FRAME_HEIGHT)
     response = client.create_hit(
         title=TITLE,
         keywords=KEYWORDS,
         question=questionform,
-        max_assignments=1,
+        max_assignments=5,
         qualifications=qualifications,
         reward=boto.mturk.price.Price(amount=AMOUNT),
         lifetime=datetime.timedelta(minutes=14400),
@@ -114,7 +113,8 @@ if __name__ == '__main__':
 
     if sys.argv[2] == 'crowdflower':
 
-        qualification_type_id = create_qualification_typeID_boto2(client)
+        # qualification_type_id = create_qualification_typeID_boto2(client)
+        qualification_type_id = None
         with open(get_log_directory("HITcreation") +"/tweet_usage_log", 'a+') as input_file:
             line = ""
             for line in input_file:
