@@ -56,13 +56,13 @@ def insert_document(collection_name, final_collection, hit_id, start, tweet_coun
 
     if len(tweet_list) < 2:
         return count
-
-    for i in range(2):
-        random_number = randint(0, tweet_count-1)
-        while random_number in random_number_list:
+    else:
+        for i in range(2):
             random_number = randint(0, tweet_count-1)
-        random_number_list.append(random_number)
-        tweet_list.append(tweet_list[random_number])
+            while random_number in random_number_list:
+                random_number = randint(0, tweet_count-1)
+            random_number_list.append(random_number)
+            tweet_list.append(tweet_list[random_number])
 
     shuffle(tweet_list)
     final.insert_one({
