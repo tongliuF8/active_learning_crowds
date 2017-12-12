@@ -132,20 +132,20 @@ if __name__ == '__main__':
             total_tweet_used_in_batch = 0
             start_index = last_data_index
             number_of_hits = int(sys.argv[3])
-            tweet_count = int(sys.argv[4])
+            tweet_count_per_HIT = int(sys.argv[4])
 
             for i in range(number_of_hits):
                 start_pos = 5 * last_data_index
                 hit_type_id, number_of_tweets = create_hit(client, logfile, sys.argv[2],
                                                            qualification_type_id=qualification_type_id,
                                                            start_position=start_pos,
-                                                           tweet_count=tweet_count)
-                last_data_index += tweet_count
+                                                           tweet_count=tweet_count_per_HIT)
+                last_data_index += tweet_count_per_HIT
                 total_tweet_used_in_batch += number_of_tweets
             end_index = last_data_index - 1
 
             input_file.write("timestamp:{} start:{}-0 end:{}-4 accumulative_counter:{} HIT_count:{} tweet_count_per_HIT:{}\n".format(
                 get_timestamp(), str(start_index), str(end_index),
-                counter_value+total_tweet_used_in_batch, number_of_hits, tweet_count))
+                counter_value+total_tweet_used_in_batch, number_of_hits, tweet_count_per_HIT))
 
     logfile.write(get_URL_parameters(environment) + "{}\n".format(hit_type_id))
