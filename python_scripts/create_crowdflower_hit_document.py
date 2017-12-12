@@ -51,7 +51,7 @@ def insert_document(collection_name, final_collection, hit_id, start, tweet_coun
                 'time_message3': document['time_message3'],
                 })
         i += 1
-
+    count = i
     random_number_list = list()
     for i in range(2):
         random_number = randint(0, tweet_count-1)
@@ -66,6 +66,7 @@ def insert_document(collection_name, final_collection, hit_id, start, tweet_coun
         'tweets': tweet_list
     })
 
+    return count
 
 def create_crowdflower_document(hit_id, start_position, tweet_count):
     """
@@ -75,4 +76,4 @@ def create_crowdflower_document(hit_id, start_position, tweet_count):
     :param tweet_count: Number of tweets in a HIT
     :return: None
     """
-    insert_document(COLLECTION_NAME, ACTIVE_TWEET_COLLECTION, hit_id, start_position, tweet_count)
+    return insert_document(COLLECTION_NAME, ACTIVE_TWEET_COLLECTION, hit_id, start_position, tweet_count)
