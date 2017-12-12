@@ -15,6 +15,8 @@ from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
 from create_qualification import create_qualification_typeID_boto2
 
+from tqdm import tqdm
+
 AWS_KEY_FILE = "./AWS_key/credentials"
 AWS_ACCESS_KEY_ID = ''
 AWS_SECRET_ACCESS_KEY = ''
@@ -134,7 +136,7 @@ if __name__ == '__main__':
             number_of_hits = int(sys.argv[3])
             tweet_count_per_HIT = int(sys.argv[4])
 
-            for i in range(number_of_hits):
+            for i in tqdm(range(number_of_hits)):
                 start_pos = 5 * last_data_index
                 hit_type_id, number_of_tweets = create_hit(client, logfile, sys.argv[2],
                                                            qualification_type_id=qualification_type_id,
