@@ -110,7 +110,7 @@ if __name__ == '__main__':
     environment = sys.argv[1]
     client = get_client(environment)
     if sys.argv[2] == 'unlabeled':
-        hit_type_id = create_hit(client, logfile, environment)
+        hit_type_id = create_hit(client, logfile, sys.argv[2])
 
     if sys.argv[2] == 'crowdflower':
 
