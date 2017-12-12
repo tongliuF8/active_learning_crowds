@@ -143,7 +143,7 @@ if __name__ == '__main__':
                 total_tweet_used_in_batch += number_of_tweets
             end_index = last_data_index - 1
 
-            input_file.write("timestamp:{} start:{}-0 end:{}-4 accumulative_counter:{} HIT_count:{} tweet_Count:{}\n".format(
+            input_file.write("timestamp:{} start:{}-0 end:{}-4 accumulative_counter:{} HIT_count:{} tweet_count_per_HIT:{}\n".format(
                 get_timestamp(), str(start_index), str(end_index),
                 counter_value+total_tweet_used_in_batch, number_of_hits, tweet_count))
 
