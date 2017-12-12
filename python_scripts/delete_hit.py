@@ -4,6 +4,7 @@ from create_hit import get_client
 from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
 
+from tqdm import tqdm
 
 def delete_hit(client, hit_id):
     response = client.disable_hit(hit_id=hit_id)
@@ -17,7 +18,7 @@ def delete_all_hits(client):
     for hit in response:
         hit_id_list.append(hit.HITId)
 
-    for hit_id in hit_id_list:
+    for hit_id in tqdm(hit_id_list):
         delete_hit(client, hit_id)
         logfile.write(hit_id + "\n")
 
