@@ -117,7 +117,12 @@ if __name__ == '__main__':
 
         # qualification_type_id = create_qualification_typeID_boto2(client)
         qualification_type_id = None
-        with open(get_log_directory("HITcreation") +"/tweet_usage_log", 'a+') as input_file:
+        if environment == 'production':
+            log_file_path = get_log_directory("HITcreation") +"/tweet_usage_log"
+        else:
+            log_file_path = get_log_directory("HITcreation") + "/sandbox_CFtweet_usage_log"
+
+        with open(log_file_path, 'a+') as input_file:
             line = ""
             for line in input_file:
                 pass
