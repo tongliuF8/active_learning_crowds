@@ -156,13 +156,6 @@ if(Meteor.isClient){
         'completed': function () {
             if(Session.get('selectedTweet') === NUMBER_OF_TWEETS_IN_HIT) {
                 isComplete = true;
-                hits.insert( {
-                    hitID: hitID,
-                    assignmentID: assignmentID,
-                    workerID: workerID,
-                    tweetList: tweetIDList
-                })
-
             }
             return isComplete;
         }
@@ -230,6 +223,12 @@ if(Meteor.isClient){
             Session.set('selectedTweet',  count);
 
             if(Session.get('selectedTweet') === NUMBER_OF_TWEETS_IN_HIT) {
+                hits.insert( {
+                    hitID: hitID,
+                    assignmentID: assignmentID,
+                    workerID: workerID,
+                    tweetList: tweetIDList
+                });
                 template.find("form").submit();
             }
             template.find("form").reset();
