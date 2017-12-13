@@ -1,1 +1,8 @@
 Worker A2MGXHBK15GC8Y has been checked at 20171211_180506.
+Worker A3EW7EOWG8L6FI has been checked at 20171213_002227.
+Worker A1DUPOUC9RNU4L has been checked at 20171213_002227.
+Worker A214HWAW1PYWO8 has been checked at 20171213_003658.
+Worker A3DMLZASIE8BN6 has been checked at 20171213_010533.
+Worker AFQKLIYNCVZTL has been checked at 20171213_012752.
+Worker A3DLO2PNUBIKID has been checked at 20171213_013217.
+Worker A3GLOQ882IO27K has been checked at 20171213_035239.
