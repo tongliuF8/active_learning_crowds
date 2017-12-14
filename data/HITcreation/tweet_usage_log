@@ -1,1 +1,6 @@
 timestamp:20171212_222530 start:0-0 end:9-4 accumulative_counter:50 HIT_count:1 tweet_count_per_HIT:10
+timestamp:20171213_214953 start:10-0 end:19-4 accumulative_counter:100 HIT_count:1 tweet_count_per_HIT:10
+timestamp:20171214_025236 start:20-0 end:29-4 accumulative_counter:150 HIT_count:1 tweet_count_per_HIT:10
+timestamp:20171214_032438 start:30-0 end:39-4 accumulative_counter:200 HIT_count:1 tweet_count_per_HIT:10
+timestamp:20171214_040225 start:40-0 end:49-4 accumulative_counter:250 HIT_count:1 tweet_count_per_HIT:10
+timestamp:20171214_144107 start:50-0 end:149-4 accumulative_counter:750 HIT_count:10 tweet_count_per_HIT:10

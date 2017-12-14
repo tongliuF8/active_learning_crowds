@@ -6,3 +6,4 @@ Worker A3DMLZASIE8BN6 has been checked at 20171213_010533.
 Worker AFQKLIYNCVZTL has been checked at 20171213_012752.
 Worker A3DLO2PNUBIKID has been checked at 20171213_013217.
 Worker A3GLOQ882IO27K has been checked at 20171213_035239.
+Worker A1CE2XPYCDRHVZ has been checked at 20171214_054311.
