@@ -1,7 +1,6 @@
 from create_compensation_hit import get_client
 from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
-from contact_users_compensation_hit import assign
 
 def create_qualification_typeID(client):
 
