@@ -7,7 +7,7 @@ assign_worker_qualification.py
 import sys, csv
 
 from create_compensation_hit import create_hit, get_client
-# from create_qualification import create_qualification_typeID
+from create_qualification import create_qualification_typeID
 from insert_data_into_mongodb import get_data_path
 from helper_functions import get_timestamp, get_log_directory
 from AMT_parameters import get_URL_parameters
@@ -67,13 +67,16 @@ def main(environment):
 
     qualification_type_id = create_qualification_typeID(client)
 
-    worker_id_list = get_worker_id()
-    print(len(worker_id_list))
+    # worker_id_list = get_worker_id()
     # worker_id_list = ['A2MGXHBK15GC8Y']
     # worker_id_list = ['A2MGXHBK15GC8Y', 'A3VOSKJ5LS9WB', 'A389861VXHBHWU']
 
+    # create a HIT for A3O4TI9D8EPCL7, A1TGV7LT6LTIQU who made mistakes in compensation HIT
+    worker_id_list = ['A3O4TI9D8EPCL7', 'A1TGV7LT6LTIQU']
+    print(len(worker_id_list))
+
     logfile = open(get_log_directory('CompensationHIT') + get_timestamp() + '.txt', 'w')
-    CompHITlog = open(get_log_directory('CompensationHIT') + '/records.txt', 'w')
+    CompHITlog = open(get_log_directory('CompensationHIT') + '/records2.txt', 'w')
     response = create_hit(qualification_type_id, environment, len(worker_id_list))
 
     HIT_URL = get_URL_parameters(environment) + response['HIT']['HITGroupId']
