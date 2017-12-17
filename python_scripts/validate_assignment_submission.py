@@ -38,9 +38,10 @@ def get_documents(file_name, hit_collection, label_collection):
             if line_number % 2 == 1 and validation == "Your HIT ID is":
                 hit_id = line.strip().split(":")[1]
                 hit_id_list.append(hit_id.strip())
+    print(len(hit_id_list))
 
-    for hit in hit_id_list:
-        print("==" + hit + "==")
+    for index, hit in enumerate(hit_id_list):
+        print(index + "==" + hit + "==")
         for document in hit_collection.find({'hitID': hit}):
             assignment_id = document['assignmentID']
             worker_id = document['workerID']
@@ -55,8 +56,8 @@ def get_documents(file_name, hit_collection, label_collection):
                     print("Reject assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit, assignment_id,
                                                                                             worker_id))
                     break
-                result = label_collection.find({'hitID': hit, 'workerID': worker_id,
-                                                'assignmentID': assignment_id, 'id': tweet_id})
+                result = label_collection.find({'hitID': hit, 'workerID': worker_id, 'assignmentID': assignment_id, 'id': tweet_id})
+
                 if result.count() == 2 and tweet_id not in tweet_id_set:
                     if validate(result[0], result[1]):
                         if validate_q3(result[0], result[1]):
