@@ -41,7 +41,7 @@ def get_documents(file_name, hit_collection, label_collection):
     print(len(hit_id_list))
 
     for index, hit in enumerate(hit_id_list):
-        print(index + "==" + hit + "==")
+        print(str(index) + "==" + hit + "==")
         for document in hit_collection.find({'hitID': hit}):
             assignment_id = document['assignmentID']
             worker_id = document['workerID']
