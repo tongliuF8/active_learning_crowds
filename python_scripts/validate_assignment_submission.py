@@ -47,16 +47,18 @@ def get_documents(file_name, hit_collection, label_collection):
             worker_id = document['workerID']
             tweet_id_list = document['tweetList']
 
+            results = []
             tweet_id_set = set()
-
             match_count = 0
             mismatch = 0
+
             for tweet_id in tweet_id_list:
                 if mismatch > 0:
                     print("Reject assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit, assignment_id,
                                                                                             worker_id))
                     break
                 result = label_collection.find({'hitID': hit, 'workerID': worker_id, 'assignmentID': assignment_id, 'id': tweet_id})
+                results.append(result)
 
                 if result.count() == 2 and tweet_id not in tweet_id_set:
                     if validate(result[0], result[1]):
@@ -71,7 +73,7 @@ def get_documents(file_name, hit_collection, label_collection):
             if mismatch == 0:
                 print("Approve assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit, assignment_id, worker_id))
             print
-
+            print(len(tweet_id_list), len(results), len(tweet_id_list) == len(results))
 
 if __name__ == '__main__':
     file_name = sys.argv[1]
