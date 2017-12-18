@@ -52,7 +52,7 @@ if __name__ == '__main__':
     MTurk_client = get_client('production')
 
     MongoDB_client = MongoClient('localhost', 8081)
-    db = mongo_client.meteor
+    db = MongoDB_client.meteor
     hit_collection = db['hit']
 
     file_name = sys.argv[1]
