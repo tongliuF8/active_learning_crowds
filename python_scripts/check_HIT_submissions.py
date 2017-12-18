@@ -23,18 +23,23 @@ def read_HITs_log(file_name):
 def check_submissions_MTurk(client, hit_id):
 
     hit = client.get_hit(HITId=hit_id)
-    print 'HIT {} status: {}'.format(hit_id, hit['HIT']['HITStatus'])
+    print 'MTurk status: {}'.format(hit['HIT']['HITStatus'])
 
     HITReviewStatus = hit['HIT']['HITReviewStatus']
     NumberOfAssignmentsPending = hit['HIT']['NumberOfAssignmentsPending']
     NumberOfAssignmentsAvailable = hit['HIT']['NumberOfAssignmentsAvailable']
     NumberOfAssignmentsCompleted = hit['HIT']['NumberOfAssignmentsCompleted']
 
+    # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.list_assignments_for_hit
+    # Retrieve the results for a HIT
     response = client.list_assignments_for_hit(
         HITId=hit_id,
     )
     assignments = response['Assignments']
 
+    MTurk_workers_assignments = {}
+
+    #  Assignments lost
     if len(assignments) != MAX_ASSIGNMENTS:
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
@@ -42,11 +47,25 @@ def check_submissions_MTurk(client, hit_id):
             assignmentStatus = assignment['AssignmentStatus']
             print(hit_id, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
             print(WorkerId, assignmentId, assignmentStatus)
+    # Assignments complete
     else:
         print 'The assignments are fully Submitted: {}'.format(len(assignments))
+        for assignment in assignments:
+            WorkerId = assignment['WorkerId']
+            assignmentId = assignment['AssignmentId']
+            MTurk_workers_assignments[WorkerId] = assignmentId
 
-def check_submissions_MongoDB(hit_collection, hit_id):
-    print("{} : {}".format(hit_id, hit_collection.find({'hitID': hit_id}).count()))
+    return MTurk_workers_assignments
+
+def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments):
+    print('hit collection:')
+    hits_saved = hit_collection.find({'hitID':hit_id}).count()
+    print(hits_saved)
+
+    print('label collection:')
+    for WorkerId in MTurk_workers_assignments.keys():
+        labels_saved_per_worker = db.label.find({'hitID':hit_id, 'workerID':WorkerId}).count()
+        print(WorkerId, labels_saved_per_worker)
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')
@@ -54,11 +73,13 @@ if __name__ == '__main__':
     MongoDB_client = MongoClient('localhost', 8081)
     db = MongoDB_client.meteor
     hit_collection = db['hit']
+    label_collection = db['label']
 
     file_name = sys.argv[1]
     hit_id_list = read_HITs_log(file_name)
 
     for hit_id in hit_id_list:
-        check_submissions_MTurk(MTurk_client, hit_id)
-        check_submissions_MongoDB(hit_collection, hit_id)
+        print(hit_id)
+        MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
+        check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
         print
