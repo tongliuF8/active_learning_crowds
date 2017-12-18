@@ -1,6 +1,7 @@
 import sys
 from create_compensation_hit import get_client
 from helper_functions import get_timestamp, get_log_directory
+from pymongo import MongoClient
 
 MAX_ASSIGNMENTS = 5
 
@@ -44,12 +45,20 @@ def check_submissions_MTurk(client, hit_id):
     else:
         print 'The assignments are fully Submitted: {}'.format(len(assignments))
 
+def check_submissions_MongoDB(hit_collection, hit_id):
+    print("{} : {}".format(hit_id, hit_collection.find({'hitID': hit_id}).count()))
+
 if __name__ == '__main__':
-    client = get_client('production')
+    MTurk_client = get_client('production')
+
+    MongoDB_client = MongoClient('localhost', 8081)
+    db = mongo_client.meteor
+    hit_collection = db['hit']
 
     file_name = sys.argv[1]
     hit_id_list = read_HITs_log(file_name)
 
     for hit_id in hit_id_list:
-        check_submissions_MTurk(client, hit_id)
+        check_submissions_MTurk(MTurk_client, hit_id)
+        check_submissions_MongoDB(hit_collection, hit_id)
         print
