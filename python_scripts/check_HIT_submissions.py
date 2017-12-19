@@ -93,7 +93,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
     print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
     print('id', len(id_s), len(set(id_s)))
 
-    for k, v in sorted(assignment_timestamp, key=assignment_timestamp.get):
+    for k, v in sorted(assignment_timestamp, key=assignment_timestamp.get).items():
         print(k, v)
 
 if __name__ == '__main__':
