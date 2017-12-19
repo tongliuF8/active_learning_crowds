@@ -2,6 +2,7 @@ import sys, pprint
 from create_compensation_hit import get_client
 from helper_functions import get_timestamp, get_log_directory
 from pymongo import MongoClient
+from collections import OrderedDict
 
 MAX_ASSIGNMENTS = 5
 SETS_OF_LABELS = 12
@@ -93,7 +94,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
     print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
     print('id', len(id_s), len(set(id_s)))
 
-    for k, v in sorted(assignment_timestamp, key=assignment_timestamp.get).items():
+    for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
         print(k, v)
 
 if __name__ == '__main__':
