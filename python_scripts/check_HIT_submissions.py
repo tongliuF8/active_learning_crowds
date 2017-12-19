@@ -71,15 +71,16 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
 
     print('label collection:')
 
-    _ids = []
-    assignmentIds = []
-    id_s = []
-    assignment_timestamp = {}
-
     for WorkerId in MTurk_workers_assignments.keys():
         labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
         print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS)
+
         if labels_saved_per_worker != SETS_OF_LABELS:
+            _ids = []
+            assignmentIds = []
+            id_s = []
+            assignment_timestamp = {}
+
             for record in label_collection.find({'hitID': hit_id, 'workerID': WorkerId}):
                 _id = record['_id']
                 _ids.append(_id)
@@ -90,12 +91,11 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
                 timestamp = record['timestamp']
                 assignment_timestamp[_id] = timestamp
 
-    print('_id', len(_ids), len(set(_ids)))
-    print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
-    print('id', len(id_s), len(set(id_s)))
-
-    for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
-        print(k, v)
+            print('_id', len(_ids), len(set(_ids)))
+            print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
+            print('id', len(id_s), len(set(id_s)))
+            for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
+                print(k, v)
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')
