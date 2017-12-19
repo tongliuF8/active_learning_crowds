@@ -70,10 +70,10 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
 
     print('label collection:')
     for WorkerId in MTurk_workers_assignments.keys():
-        labels_saved_per_worker = db.label.find({'hitID':hit_id, 'workerID':WorkerId}).count()
+        labels_saved_per_worker = label_collection.find({'hitID':hit_id, 'workerID':WorkerId}).count()
         print(WorkerId, labels_saved_per_worker)
         if labels_saved_per_worker != SETS_OF_LABELS:
-            print db.label.find({'hitID':hit_id, 'workerID':WorkerId}).pretty()
+            print label_collection.find({'hitID':hit_id, 'workerID':WorkerId}).pretty()
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')
