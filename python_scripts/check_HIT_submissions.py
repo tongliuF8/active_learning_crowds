@@ -105,8 +105,10 @@ if __name__ == '__main__':
     hit_collection = db['hit']
     label_collection = db['label']
 
-    file_name = sys.argv[1]
-    hit_id_list = read_HITs_log(file_name)
+    # file_name = sys.argv[1]
+    # hit_id_list = read_HITs_log(file_name)
+
+    hit_id_list = ['31ODACBENTE0I3AQNWAGZ7ZV8CNQSWc']
 
     for hit_id in hit_id_list:
         print(hit_id)
