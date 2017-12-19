@@ -156,6 +156,8 @@ if(Meteor.isClient){
         'completed': function () {
             if(Session.get('selectedTweet') === NUMBER_OF_TWEETS_IN_HIT) {
                 isComplete = true;
+                // Inserts list of tweets labeled for an  assignment at the end of a HIT
+                // Comment lines 236-241 before uncommenting this.
                 hits.insert( {
                     hitID: hitID,
                     assignmentID: assignmentID,
@@ -229,7 +231,15 @@ if(Meteor.isClient){
             Session.set('selectedTweet',  count);
 
             if(Session.get('selectedTweet') === NUMBER_OF_TWEETS_IN_HIT) {
-
+                // Inserts list of tweets labeled for an  assignment at the end of a HIT
+                // Comment lines 160-165 before uncommenting this.
+                // This insertion might cause failure of document insertion in label collection
+                //hits.insert( {
+                    //hitID: hitID,
+                    //assignmentID: assignmentID,
+                    //workerID: workerID,
+                    //tweetList: tweetIDList
+                //});
                 template.find("form").submit();
             }
             template.find("form").reset();
