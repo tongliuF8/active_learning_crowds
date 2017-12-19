@@ -73,6 +73,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
     _ids = []
     assignmentIds = []
     id_s = []
+    assignment_timestamp = {}
 
     for WorkerId in MTurk_workers_assignments.keys():
         labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
@@ -85,12 +86,15 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
                 assignmentIds.append(assignmentId)
                 id_ = record['id']
                 id_s.append(id_)
-                completion_time = record['timestamp']
-                print(completion_time, type(completion_time))
+                timestamp = record['timestamp']
+                assignment_timestamp[_id] = timestamp
 
     print('_id', len(_ids), len(set(_ids)))
     print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
     print('id', len(id_s), len(set(id_s)))
+
+    for k, v in sorted(assignment_timestamp, key=assignment_timestamp.get):
+        print(k, v)
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')
