@@ -108,7 +108,7 @@ if __name__ == '__main__':
     # file_name = sys.argv[1]
     # hit_id_list = read_HITs_log(file_name)
 
-    hit_id_list = ['31ODACBENTE0I3AQNWAGZ7ZV8CNQSWc']
+    hit_id_list = ['31ODACBENTE0I3AQNWAGZ7ZV8CNQSW']
 
     for hit_id in hit_id_list:
         print(hit_id)
