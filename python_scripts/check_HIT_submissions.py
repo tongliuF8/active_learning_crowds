@@ -4,6 +4,7 @@ from helper_functions import get_timestamp, get_log_directory
 from pymongo import MongoClient
 
 MAX_ASSIGNMENTS = 5
+SETS_OF_LABELS = 12
 
 def read_HITs_log(file_name):
 
@@ -71,6 +72,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
     for WorkerId in MTurk_workers_assignments.keys():
         labels_saved_per_worker = db.label.find({'hitID':hit_id, 'workerID':WorkerId}).count()
         print(WorkerId, labels_saved_per_worker)
+        if labels_saved_per_worker != SETS_OF_LABELS:
+            print(db.label.find({'hitID':hit_id, 'workerID':WorkerId}))
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')
