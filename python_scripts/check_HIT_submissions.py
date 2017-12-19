@@ -82,10 +82,11 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
                 _id = record['_id']
                 _ids.append(_id)
                 assignmentId = record['assignmentID']
-                print(record.keys())
                 assignmentIds.append(assignmentId)
                 id_ = record['id']
                 id_s.append(id_)
+                completion_time = record['timestamp']
+                print(completion_time, type(completion_time))
 
     print('_id', len(_ids), len(set(_ids)))
     print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
