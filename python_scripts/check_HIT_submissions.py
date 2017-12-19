@@ -1,4 +1,4 @@
-import sys
+import sys, pprint
 from create_compensation_hit import get_client
 from helper_functions import get_timestamp, get_log_directory
 from pymongo import MongoClient
@@ -73,7 +73,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
         labels_saved_per_worker = label_collection.find({'hitID':hit_id, 'workerID':WorkerId}).count()
         print(WorkerId, labels_saved_per_worker)
         if labels_saved_per_worker != SETS_OF_LABELS:
-            print label_collection.find({'hitID':hit_id, 'workerID':WorkerId})
+            pprint.pprint(label_collection.find({'hitID':hit_id, 'workerID':WorkerId}))
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')
