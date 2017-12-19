@@ -22,8 +22,10 @@ def read_HITs_log(file_name):
 
 def check_submissions_MTurk(client, hit_id):
 
+    print('MTurk API report:')
+
     hit = client.get_hit(HITId=hit_id)
-    print 'MTurk status: {}'.format(hit['HIT']['HITStatus'])
+    print 'HIT status: {}'.format(hit['HIT']['HITStatus'])
 
     HITReviewStatus = hit['HIT']['HITReviewStatus']
     NumberOfAssignmentsPending = hit['HIT']['NumberOfAssignmentsPending']
@@ -58,6 +60,9 @@ def check_submissions_MTurk(client, hit_id):
     return MTurk_workers_assignments
 
 def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments):
+
+    print('MongoDB report:')
+
     print('hit collection:')
     hits_saved = hit_collection.find({'hitID':hit_id}).count()
     print(hits_saved)
@@ -81,5 +86,6 @@ if __name__ == '__main__':
     for hit_id in hit_id_list:
         print(hit_id)
         MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
+        print
         check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
         print
