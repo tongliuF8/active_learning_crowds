@@ -18,7 +18,6 @@ def read_HITs_log(file_name):
             if line_number % 2 == 1 and validation == "Your HIT ID is":
                 hit_id = line.strip().split(":")[1]
                 hit_id_list.append(hit_id.strip())
-    print(len(hit_id_list))
 
     return hit_id_list
 
@@ -110,9 +109,10 @@ if __name__ == '__main__':
 
     file_name = sys.argv[1]
     hit_id_list = read_HITs_log(file_name)
+    print 'Checking {} HITs......\n'.format(len(hit_id_list))
 
-    for hit_id in hit_id_list:
-        print(hit_id)
+    for index, hit_id in enumerate(hit_id_list):
+        print(inded, hit_id)
         MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
         print
         check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)

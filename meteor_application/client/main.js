@@ -158,7 +158,7 @@ if(Meteor.isClient){
                 isComplete = true;
                 // Inserts list of tweets labeled for an  assignment at the end of a HIT
                 // Comment lines 236-241 before uncommenting this.
-                hits.insert( {
+                hits.insert({
                     hitID: hitID,
                     assignmentID: assignmentID,
                     workerID: workerID,
