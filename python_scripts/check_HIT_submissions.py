@@ -112,7 +112,7 @@ if __name__ == '__main__':
     print 'Checking {} HITs......\n'.format(len(hit_id_list))
 
     for index, hit_id in enumerate(hit_id_list):
-        print(inded, hit_id)
+        print(index, hit_id)
         MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
         print
         check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
