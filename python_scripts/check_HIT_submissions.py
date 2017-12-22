@@ -48,9 +48,9 @@ def check_submissions_MTurk(client, hit_id):
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
             assignmentStatus = assignment['AssignmentStatus']
-            print(hit_id, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
             print(WorkerId, assignmentId, assignmentStatus)
             MTurk_workers_assignments[WorkerId] = assignmentId
+        print(hit_id, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
     # Assignments complete
     else:
         print 'The assignments are fully Submitted: {}'.format(len(assignments))
