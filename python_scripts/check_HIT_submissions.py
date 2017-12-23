@@ -59,7 +59,8 @@ def check_submissions_MTurk(client, hit_id):
             assignmentId = assignment['AssignmentId']
             AcceptTime = assignment['AcceptTime']
             SubmitTime = assignment['SubmitTime']
-            print(AcceptTime, SubmitTime)
+            Duration = SubmitTime-AcceptTime
+            print(AcceptTime, SubmitTime, Duration)
             MTurk_workers_assignments[WorkerId] = assignmentId
 
     return MTurk_workers_assignments
