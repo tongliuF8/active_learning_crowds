@@ -70,8 +70,11 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
     print('MongoDB report:')
 
     print('hit collection:')
-    hits_saved = hit_collection.find({'hitID':hit_id}).count()
+    hits_saved = hit_collection.find({'hitID': hit_id}).count()
     print(hits_saved)
+    for WorkerId in MTurk_workers_assignments.keys():
+        worker_hits_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
+        print(WorkerId, worker_hits_saved)
 
     print('label collection:')
 
