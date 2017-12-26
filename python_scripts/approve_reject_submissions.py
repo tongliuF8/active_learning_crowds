@@ -83,9 +83,9 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
     for k, v in hit_assignment_ids.items():
         print(k)
         for assignment_id in v:
-            response = client.get_assignment(AssignmentId=assignment_id)
+            response = MTurk_client.get_assignment(AssignmentId=assignment_id)
             print(assignment_id, response)
-            # response = client.approve_assignment(AssignmentId=assignment_id)
+            # response = MTurk_client.approve_assignment(AssignmentId=assignment_id)
 
 if __name__ == '__main__':
     file_name = sys.argv[1]
