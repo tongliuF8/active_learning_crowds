@@ -79,12 +79,22 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
     return hit_assignment_ids
 
 def approve_reject_assignments(hit_assignment_ids, MTurk_client):
-    # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
     for k, v in hit_assignment_ids.items():
         print(k)
         for assignment_id in v:
+            # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.get_assignment
             response = MTurk_client.get_assignment(AssignmentId=assignment_id)
-            print(assignment_id, response)
+            print(assignment_id)
+            Assignment = response['Assignment']
+            WorkerId = Assignment['WorkerId']
+            AssignmentStatus = Assignment['AssignmentStatus']
+            AutoApprovalTime = Assignment['AutoApprovalTime'].strftime("%Y-%m-%d %H:%M:%S")
+            Deadline = Assignment['Deadline'].strftime("%Y-%m-%d %H:%M:%S")
+            ApprovalTime = Assignment['ApprovalTime'].strftime("%Y-%m-%d %H:%M:%S")
+            RejectionTime = Assignment['RejectionTime'].strftime("%Y-%m-%d %H:%M:%S")
+            print(WorkerId, AssignmentStatus, AutoApprovalTime, Deadline)
+            print(ApprovalTime, RejectionTime)
+            # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
             # response = MTurk_client.approve_assignment(AssignmentId=assignment_id)
 
 if __name__ == '__main__':
