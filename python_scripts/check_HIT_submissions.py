@@ -28,6 +28,8 @@ def check_submissions_MTurk(client, hit_id):
     hit = client.get_hit(HITId=hit_id)
     print 'HIT status: {}'.format(hit['HIT']['HITStatus'])
 
+    HITGroupId = hit['HIT']['HITGroupId']
+    HITCreationTime = hit['HIT']['CreationTime']
     HITReviewStatus = hit['HIT']['HITReviewStatus']
     NumberOfAssignmentsPending = hit['HIT']['NumberOfAssignmentsPending']
     NumberOfAssignmentsAvailable = hit['HIT']['NumberOfAssignmentsAvailable']
@@ -44,13 +46,13 @@ def check_submissions_MTurk(client, hit_id):
 
     #  Assignments lost
     if len(assignments) != MAX_ASSIGNMENTS:
+        print(hit_id, len(assignments), HITGroupId, HITCreationTime, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
             assignmentStatus = assignment['AssignmentStatus']
             print(WorkerId, assignmentId, assignmentStatus)
             MTurk_workers_assignments[WorkerId] = assignmentId
-        print(hit_id, len(assignments), HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
     # Assignments complete
     else:
         print 'The assignments are fully Submitted: {}'.format(len(assignments))
