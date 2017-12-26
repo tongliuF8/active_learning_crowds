@@ -39,7 +39,6 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
     hit_assignment_ids = defaultdict(list)
 
     for index, hit_id in enumerate(hit_id_list):
-        print(index, hit_id)
         for document in hit_collection.find({'hitID': hit_id}):
             # document.keys(): [u'assignmentID', u'workerID', u'tweetList', u'_id', u'hitID']
             assignment_id = document['assignmentID']
@@ -74,7 +73,8 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
             #     tweet_id_set.add(tweet_id)
             # if mismatch == 0:
             #     print("Approve assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id, worker_id))
-            print(len(tweet_id_list), len(labels_list), len(tweet_id_list)==len(labels_list))
+            if (len(tweet_id_list) != 12) or (len(labels_list) != 12) or (len(tweet_id_list) == len(labels_list)):
+                print(hit_id)
 
     return hit_assignment_ids
 
@@ -92,15 +92,19 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
             WorkerId = Assignment['WorkerId']
             AssignmentStatus = Assignment['AssignmentStatus']
             AutoApprovalTime = datetime2string(Assignment['AutoApprovalTime'])
-            print(WorkerId, AssignmentStatus, AutoApprovalTime)
-
-            if all (k in Assignment for k in ['Deadline', 'ApprovalTime', 'RejectionTime']):
-                Deadline = datetime2string(Assignment['Deadline'])
-                ApprovalTime = datetime2string(Assignment['ApprovalTime'])
-                RejectionTime = datetime2string(Assignment['RejectionTime'])
-                print(Deadline, ApprovalTime, RejectionTime)
+            if AssignmentStatus == 'Submitted':
+                print(WorkerId, AssignmentStatus, AutoApprovalTime)
             # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
             # response = MTurk_client.approve_assignment(AssignmentId=assignment_id)
+
+            else:
+                if all (k in Assignment for k in ['Deadline', 'ApprovalTime', 'RejectionTime']):
+                    Deadline = datetime2string(Assignment['Deadline'])
+                    ApprovalTime = datetime2string(Assignment['ApprovalTime'])
+                    RejectionTime = datetime2string(Assignment['RejectionTime'])
+                    print(Deadline, ApprovalTime, RejectionTime)
+            print
+        print
 
 if __name__ == '__main__':
     file_name = sys.argv[1]
