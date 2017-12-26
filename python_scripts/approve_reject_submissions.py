@@ -2,6 +2,7 @@ import sys
 from pymongo import MongoClient
 from helper_functions import get_timestamp, get_log_directory
 from check_HIT_submissions import read_HITs_log
+from collections import defaultdict
 
 HIT_COLLECTION = 'hit'
 LABEL_COLLECTION = 'label'
@@ -34,6 +35,8 @@ def validate_q3(answer1, answer2):
 
 def check_database_records(hit_id_list, hit_collection, label_collection):
 
+    hit_assignment_ids = defaultdict(list)
+
     for index, hit_id in enumerate(hit_id_list):
         print(index, hit_id)
         for document in hit_collection.find({'hitID': hit_id}):
@@ -42,12 +45,13 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
             worker_id = document['workerID']
             tweet_id_list = document['tweetList']
             _id = document['_id']
+            hit_assignment_ids[hit_id].append(assignment_id)
 
             # tweet_id_set = set()
             # match_count = 0
             # mismatch = 0
 
-            annotations = []
+            labels_list = []
 
             for tweet_id in tweet_id_list:
                 # if mismatch > 0:
@@ -55,8 +59,7 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
                 #                                                                             worker_id))
                 #     break
                 result = label_collection.find({'hitID': hit_id, 'workerID': worker_id, 'assignmentID': assignment_id, 'id': tweet_id})
-                print(tweet_id, result)
-                annotations.append(result)
+                labels_list.append(result)
 
             #     if result.count() == 2 and tweet_id not in tweet_id_set:
             #         if validate_q12(result[0], result[1]):
@@ -70,8 +73,10 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
             #     tweet_id_set.add(tweet_id)
             # if mismatch == 0:
             #     print("Approve assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id, worker_id))
-            print(len(tweet_id_list), len(annotations), len(tweet_id_list)==len(annotations))
+            print(len(tweet_id_list), len(labels_list), len(tweet_id_list)==len(labels_list))
             print
+
+    return hit_assignment_ids
 
 # def approve_reject_assignments():
 #     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
@@ -87,4 +92,7 @@ if __name__ == '__main__':
     label_collection = db[LABEL_COLLECTION]
     print('MongoDB connected.')
 
-    check_database_records(hit_id_list, hit_collection, label_collection)
+    hit_assignment_ids = check_database_records(hit_id_list, hit_collection, label_collection)
+    for k, v in hit_assignment_ids.items():
+        print(k)
+        print(v)
