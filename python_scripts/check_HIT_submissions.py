@@ -2,7 +2,7 @@ import sys, pprint
 from create_compensation_hit import get_client
 from helper_functions import get_timestamp, get_log_directory
 from pymongo import MongoClient
-from collections import OrderedDict
+from collections import defaultdict, OrderedDict
 
 MAX_ASSIGNMENTS = 5
 SETS_OF_LABELS = 12
@@ -79,6 +79,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
 
     print('label collection:')
 
+    hit_assignment_ids = defaultdict(set)
+
     for WorkerId, MTurk_assignmentId in MTurk_workers_assignments.items():
         labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
         print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS)
@@ -108,7 +110,12 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
             labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
             for label in labels:
                 MongoDB_assignmentID = label['assignmentID']
-                print(MTurk_assignmentId, MongoDB_assignmentID)
+                if MTurk_assignmentId != MongoDB_assignmentID:
+                    print(hit_id, WorkerId, MTurk_assignmentId, MongoDB_assignmentID)
+                else:
+                    hit_assignment_ids[hit_id].add(MTurk_assignmentId)
+
+    return hit_assignment_ids
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')
@@ -129,5 +136,5 @@ if __name__ == '__main__':
         print(index, hit_id)
         MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
         print
-        check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
+        hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
         print

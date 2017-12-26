@@ -93,18 +93,18 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
             AutoApprovalTime = datetime2string(Assignment['AutoApprovalTime'])
             print(WorkerId, AssignmentStatus, AutoApprovalTime)
 
-            if AssignmentStatus == 'Submitted':
-            # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
-                # record = MTurk_client.approve_assignment(AssignmentId=assignment_id)
-                pass
-            else:
-                if all (k in Assignment for k in ['Deadline', 'ApprovalTime', 'RejectionTime']):
-                    Deadline = datetime2string(Assignment['Deadline'])
-                    ApprovalTime = datetime2string(Assignment['ApprovalTime'])
-                    RejectionTime = datetime2string(Assignment['RejectionTime'])
-                    print(Deadline, ApprovalTime, RejectionTime)
-            print
-        print
+        #     if AssignmentStatus == 'Submitted':
+        #     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
+        #         # record = MTurk_client.approve_assignment(AssignmentId=assignment_id)
+        #         pass
+        #     else:
+        #         if all (k in Assignment for k in ['Deadline', 'ApprovalTime', 'RejectionTime']):
+        #             Deadline = datetime2string(Assignment['Deadline'])
+        #             ApprovalTime = datetime2string(Assignment['ApprovalTime'])
+        #             RejectionTime = datetime2string(Assignment['RejectionTime'])
+        #             print(Deadline, ApprovalTime, RejectionTime)
+        #     print
+        # print
 
 if __name__ == '__main__':
     file_name = sys.argv[1]
@@ -125,6 +125,7 @@ if __name__ == '__main__':
         print(index, hit_id)
         MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
         print
-        check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
+        hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
         print
-    # approve_reject_assignments(hit_assignment_ids, MTurk_client)
+        approve_reject_assignments(hit_assignment_ids, MTurk_client)
+        
