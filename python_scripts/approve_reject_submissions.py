@@ -1,6 +1,6 @@
 import sys
 from pymongo import MongoClient
-from helper_functions import get_timestamp, get_log_directory
+from helper_functions import *
 from check_HIT_submissions import read_HITs_log
 from collections import defaultdict
 from create_compensation_hit import get_client
@@ -79,6 +79,9 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
     return hit_assignment_ids
 
 def approve_reject_assignments(hit_assignment_ids, MTurk_client):
+
+    print('Use API to approve/reject assignments:')
+
     for k, v in hit_assignment_ids.items():
         print(k)
         for assignment_id in v:
@@ -88,10 +91,10 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
             Assignment = response['Assignment']
             WorkerId = Assignment['WorkerId']
             AssignmentStatus = Assignment['AssignmentStatus']
-            AutoApprovalTime = Assignment['AutoApprovalTime'].strftime("%Y-%m-%d %H:%M:%S")
-            Deadline = Assignment['Deadline'].strftime("%Y-%m-%d %H:%M:%S")
-            ApprovalTime = Assignment['ApprovalTime'].strftime("%Y-%m-%d %H:%M:%S")
-            RejectionTime = Assignment['RejectionTime'].strftime("%Y-%m-%d %H:%M:%S")
+            AutoApprovalTime = datetime2string(Assignment['AutoApprovalTime'])
+            Deadline = datetime2string(Assignment['Deadline'])
+            ApprovalTime = datetime2string(Assignment['ApprovalTime'])
+            RejectionTime = datetime2string(Assignment['RejectionTime'])
             print(WorkerId, AssignmentStatus, AutoApprovalTime, Deadline)
             print(ApprovalTime, RejectionTime)
             # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment

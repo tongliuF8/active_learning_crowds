@@ -13,3 +13,7 @@ def get_log_directory(logtype):
         os.makedirs(log_dir)
 
     return log_dir
+
+def datetime2string(datetime):
+    
+    return datetime.strftime("%Y-%m-%d %H:%M:%S")
