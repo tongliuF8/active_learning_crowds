@@ -103,7 +103,7 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client, logfile):
             # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
                 record = MTurk_client.approve_assignment(AssignmentId=assignment_id)
                 print('Approved HIT: %s Worker: %s Assignment: %s at %s' % (k, WorkerId, assignment_id, get_timestamp()))
-                logfile.write('Approved HIT: %s Worker: %s Assignment: %s at %s' % (k, WorkerId, assignment_id, get_timestamp()))
+                logfile.write('Approved HIT: %s Worker: %s Assignment: %s at %s\n' % (k, WorkerId, assignment_id, get_timestamp()))
         print
 
 if __name__ == '__main__':
