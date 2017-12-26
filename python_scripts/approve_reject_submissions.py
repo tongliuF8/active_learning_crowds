@@ -73,7 +73,7 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
             #     tweet_id_set.add(tweet_id)
             # if mismatch == 0:
             #     print("Approve assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id, worker_id))
-            if (len(tweet_id_list) != 12) or (len(labels_list) != 12) or (len(tweet_id_list) == len(labels_list)):
+            if (len(tweet_id_list) != 12) or (len(labels_list) != 12) or (len(tweet_id_list) != len(labels_list)):
                 print(hit_id)
 
     return hit_assignment_ids
