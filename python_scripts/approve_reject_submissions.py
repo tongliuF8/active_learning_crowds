@@ -79,7 +79,7 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
 
 def approve_reject_assignments(hit_assignment_ids, MTurk_client):
 
-    print('Use API to approve/reject assignments:')
+    print 'Use API to approve/reject assignments: '.format(hit_assignment_ids.keys())
 
     for k, v in hit_assignment_ids.items():
         print(k, len(v))
@@ -116,7 +116,7 @@ if __name__ == '__main__':
     db = mongo_client.meteor
     hit_collection = db[HIT_COLLECTION]
     label_collection = db[LABEL_COLLECTION]
-    print('MongoDB connected.')
+    print('MongoDB connected\n')
 
     # hit_assignment_ids = check_database_records(hit_id_list, hit_collection, label_collection)
 
@@ -128,4 +128,4 @@ if __name__ == '__main__':
         hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
         print
         approve_reject_assignments(hit_assignment_ids, MTurk_client)
-        
+        print('----------------------------------------')
