@@ -83,7 +83,7 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
     print('Use API to approve/reject assignments:')
 
     for k, v in hit_assignment_ids.items():
-        print(k)
+        print(k, len(v))
         for index, assignment_id in enumerate(v):
             # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.get_assignment
             response = MTurk_client.get_assignment(AssignmentId=assignment_id)
@@ -97,7 +97,7 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
             if AssignmentStatus == 'Submitted':
             # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
                 # record = MTurk_client.approve_assignment(AssignmentId=assignment_id)
-                continue
+                pass
             else:
                 if all (k in Assignment for k in ['Deadline', 'ApprovalTime', 'RejectionTime']):
                     Deadline = datetime2string(Assignment['Deadline'])
