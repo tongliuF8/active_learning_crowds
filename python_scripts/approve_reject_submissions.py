@@ -92,11 +92,12 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
             WorkerId = Assignment['WorkerId']
             AssignmentStatus = Assignment['AssignmentStatus']
             AutoApprovalTime = datetime2string(Assignment['AutoApprovalTime'])
-            if AssignmentStatus == 'Submitted':
-                print(WorkerId, AssignmentStatus, AutoApprovalTime)
-            # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
-            # response = MTurk_client.approve_assignment(AssignmentId=assignment_id)
+            print(WorkerId, AssignmentStatus, AutoApprovalTime)
 
+            if AssignmentStatus == 'Submitted':
+            # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
+                # record = MTurk_client.approve_assignment(AssignmentId=assignment_id)
+                continue
             else:
                 if all (k in Assignment for k in ['Deadline', 'ApprovalTime', 'RejectionTime']):
                     Deadline = datetime2string(Assignment['Deadline'])
