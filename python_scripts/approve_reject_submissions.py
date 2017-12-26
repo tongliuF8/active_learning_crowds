@@ -1,9 +1,8 @@
 import sys
+from collections import defaultdict
 from pymongo import MongoClient
 from helper_functions import *
-from check_HIT_submissions import read_HITs_log
-from collections import defaultdict
-from create_compensation_hit import get_client
+from check_HIT_submissions import *
 
 HIT_COLLECTION = 'hit'
 LABEL_COLLECTION = 'label'
@@ -118,7 +117,13 @@ if __name__ == '__main__':
     label_collection = db[LABEL_COLLECTION]
     print('MongoDB connected.')
 
-    hit_assignment_ids = check_database_records(hit_id_list, hit_collection, label_collection)
+    # hit_assignment_ids = check_database_records(hit_id_list, hit_collection, label_collection)
 
     MTurk_client = get_client('production')
-    approve_reject_assignments(hit_assignment_ids, MTurk_client)
+    for index, hit_id in enumerate(hit_id_list):
+        print(index, hit_id)
+        MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
+        print
+        check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
+        print
+    # approve_reject_assignments(hit_assignment_ids, MTurk_client)
