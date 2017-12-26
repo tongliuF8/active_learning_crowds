@@ -84,21 +84,21 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
 
     for k, v in hit_assignment_ids.items():
         print(k)
-        for assignment_id in v:
+        for index, assignment_id in enumerate(v):
             # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.get_assignment
             response = MTurk_client.get_assignment(AssignmentId=assignment_id)
-            print(assignment_id)
+            print(index, assignment_id)
             Assignment = response['Assignment']
             WorkerId = Assignment['WorkerId']
             AssignmentStatus = Assignment['AssignmentStatus']
             AutoApprovalTime = datetime2string(Assignment['AutoApprovalTime'])
+            print(WorkerId, AssignmentStatus, AutoApprovalTime)
 
             if all (k in Assignment for k in ['Deadline', 'ApprovalTime', 'RejectionTime']):
                 Deadline = datetime2string(Assignment['Deadline'])
                 ApprovalTime = datetime2string(Assignment['ApprovalTime'])
                 RejectionTime = datetime2string(Assignment['RejectionTime'])
-                print(WorkerId, AssignmentStatus, AutoApprovalTime, Deadline)
-                print(ApprovalTime, RejectionTime)
+                print(Deadline, ApprovalTime, RejectionTime)
             # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
             # response = MTurk_client.approve_assignment(AssignmentId=assignment_id)
 
