@@ -77,7 +77,7 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
 
     return hit_assignment_ids
 
-def approve_reject_assignments(hit_assignment_ids, MTurk_client):
+def approve_reject_assignments(hit_assignment_ids, MTurk_client, logfile):
 
     print('Use API to approve/reject assignments:')
 
@@ -91,21 +91,19 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
             WorkerId = Assignment['WorkerId']
             AssignmentStatus = Assignment['AssignmentStatus']
             AutoApprovalTime = datetime2string(Assignment['AutoApprovalTime'])
-            Deadline = ''
             ApprovalTime = ''
             RejectionTime = ''
-            if 'Deadline' in Assignment:
-                Deadline = datetime2string(Assignment['Deadline'])
             if 'ApprovalTime' in Assignment:
                 ApprovalTime = datetime2string(Assignment['ApprovalTime'])
             if 'RejectionTime' in Assignment:
                 RejectionTime = datetime2string(Assignment['RejectionTime'])
-            print(index, assignment_id, WorkerId, AssignmentStatus, AutoApprovalTime, Deadline, ApprovalTime, RejectionTime)
+            print(index, assignment_id, WorkerId, AssignmentStatus, AutoApprovalTime, ApprovalTime, RejectionTime)
 
-        #     if AssignmentStatus == 'Submitted':
-        #     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
-        #         # record = MTurk_client.approve_assignment(AssignmentId=assignment_id)
-        #         pass
+            if AssignmentStatus == 'Submitted':
+            # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
+                record = MTurk_client.approve_assignment(AssignmentId=assignment_id)
+                print('Approved HIT: %s Worker: %s Assignment: %s at %s' % (k, WorkerId, assignment_id, get_timestamp()))
+                logfile.write('Approved HIT: %s Worker: %s Assignment: %s at %s' % (k, WorkerId, assignment_id, get_timestamp()))
         print
 
 if __name__ == '__main__':
@@ -123,11 +121,13 @@ if __name__ == '__main__':
     # hit_assignment_ids = check_database_records(hit_id_list, hit_collection, label_collection)
 
     MTurk_client = get_client('production')
-    for index, hit_id in enumerate(hit_id_list):
-        print(index, hit_id)
-        MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
-        print
-        hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
-        print
-        approve_reject_assignments(hit_assignment_ids, MTurk_client)
-        print('----------------------------------------')
+
+    with open(get_log_directory('HIT_approve') + '/records.txt', 'a') as logfile:
+        for index, hit_id in enumerate(hit_id_list):
+            print(index, hit_id)
+            MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
+            print
+            hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
+            print
+            approve_reject_assignments(hit_assignment_ids, MTurk_client, logfile)
+            print('----------------------------------------')
