@@ -29,7 +29,7 @@ def check_submissions_MTurk(client, hit_id):
     print 'HIT status: {}'.format(hit['HIT']['HITStatus'])
 
     HITGroupId = hit['HIT']['HITGroupId']
-    HITCreationTime = hit['HIT']['CreationTime']
+    HITCreationTime = hit['HIT']['CreationTime'].strftime("%Y-%m-%d %H:%M:%S")
     HITReviewStatus = hit['HIT']['HITReviewStatus']
     NumberOfAssignmentsPending = hit['HIT']['NumberOfAssignmentsPending']
     NumberOfAssignmentsAvailable = hit['HIT']['NumberOfAssignmentsAvailable']
