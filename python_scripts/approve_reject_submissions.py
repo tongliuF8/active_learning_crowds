@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from helper_functions import get_timestamp, get_log_directory
 from check_HIT_submissions import read_HITs_log
 from collections import defaultdict
+from create_compensation_hit import get_client
 
 HIT_COLLECTION = 'hit'
 LABEL_COLLECTION = 'label'
@@ -74,12 +75,17 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
             # if mismatch == 0:
             #     print("Approve assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id, worker_id))
             print(len(tweet_id_list), len(labels_list), len(tweet_id_list)==len(labels_list))
-            print
 
     return hit_assignment_ids
 
-# def approve_reject_assignments():
-#     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
+def approve_reject_assignments(hit_assignment_ids, MTurk_client):
+    # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
+    for k, v in hit_assignment_ids.items():
+        print(k)
+        for assignment_id in v:
+            response = client.get_assignment(AssignmentId=assignment_id)
+            print(assignment_id, response)
+            # response = client.approve_assignment(AssignmentId=assignment_id)
 
 if __name__ == '__main__':
     file_name = sys.argv[1]
@@ -93,6 +99,6 @@ if __name__ == '__main__':
     print('MongoDB connected.')
 
     hit_assignment_ids = check_database_records(hit_id_list, hit_collection, label_collection)
-    for k, v in hit_assignment_ids.items():
-        print(k)
-        print(v)
+
+    MTurk_client = get_client('production')
+    approve_reject_assignments(hit_assignment_ids, MTurk_client)
