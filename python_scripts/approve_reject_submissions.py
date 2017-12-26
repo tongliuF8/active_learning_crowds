@@ -37,10 +37,14 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
     for index, hit_id in enumerate(hit_id_list):
         print(index, hit_id)
         for document in hit_collection.find({'hitID': hit_id}):
-            print(document.keys())
+            # document.keys(): [u'assignmentID', u'workerID', u'tweetList', u'_id', u'hitID']
             assignment_id = document['assignmentID']
             worker_id = document['workerID']
             tweet_id_list = document['tweetList']
+            _id = document['_id']
+            print(assignment_id, worker_id, tweet_id_list, _id)
+
+        print
 
             # # tweet_id_set = set()
             # # match_count = 0
