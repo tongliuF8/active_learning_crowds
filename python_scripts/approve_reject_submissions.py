@@ -42,38 +42,36 @@ def check_database_records(hit_id_list, hit_collection, label_collection):
             worker_id = document['workerID']
             tweet_id_list = document['tweetList']
             _id = document['_id']
-            print(assignment_id, worker_id, tweet_id_list, _id)
 
-        print
+            # tweet_id_set = set()
+            # match_count = 0
+            # mismatch = 0
 
-            # # tweet_id_set = set()
-            # # match_count = 0
-            # # mismatch = 0
+            annotations = []
 
-            # annotations = []
+            for tweet_id in tweet_id_list:
+                # if mismatch > 0:
+                #     print("Reject assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id,
+                #                                                                             worker_id))
+                #     break
+                result = label_collection.find({'hitID': hit_id, 'workerID': worker_id, 'assignmentID': assignment_id, 'id': tweet_id})
+                print(tweet_id, result)
+                annotations.append(result)
 
-            # for tweet_id in tweet_id_list:
-            #     # if mismatch > 0:
-            #     #     print("Reject assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id,
-            #     #                                                                             worker_id))
-            #     #     break
-            #     result = label_collection.find({'hitID': hit_id, 'workerID': worker_id, 'assignmentID': assignment_id, 'id': tweet_id})
-            #     annotations.append(result)
+            #     if result.count() == 2 and tweet_id not in tweet_id_set:
+            #         if validate_q12(result[0], result[1]):
+            #             if validate_q3(result[0], result[1]):
+            #                 match_count += 1
+            #             else:
+            #                 mismatch += 1
+            #         else:
+            #             mismatch += 1
 
-            # #     if result.count() == 2 and tweet_id not in tweet_id_set:
-            # #         if validate_q12(result[0], result[1]):
-            # #             if validate_q3(result[0], result[1]):
-            # #                 match_count += 1
-            # #             else:
-            # #                 mismatch += 1
-            # #         else:
-            # #             mismatch += 1
-
-            # #     tweet_id_set.add(tweet_id)
-            # # if mismatch == 0:
-            # #     print("Approve assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id, worker_id))
-            # print(len(tweet_id_list), len(annotations), len(tweet_id_list)==len(annotations))
-            # print
+            #     tweet_id_set.add(tweet_id)
+            # if mismatch == 0:
+            #     print("Approve assignment (HITID:{} AssignmentID:{} workerID: {})".format(hit_id, assignment_id, worker_id))
+            print(len(tweet_id_list), len(annotations), len(tweet_id_list)==len(annotations))
+            print
 
 # def approve_reject_assignments():
 #     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.approve_assignment
