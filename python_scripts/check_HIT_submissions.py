@@ -104,6 +104,9 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
             print('id', len(id_s), len(set(id_s)))
             for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
                 print(k, v.strftime("%Y-%m-%d %H:%M:%S"))
+        else:
+            labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
+            print(labels)
 
 if __name__ == '__main__':
     MTurk_client = get_client('production')

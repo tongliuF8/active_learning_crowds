@@ -109,7 +109,8 @@ def approve_reject_assignments(hit_assignment_ids, MTurk_client):
 if __name__ == '__main__':
     file_name = sys.argv[1]
     hit_id_list = read_HITs_log(file_name)
-    print(len(hit_id_list), hit_id_list)
+    print 'Checking {} HITs......\n'.format(len(hit_id_list))
+    print(hit_id_list)
 
     mongo_client = MongoClient('localhost', 8081)
     db = mongo_client.meteor
