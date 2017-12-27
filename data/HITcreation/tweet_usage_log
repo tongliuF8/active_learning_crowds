@@ -29,3 +29,4 @@ timestamp:20171227_020644 start:1500-0 end:1599-4 accumulative_counter:8000 HIT_
 timestamp:20171227_045937 start:1600-0 end:1699-4 accumulative_counter:8500 HIT_count:10 tweet_count_per_HIT:10
 timestamp:20171227_164934 start:1700-0 end:1799-4 accumulative_counter:9000 HIT_count:10 tweet_count_per_HIT:10
 timestamp:20171227_181132 start:1800-0 end:1899-4 accumulative_counter:9500 HIT_count:10 tweet_count_per_HIT:10
+timestamp:20171227_194258 start:1900-0 end:1999-4 accumulative_counter:10000 HIT_count:10 tweet_count_per_HIT:10
