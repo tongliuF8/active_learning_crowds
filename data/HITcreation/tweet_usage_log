@@ -25,3 +25,5 @@ timestamp:20171226_020804 start:1300-0 end:1349-4 accumulative_counter:6750 HIT_
 timestamp:20171226_152745 start:1350-0 end:1399-4 accumulative_counter:7000 HIT_count:5 tweet_count_per_HIT:10
 timestamp:20171226_195321 start:1400-0 end:1449-4 accumulative_counter:7250 HIT_count:5 tweet_count_per_HIT:10
 timestamp:20171226_234949 start:1450-0 end:1499-4 accumulative_counter:7500 HIT_count:5 tweet_count_per_HIT:10
+timestamp:20171227_020644 start:1500-0 end:1599-4 accumulative_counter:8000 HIT_count:10 tweet_count_per_HIT:10
+timestamp:20171227_045937 start:1600-0 end:1699-4 accumulative_counter:8500 HIT_count:10 tweet_count_per_HIT:10
