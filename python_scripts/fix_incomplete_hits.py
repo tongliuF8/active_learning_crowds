@@ -108,8 +108,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
                 MongoDB_hit_lost[hit_id] += 1
 
     print('MongoDB hit_collection lost: %d' % len(MongoDB_hit_lost))
-    # for k, v in OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).items():
-    #     print(k, v)
+    for k, v in OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).items():
+        print(k, v)
 
     hit_assignment_ids = defaultdict(set)
     MongoDB_label_lost = defaultdict(set)
@@ -120,13 +120,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
             WorkerId = item[0]
             labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
             if labels_saved_per_worker != SETS_OF_LABELS_PERHIT:
-                assignmentIds = []
                 MongoDB_label_lost[labels_saved_per_worker].add(hit_id)
-                for record in label_collection.find({'hitID': hit_id, 'workerID': WorkerId}):
-                    assignmentId = record['assignmentID']
-                    assignmentIds.append(assignmentId)
-                if len(assignmentIds) != len(set(assignmentIds)):
-                    print(hit_id, len(assignmentIds), len(set(assignmentIds)))
 
         # else:
         #     labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
@@ -138,7 +132,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         #             hit_assignment_ids[hit_id].add(MTurk_assignmentId)
 
 
-    # print('MongoDB label_collection lost: %d' % len(MongoDB_label_lost))
+    print('MongoDB label_collection lost:')
     for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
         print(k, len(v), v)
 
