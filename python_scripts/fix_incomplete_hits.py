@@ -52,7 +52,7 @@ def read_HIT_logs(timestamp_logs):
 
     return hit_id_list
 
-def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments):
+def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments, MTurk_broken_hits):
 
     hit = client.get_hit(HITId=hit_id)
     HITStatus = hit['HIT']['HITStatus']
@@ -71,12 +71,13 @@ def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments):
 
     #  Assignments lost
     if len(assignments) != MAX_ASSIGNMENTS:
-        print(hit_id, HITStatus, HITCreationTime, len(assignments), HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
+        MTurk_broken_hits.append(hit_id)
+        # print(hit_id, HITStatus, HITCreationTime, len(assignments), HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
             assignmentStatus = assignment['AssignmentStatus']
-            print(WorkerId, assignmentId, assignmentStatus)
+            # print(WorkerId, assignmentId, assignmentStatus)
             MTurk_hits_assignments[hit_id].append((WorkerId, assignmentId))
     # Assignments complete
     else:
@@ -90,16 +91,24 @@ def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments):
             # print(WorkerId, assignmentId, AcceptTime.strftime("%Y-%m-%d %H:%M:%S"), SubmitTime.strftime("%Y-%m-%d %H:%M:%S"), str(Duration))
             MTurk_hits_assignments[hit_id].append((WorkerId, assignmentId))
 
-    return MTurk_hits_assignments
+    return MTurk_hits_assignments, MTurk_broken_hits
 
-def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_hits_assignments):
+def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments):
 
-    hits_saved = hit_collection.find({'hitID': hit_id}).count()
-    print(hits_saved)
+    MongoDB_hit_lost = []
+
     for k, v in MTurk_hits_assignments.items():
+        hit_id = k
         WorkerId = v[0]
-        worker_hits_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-        print(WorkerId, worker_hits_saved)
+
+        hits_saved = hit_collection.find({'hitID': hit_id}).count()
+        if hits_saved != MAX_ASSIGNMENTS:
+            MongoDB_hit_lost.append(hit_id)
+
+        # worker_hits_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
+        # print(WorkerId, worker_hits_saved)
+
+    print('MongoDB hit_collection lost: %d' % len(MongoDB_hit_lost))
 
     # print('label collection:')
 
@@ -140,6 +149,18 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_hi
     #                 hit_assignment_ids[hit_id].add(MTurk_assignmentId)
 
     # return hit_assignment_ids
+
+def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
+
+    MTurk_hits_assignments = defaultdict(list)
+    MTurk_broken_hits = []
+
+    for hit_id in tqdm(hit_id_list):
+        MTurk_hits_assignments, MTurk_broken_hits = check_submissions_MTurk(MTurk_client, hit_id, MTurk_hits_assignments, MTurk_broken_hits)
+
+    print('MTurk broken HITs: %d' % len(MTurk_broken_hits))
+
+    return MTurk_hits_assignments
             
 if __name__ == '__main__':
     environment = sys.argv[1]
@@ -155,12 +176,5 @@ if __name__ == '__main__':
     label_collection = db[LABEL_COLLECTION]
     print('MongoDB connected.')
 
-    MTurk_hits_assignments = defaultdict(list)
-
-    for hit_id in tqdm(hit_id_list):
-        MTurk_hits_assignments = check_submissions_MTurk(MTurk_client, hit_id, MTurk_hits_assignments)
-        hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_hits_assignments)
-
-    for k, v in MTurk_hits_assignments.items():
-        if len(v) != 5:
-            print(k)
+    MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list)
+    hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
