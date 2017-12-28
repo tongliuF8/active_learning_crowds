@@ -109,10 +109,9 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         #         MongoDB_hit_lost[hit_id] += 1
 
     print('MongoDB hit_collection lost: %d' % len(MongoDB_hit_lost))
-    # for idx, k in enumerate(OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).keys()):
-    #     print(idx, k, MongoDB_hit_lost[k])
+    for idx, k in enumerate(OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).keys()):
+        print(idx, k, MongoDB_hit_lost[k])
 
-    hit_assignment_ids = defaultdict(set)
     MongoDB_label_lost = defaultdict(set)
 
     for k, v in MTurk_hits_assignments.items():
@@ -132,8 +131,6 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
     for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
         print(k, len(v))
         print(v)
-
-    return hit_assignment_ids
 
 def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
 
@@ -162,4 +159,4 @@ if __name__ == '__main__':
     print('MongoDB connected.')
 
     MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list[:2])
-    hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
+    check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
