@@ -132,8 +132,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
 
 
     # print('MongoDB label_collection lost: %d' % len(MongoDB_label_lost))
-    for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:len(k[1]))).items():
-        print(k, len(v))
+    for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
+        print(k, len(v), v)
 
     return hit_assignment_ids
 
