@@ -1,6 +1,7 @@
 import sys, re, os
 from collections import defaultdict, OrderedDict
 from pymongo import MongoClient
+from tqdm import tqdm
 
 from helper_functions import *
 from insert_data_into_mongodb import get_data_path
@@ -51,13 +52,10 @@ def read_HIT_logs(timestamp_logs):
 
     return hit_id_list
 
-def check_submissions_MTurk(client, hit_id):
-
-    print('MTurk API report:')
+def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments):
 
     hit = client.get_hit(HITId=hit_id)
-    print 'HIT status: {}'.format(hit['HIT']['HITStatus'])
-
+    HITStatus = hit['HIT']['HITStatus']
     HITCreationTime = hit['HIT']['CreationTime'].strftime("%Y-%m-%d %H:%M:%S")
     HITReviewStatus = hit['HIT']['HITReviewStatus']
     NumberOfAssignmentsPending = hit['HIT']['NumberOfAssignmentsPending']
@@ -71,81 +69,77 @@ def check_submissions_MTurk(client, hit_id):
     )
     assignments = response['Assignments']
 
-    MTurk_workers_assignments = {}
-
     #  Assignments lost
     if len(assignments) != MAX_ASSIGNMENTS:
-        print(hit_id, len(assignments), HITCreationTime, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
+        print(hit_id, HITStatus, HITCreationTime, len(assignments), HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
             assignmentStatus = assignment['AssignmentStatus']
             print(WorkerId, assignmentId, assignmentStatus)
-            MTurk_workers_assignments[WorkerId] = assignmentId
+            MTurk_hits_assignments[hit_id].append((WorkerId, assignmentId))
     # Assignments complete
     else:
-        print 'The assignments are fully Submitted: {}'.format(len(assignments))
+        # print 'The assignments are fully Submitted: {}'.format(len(assignments))
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
             AcceptTime = assignment['AcceptTime']
             SubmitTime = assignment['SubmitTime']
             Duration = SubmitTime-AcceptTime
-            print(WorkerId, AcceptTime.strftime("%Y-%m-%d %H:%M:%S"), SubmitTime.strftime("%Y-%m-%d %H:%M:%S"), str(Duration))
-            MTurk_workers_assignments[WorkerId] = assignmentId
+            # print(WorkerId, assignmentId, AcceptTime.strftime("%Y-%m-%d %H:%M:%S"), SubmitTime.strftime("%Y-%m-%d %H:%M:%S"), str(Duration))
+            MTurk_hits_assignments[hit_id].append((WorkerId, assignmentId))
 
-    return MTurk_workers_assignments
+    return MTurk_hits_assignments
 
-def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments):
+def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_hits_assignments):
 
-    print('MongoDB report:')
-
-    print('hit collection:')
     hits_saved = hit_collection.find({'hitID': hit_id}).count()
     print(hits_saved)
-    for WorkerId in MTurk_workers_assignments.keys():
+    for k, v in MTurk_hits_assignments.items():
+        WorkerId = v[0]
         worker_hits_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
         print(WorkerId, worker_hits_saved)
 
-    print('label collection:')
+    # print('label collection:')
 
-    hit_assignment_ids = defaultdict(set)
+    # hit_assignment_ids = defaultdict(set)
 
-    for WorkerId, MTurk_assignmentId in MTurk_workers_assignments.items():
-        labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-        print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS)
+    # for WorkerId, MTurk_assignmentId in MTurk_hits_assignments.items():
+    #     labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
+    #     print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS)
 
-        if labels_saved_per_worker != SETS_OF_LABELS:
-            _ids = []
-            assignmentIds = []
-            id_s = []
-            assignment_timestamp = {}
+    #     if labels_saved_per_worker != SETS_OF_LABELS:
+    #         _ids = []
+    #         assignmentIds = []
+    #         id_s = []
+    #         assignment_timestamp = {}
 
-            for record in label_collection.find({'hitID': hit_id, 'workerID': WorkerId}):
-                _id = record['_id']
-                _ids.append(_id)
-                assignmentId = record['assignmentID']
-                assignmentIds.append(assignmentId)
-                id_ = record['id']
-                id_s.append(id_)
-                timestamp = record['timestamp']
-                assignment_timestamp[_id] = timestamp
+    #         for record in label_collection.find({'hitID': hit_id, 'workerID': WorkerId}):
+    #             _id = record['_id']
+    #             _ids.append(_id)
+    #             assignmentId = record['assignmentID']
+    #             assignmentIds.append(assignmentId)
+    #             id_ = record['id']
+    #             id_s.append(id_)
+    #             timestamp = record['timestamp']
+    #             assignment_timestamp[_id] = timestamp
 
-            print('_id', len(_ids), len(set(_ids)))
-            print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
-            print('id', len(id_s), len(set(id_s)))
-            for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
-                print(k, v.strftime("%Y-%m-%d %H:%M:%S"))
-        else:
-            labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
-            for label in labels:
-                MongoDB_assignmentID = label['assignmentID']
-                if MTurk_assignmentId != MongoDB_assignmentID:
-                    print(hit_id, WorkerId, MTurk_assignmentId, MongoDB_assignmentID)
-                else:
-                    hit_assignment_ids[hit_id].add(MTurk_assignmentId)
+    #         print('_id', len(_ids), len(set(_ids)))
+    #         print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
+    #         print('id', len(id_s), len(set(id_s)))
+    #         for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
+    #             print(k, v.strftime("%Y-%m-%d %H:%M:%S"))
+    #     else:
+    #         labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
+    #         for label in labels:
+    #             MongoDB_assignmentID = label['assignmentID']
+    #             if MTurk_assignmentId != MongoDB_assignmentID:
+    #                 print(hit_id, WorkerId, MTurk_assignmentId, MongoDB_assignmentID)
+    #             else:
+    #                 hit_assignment_ids[hit_id].add(MTurk_assignmentId)
 
-    return hit_assignment_ids
+    # return hit_assignment_ids
             
 if __name__ == '__main__':
     environment = sys.argv[1]
@@ -153,17 +147,20 @@ if __name__ == '__main__':
     hit_id_list = read_HIT_logs(timestamp_logs)
     print(len(hit_id_list))
 
-    MTurk_client = get_client('production')
-    print('MTurk API connected\n')
+    MTurk_client = get_client(environment)
+    print('MTurk API connected.')
     mongo_client = MongoClient('localhost', 8081)
     db = mongo_client.meteor
     hit_collection = db[HIT_COLLECTION]
     label_collection = db[LABEL_COLLECTION]
-    print('MongoDB connected\n')
+    print('MongoDB connected.')
 
-    for index, hit_id in enumerate(hit_id_list):
-        print(index, hit_id)
-        MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
-        print
-        hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
-        print
+    MTurk_hits_assignments = defaultdict(list)
+
+    for hit_id in tqdm(hit_id_list):
+        MTurk_hits_assignments = check_submissions_MTurk(MTurk_client, hit_id, MTurk_hits_assignments)
+        hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_hits_assignments)
+
+    for k, v in MTurk_hits_assignments.items():
+        if len(v) != 5:
+            print(k)
