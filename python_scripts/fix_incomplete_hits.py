@@ -1,6 +1,7 @@
 import sys, re, os
 from helper_functions import *
 from insert_data_into_mongodb import get_data_path
+from check_HIT_submissions import *
 
 def read_hit_creation_log(environment):
 
@@ -47,3 +48,10 @@ if __name__ == '__main__':
     timestamp_logs = read_hit_creation_log(environment)
     hit_id_list = read_HIT_logs(timestamp_logs)
     print(len(hit_id_list))
+
+    for index, hit_id in enumerate(hit_id_list):
+        print(index, hit_id)
+        MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
+        print
+        hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
+        print
