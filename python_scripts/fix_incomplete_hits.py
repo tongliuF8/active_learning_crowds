@@ -1,11 +1,15 @@
 import sys, re, os
+from collections import defaultdict, OrderedDict
+from pymongo import MongoClient
+
 from helper_functions import *
 from insert_data_into_mongodb import get_data_path
-from check_HIT_submissions import *
-from pymongo import MongoClient
+from create_compensation_hit import get_client
 
 HIT_COLLECTION = 'hit'
 LABEL_COLLECTION = 'label'
+MAX_ASSIGNMENTS = 5
+SETS_OF_LABELS = 12
 
 def read_hit_creation_log(environment):
 
@@ -46,6 +50,102 @@ def read_HIT_logs(timestamp_logs):
                     hit_id_list.append(hit_id.strip())
 
     return hit_id_list
+
+def check_submissions_MTurk(client, hit_id):
+
+    print('MTurk API report:')
+
+    hit = client.get_hit(HITId=hit_id)
+    print 'HIT status: {}'.format(hit['HIT']['HITStatus'])
+
+    HITCreationTime = hit['HIT']['CreationTime'].strftime("%Y-%m-%d %H:%M:%S")
+    HITReviewStatus = hit['HIT']['HITReviewStatus']
+    NumberOfAssignmentsPending = hit['HIT']['NumberOfAssignmentsPending']
+    NumberOfAssignmentsAvailable = hit['HIT']['NumberOfAssignmentsAvailable']
+    NumberOfAssignmentsCompleted = hit['HIT']['NumberOfAssignmentsCompleted']
+
+    # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.list_assignments_for_hit
+    # Retrieve the results for a HIT
+    response = client.list_assignments_for_hit(
+        HITId=hit_id,
+    )
+    assignments = response['Assignments']
+
+    MTurk_workers_assignments = {}
+
+    #  Assignments lost
+    if len(assignments) != MAX_ASSIGNMENTS:
+        print(hit_id, len(assignments), HITCreationTime, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
+        for assignment in assignments:
+            WorkerId = assignment['WorkerId']
+            assignmentId = assignment['AssignmentId']
+            assignmentStatus = assignment['AssignmentStatus']
+            print(WorkerId, assignmentId, assignmentStatus)
+            MTurk_workers_assignments[WorkerId] = assignmentId
+    # Assignments complete
+    else:
+        print 'The assignments are fully Submitted: {}'.format(len(assignments))
+        for assignment in assignments:
+            WorkerId = assignment['WorkerId']
+            assignmentId = assignment['AssignmentId']
+            AcceptTime = assignment['AcceptTime']
+            SubmitTime = assignment['SubmitTime']
+            Duration = SubmitTime-AcceptTime
+            print(WorkerId, AcceptTime.strftime("%Y-%m-%d %H:%M:%S"), SubmitTime.strftime("%Y-%m-%d %H:%M:%S"), str(Duration))
+            MTurk_workers_assignments[WorkerId] = assignmentId
+
+    return MTurk_workers_assignments
+
+def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments):
+
+    print('MongoDB report:')
+
+    print('hit collection:')
+    hits_saved = hit_collection.find({'hitID': hit_id}).count()
+    print(hits_saved)
+    for WorkerId in MTurk_workers_assignments.keys():
+        worker_hits_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
+        print(WorkerId, worker_hits_saved)
+
+    print('label collection:')
+
+    hit_assignment_ids = defaultdict(set)
+
+    for WorkerId, MTurk_assignmentId in MTurk_workers_assignments.items():
+        labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
+        print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS)
+
+        if labels_saved_per_worker != SETS_OF_LABELS:
+            _ids = []
+            assignmentIds = []
+            id_s = []
+            assignment_timestamp = {}
+
+            for record in label_collection.find({'hitID': hit_id, 'workerID': WorkerId}):
+                _id = record['_id']
+                _ids.append(_id)
+                assignmentId = record['assignmentID']
+                assignmentIds.append(assignmentId)
+                id_ = record['id']
+                id_s.append(id_)
+                timestamp = record['timestamp']
+                assignment_timestamp[_id] = timestamp
+
+            print('_id', len(_ids), len(set(_ids)))
+            print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
+            print('id', len(id_s), len(set(id_s)))
+            for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
+                print(k, v.strftime("%Y-%m-%d %H:%M:%S"))
+        else:
+            labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
+            for label in labels:
+                MongoDB_assignmentID = label['assignmentID']
+                if MTurk_assignmentId != MongoDB_assignmentID:
+                    print(hit_id, WorkerId, MTurk_assignmentId, MongoDB_assignmentID)
+                else:
+                    hit_assignment_ids[hit_id].add(MTurk_assignmentId)
+
+    return hit_assignment_ids
             
 if __name__ == '__main__':
     environment = sys.argv[1]

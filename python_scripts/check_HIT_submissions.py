@@ -1,4 +1,4 @@
-import sys, pprint
+import sys
 from create_compensation_hit import get_client
 from helper_functions import get_timestamp, get_log_directory
 from pymongo import MongoClient
