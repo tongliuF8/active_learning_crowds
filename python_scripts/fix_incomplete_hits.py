@@ -109,8 +109,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         #         MongoDB_hit_lost[hit_id] += 1
 
     print('MongoDB hit_collection lost: %d' % len(MongoDB_hit_lost))
-    for idx, k in enumerate(OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).keys()):
-        print(idx, k, MongoDB_hit_lost[k])
+    # for idx, k in enumerate(OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).keys()):
+    #     print(idx, k, MongoDB_hit_lost[k])
 
     hit_assignment_ids = defaultdict(set)
     MongoDB_label_lost = defaultdict(set)
@@ -135,7 +135,9 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
 
     print('MongoDB label_collection lost:')
     for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
-        print(k, len(v), v)
+        print(k, len(v))
+        for hit_id in v:
+            print(hit_id, MongoDB_hit_lost[hit_id])
 
     return hit_assignment_ids
 
