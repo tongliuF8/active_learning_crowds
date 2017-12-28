@@ -122,16 +122,11 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
             labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
             if labels_saved_per_worker != SETS_OF_LABELS_PERHIT:
                 MongoDB_label_lost[labels_saved_per_worker].add(hit_id)
-
-        # else:
-        #     labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
-        #     for label in labels:
-        #         MongoDB_assignmentID = label['assignmentID']
-        #         if MTurk_assignmentId != MongoDB_assignmentID:
-        #             print(hit_id, WorkerId, MTurk_assignmentId, MongoDB_assignmentID)
-        #         else:
-        #             hit_assignment_ids[hit_id].add(MTurk_assignmentId)
-
+            # extract labels for complete HITs
+            else:
+                labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
+                for label in labels:
+                    print(type(label))
 
     print('MongoDB label_collection lost:')
     for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
@@ -166,5 +161,5 @@ if __name__ == '__main__':
     label_collection = db[LABEL_COLLECTION]
     print('MongoDB connected.')
 
-    MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list)
+    MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list[:2])
     hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
