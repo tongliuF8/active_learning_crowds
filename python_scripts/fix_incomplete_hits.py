@@ -95,13 +95,13 @@ def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments, MTurk_broken
 
 def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments):
 
-    MongoDB_hit_lost = defaultdict(int)
+    MongoDB_hit_lost = {}
 
     for k, v in MTurk_hits_assignments.items():
         hit_id = k
         hits_saved = hit_collection.find({'hitID': hit_id}).count()
         if hits_saved != MAX_ASSIGNMENTS_PERHIT:
-            MongoDB_hit_lost[hit_id] += 1
+            MongoDB_hit_lost[hit_id] = hits_saved
         # for item in v:
         #     WorkerId = item[0]
         #     worker_hit_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
