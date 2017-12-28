@@ -2,6 +2,10 @@ import sys, re, os
 from helper_functions import *
 from insert_data_into_mongodb import get_data_path
 from check_HIT_submissions import *
+from pymongo import MongoClient
+
+HIT_COLLECTION = 'hit'
+LABEL_COLLECTION = 'label'
 
 def read_hit_creation_log(environment):
 
@@ -48,6 +52,14 @@ if __name__ == '__main__':
     timestamp_logs = read_hit_creation_log(environment)
     hit_id_list = read_HIT_logs(timestamp_logs)
     print(len(hit_id_list))
+
+    MTurk_client = get_client('production')
+    print('MTurk API connected\n')
+    mongo_client = MongoClient('localhost', 8081)
+    db = mongo_client.meteor
+    hit_collection = db[HIT_COLLECTION]
+    label_collection = db[LABEL_COLLECTION]
+    print('MongoDB connected\n')
 
     for index, hit_id in enumerate(hit_id_list):
         print(index, hit_id)
