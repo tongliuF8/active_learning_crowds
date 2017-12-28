@@ -108,7 +108,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         # worker_hits_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
         # print(WorkerId, worker_hits_saved)
 
-    print('MongoDB hit_collection lost: %d' % len(MongoDB_hit_lost))
+    print('MongoDB hit_collection lost: %d Unique: %d' % (len(MongoDB_hit_lost), len(set(MongoDB_hit_lost))))
 
     # print('label collection:')
 
