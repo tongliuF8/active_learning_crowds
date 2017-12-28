@@ -111,45 +111,30 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
     # for k, v in OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).items():
     #     print(k, v)
 
-    # print('label collection:')
+    hit_assignment_ids = defaultdict(set)
+    MongoDB_label_lost = defaultdict(int)
 
-    # hit_assignment_ids = defaultdict(set)
+    for k, v in MTurk_hits_assignments.items():
+        hit_id = k
+        for item in v:
+            WorkerId = item[0]
+            labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
+            if labels_saved_per_worker != SETS_OF_LABELS_PERHIT:
+                MongoDB_label_lost[hit_id] += 1
+        # else:
+        #     labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
+        #     for label in labels:
+        #         MongoDB_assignmentID = label['assignmentID']
+        #         if MTurk_assignmentId != MongoDB_assignmentID:
+        #             print(hit_id, WorkerId, MTurk_assignmentId, MongoDB_assignmentID)
+        #         else:
+        #             hit_assignment_ids[hit_id].add(MTurk_assignmentId)
 
-    # for WorkerId, MTurk_assignmentId in MTurk_hits_assignments.items():
-    #     labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-    #     print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS_PERHIT)
+    print('MongoDB label_collection lost: %d' % len(MongoDB_label_lost))
+    for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[1])).items():
+        print(k, v)
 
-    #     if labels_saved_per_worker != SETS_OF_LABELS_PERHIT:
-    #         _ids = []
-    #         assignmentIds = []
-    #         id_s = []
-    #         assignment_timestamp = {}
-
-    #         for record in label_collection.find({'hitID': hit_id, 'workerID': WorkerId}):
-    #             _id = record['_id']
-    #             _ids.append(_id)
-    #             assignmentId = record['assignmentID']
-    #             assignmentIds.append(assignmentId)
-    #             id_ = record['id']
-    #             id_s.append(id_)
-    #             timestamp = record['timestamp']
-    #             assignment_timestamp[_id] = timestamp
-
-    #         print('_id', len(_ids), len(set(_ids)))
-    #         print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
-    #         print('id', len(id_s), len(set(id_s)))
-    #         for k, v in OrderedDict(sorted(assignment_timestamp.items(), key=lambda p: p[1])).items():
-    #             print(k, v.strftime("%Y-%m-%d %H:%M:%S"))
-    #     else:
-    #         labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
-    #         for label in labels:
-    #             MongoDB_assignmentID = label['assignmentID']
-    #             if MTurk_assignmentId != MongoDB_assignmentID:
-    #                 print(hit_id, WorkerId, MTurk_assignmentId, MongoDB_assignmentID)
-    #             else:
-    #                 hit_assignment_ids[hit_id].add(MTurk_assignmentId)
-
-    # return hit_assignment_ids
+    return hit_assignment_ids
 
 def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
 
