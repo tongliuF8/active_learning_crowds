@@ -102,15 +102,15 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         hits_saved = hit_collection.find({'hitID': hit_id}).count()
         if hits_saved != MAX_ASSIGNMENTS_PERHIT:
             MongoDB_hit_lost[hit_id] += 1
-        for item in v:
-            WorkerId = item[0]
-            worker_hit_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-            if worker_hit_saved != 1:
-                MongoDB_hit_lost[hit_id] += 1
+        # for item in v:
+        #     WorkerId = item[0]
+        #     worker_hit_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
+        #     if worker_hit_saved != 1:
+        #         MongoDB_hit_lost[hit_id] += 1
 
     print('MongoDB hit_collection lost: %d' % len(MongoDB_hit_lost))
-    for k, v in OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).items():
-        print(k, v)
+    for idx, k in enumerate(OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).keys()):
+        print(idx, k, MongoDB_hit_lost[k])
 
     hit_assignment_ids = defaultdict(set)
     MongoDB_label_lost = defaultdict(set)
