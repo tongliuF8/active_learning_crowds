@@ -126,7 +126,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
                     assignmentId = record['assignmentID']
                     assignmentIds.append(assignmentId)
                 if len(assignmentIds) != len(set(assignmentIds)):
-                    print(hit_id)
+                    print(hit_id, len(assignmentIds), len(set(assignmentIds)))
 
         # else:
         #     labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
