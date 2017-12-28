@@ -9,8 +9,8 @@ from create_compensation_hit import get_client
 
 HIT_COLLECTION = 'hit'
 LABEL_COLLECTION = 'label'
-MAX_ASSIGNMENTS = 5
-SETS_OF_LABELS = 12
+MAX_ASSIGNMENTS_PERHIT = 5
+SETS_OF_LABELS_PERHIT = 12
 
 def read_hit_creation_log(environment):
 
@@ -70,7 +70,7 @@ def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments, MTurk_broken
     assignments = response['Assignments']
 
     #  Assignments lost
-    if len(assignments) != MAX_ASSIGNMENTS:
+    if len(assignments) != MAX_ASSIGNMENTS_PERHIT:
         MTurk_broken_hits.append(hit_id)
         # print(hit_id, HITStatus, HITCreationTime, len(assignments), HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
         for assignment in assignments:
@@ -103,12 +103,12 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
 
         hits_saved = hit_collection.find({'hitID': hit_id}).count()
         worker_hit_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-        if (hits_saved != MAX_ASSIGNMENTS) or (worker_hit_saved != 1):
+        if (hits_saved != MAX_ASSIGNMENTS_PERHIT) or (worker_hit_saved != 1):
             MongoDB_hit_lost[hit_id] += 1
 
-    print('MongoDB hit_collection lost:')
-    for k, v in OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).items():
-        print(k, v)
+    print('MongoDB hit_collection lost: %d' % len(MongoDB_hit_lost))
+    # for k, v in OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).items():
+    #     print(k, v)
 
     # print('label collection:')
 
@@ -116,9 +116,9 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
 
     # for WorkerId, MTurk_assignmentId in MTurk_hits_assignments.items():
     #     labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-    #     print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS)
+    #     print(WorkerId, labels_saved_per_worker, SETS_OF_LABELS_PERHIT)
 
-    #     if labels_saved_per_worker != SETS_OF_LABELS:
+    #     if labels_saved_per_worker != SETS_OF_LABELS_PERHIT:
     #         _ids = []
     #         assignmentIds = []
     #         id_s = []
