@@ -41,13 +41,12 @@ def check_submissions_MTurk(client, hit_id):
         HITId=hit_id,
     )
     assignments = response['Assignments']
-    print(len(assignments))
+    print(hit_id, len(assignments), HITCreationTime, HITExpiration, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
 
     MTurk_workers_assignments = {}
 
     #  Assignments lost
     if len(assignments) != MAX_ASSIGNMENTS:
-        print(hit_id, len(assignments), HITCreationTime, HITExpiration, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
