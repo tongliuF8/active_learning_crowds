@@ -140,3 +140,5 @@ if __name__ == '__main__':
             print
             approve_reject_assignments(hit_assignment_ids, MTurk_client, logfile)
             print('----------------------------------------')
+
+    print('Account balance: {}'.format(MTurk_client.get_account_balance()['AvailableBalance']))
