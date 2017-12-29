@@ -118,15 +118,31 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         hit_id = k
         for item in v:
             WorkerId = item[0]
-            labels_saved_per_worker = label_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-            if labels_saved_per_worker != SETS_OF_LABELS_PERHIT:
-                MongoDB_label_lost[labels_saved_per_worker].add(hit_id)
-            # extract labels for complete HITs
-            else:
-                labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
-                for label in labels:
+            _ids = []
+            assignmentIds = []
+            id_s = []            
+
+            worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
+            worker_labels_num = worker_labels.count()
+            if worker_labels_num != SETS_OF_LABELS_PERHIT:
+                MongoDB_label_lost[worker_labels_num].add(hit_id)
+                for label in worker_labels:
                     # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
-                    print(label['question1'], label['question2'], label['question3'])
+                    _id = label['_id']
+                    _ids.append(_id)
+                    assignmentId = label['assignmentID']
+                    assignmentIds.append(assignmentId)
+                    id_ = label['id']
+                    id_s.append(id_)
+                print(hit_id, WorkerId)
+                print('_id', len(_ids), len(set(_ids)))
+                print('assignmentID', len(assignmentIds), len(set(assignmentIds)))
+                print('id', len(id_s), len(set(id_s)))
+            # # extract labels for complete HITs
+            # else:
+            #     for label in worker_labels:
+            #         # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
+            #         print(label['question1'], label['question2'], label['question3'])
 
     print('MongoDB label_collection lost:')
     for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
