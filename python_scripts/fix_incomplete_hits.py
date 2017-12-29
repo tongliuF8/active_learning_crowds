@@ -118,13 +118,13 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         hit_id = k
         for item in v:
             WorkerId = item[0]
-            _ids = []
-            assignmentIds = []
-            id_s = []            
 
             worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
             worker_labels_num = worker_labels.count()
             if worker_labels_num != SETS_OF_LABELS_PERHIT:
+                _ids = []
+                assignmentIds = []
+                id_s = []            
                 MongoDB_label_lost[worker_labels_num].add(hit_id)
                 for label in worker_labels:
                     # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
