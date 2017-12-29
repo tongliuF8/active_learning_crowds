@@ -29,6 +29,7 @@ def check_submissions_MTurk(client, hit_id):
     print 'HIT status: {}'.format(hit['HIT']['HITStatus'])
 
     HITCreationTime = hit['HIT']['CreationTime'].strftime("%Y-%m-%d %H:%M:%S")
+    HITExpiration = hit['HIT']['Expiration'].strftime("%Y-%m-%d %H:%M:%S")
     HITReviewStatus = hit['HIT']['HITReviewStatus']
     NumberOfAssignmentsPending = hit['HIT']['NumberOfAssignmentsPending']
     NumberOfAssignmentsAvailable = hit['HIT']['NumberOfAssignmentsAvailable']
@@ -46,7 +47,7 @@ def check_submissions_MTurk(client, hit_id):
 
     #  Assignments lost
     if len(assignments) != MAX_ASSIGNMENTS:
-        print(hit_id, len(assignments), HITCreationTime, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
+        print(hit_id, len(assignments), HITCreationTime, HITExpiration, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
@@ -119,7 +120,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
     return hit_assignment_ids
 
 if __name__ == '__main__':
-    MTurk_client = get_client('production')
+    environment = sys.argv[1]
+    MTurk_client = get_client(environment)
 
     print('Account balance: {}'.format(MTurk_client.get_account_balance()['AvailableBalance']))
 
@@ -128,7 +130,7 @@ if __name__ == '__main__':
     hit_collection = db['hit']
     label_collection = db['label']
 
-    user_input = sys.argv[1]
+    user_input = sys.argv[2]
     # Get hit id(s) from log file (.txt)
     if user_input.endswith('.txt'):
         file_name = user_input
