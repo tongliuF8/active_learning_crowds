@@ -26,8 +26,13 @@ def check_submissions_MTurk(client, hit_id):
     print('MTurk API report:')
 
     hit = client.get_hit(HITId=hit_id)
-    print 'HIT status: {}'.format(hit['HIT']['HITStatus'])
+    # hit.keys() = [u'HIT', 'ResponseMetadata']
 
+    # hit['HIT'].keys() = [u'HITGroupId', u'RequesterAnnotation', u'NumberOfAssignmentsCompleted', u'Description', u'MaxAssignments', u'Title', u'NumberOfAssignmentsAvailable', u'Question', u'CreationTime', u'AssignmentDurationInSeconds', u'HITTypeId', u'NumberOfAssignmentsPending', u'HITStatus', u'HITId', u'QualificationRequirements', u'Keywords', u'Expiration', u'Reward', u'HITReviewStatus', u'AutoApprovalDelayInSeconds']
+
+    # hit['ResponseMetadata'].keys() = ['RetryAttempts', 'HTTPStatusCode', 'RequestId', 'HTTPHeaders']
+
+    HITStatus = hit['HIT']['HITStatus']
     HITCreationTime = hit['HIT']['CreationTime'].strftime("%Y-%m-%d %H:%M:%S")
     HITExpiration = hit['HIT']['Expiration'].strftime("%Y-%m-%d %H:%M:%S")
     HITReviewStatus = hit['HIT']['HITReviewStatus']
@@ -41,7 +46,7 @@ def check_submissions_MTurk(client, hit_id):
         HITId=hit_id,
     )
     assignments = response['Assignments']
-    print(hit_id, len(assignments), HITCreationTime, HITExpiration, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
+    print(hit_id, HITStatus, len(assignments), HITCreationTime, HITExpiration, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
 
     MTurk_workers_assignments = {}
 
