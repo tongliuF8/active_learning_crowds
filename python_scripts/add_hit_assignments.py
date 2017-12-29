@@ -7,7 +7,7 @@ from create_compensation_hit import get_client
 
 def update_date(client, hit_id):
 
-    date_time_string = "2018-01-05 12:00:00"
+    date_time_string = "2017-12-31 00:00:00"
     datetime_object = datetime.strptime(date_time_string, "%Y-%m-%d %H:%M:%S")
     print(datetime_object, type(datetime_object))
 
@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     print(hit_id)
 
-    # update_date(client, hit_id)
+    update_date(client, hit_id)
 
     # create_additional_assignments_boto2(client, hit_id, additional_assignment_perHIT)
-    # create_additional_assignments(client, hit_id, additional_assignment_perHIT)
+    create_additional_assignments(client, hit_id, additional_assignment_perHIT)
