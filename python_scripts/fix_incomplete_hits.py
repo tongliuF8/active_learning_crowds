@@ -175,5 +175,5 @@ if __name__ == '__main__':
     label_collection = db[LABEL_COLLECTION]
     print('MongoDB connected.')
 
-    MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list[:2])
+    MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list)
     check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
