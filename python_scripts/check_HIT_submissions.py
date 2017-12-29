@@ -120,8 +120,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_wo
 if __name__ == '__main__':
     MTurk_client = get_client('production')
 
-    print('Account balance:')
-    print(MTurk_client.get_account_balance())
+    print('Account balance: {}'.format(MTurk_client.get_account_balance()['AvailableBalance']))
 
     MongoDB_client = MongoClient('localhost', 8081)
     db = MongoDB_client.meteor
@@ -144,7 +143,7 @@ if __name__ == '__main__':
     # Get hid id from command line
     else:
         hit_id = user_input
-        print 'Checking HIT {}...'.format(hit_id)
+        print 'Checking HIT {}...\n'.format(hit_id)
         MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
         print
         hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
