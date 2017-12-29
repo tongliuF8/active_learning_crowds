@@ -40,29 +40,30 @@ def check_submissions_MTurk(client, hit_id):
         HITId=hit_id,
     )
     assignments = response['Assignments']
+    print(len(assignments))
 
     MTurk_workers_assignments = {}
 
-    #  Assignments lost
-    if len(assignments) != MAX_ASSIGNMENTS:
-        print(hit_id, len(assignments), HITCreationTime, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
-        for assignment in assignments:
-            WorkerId = assignment['WorkerId']
-            assignmentId = assignment['AssignmentId']
-            assignmentStatus = assignment['AssignmentStatus']
-            print(WorkerId, assignmentId, assignmentStatus)
-            MTurk_workers_assignments[WorkerId] = assignmentId
-    # Assignments complete
-    else:
-        print 'The assignments are fully Submitted: {}'.format(len(assignments))
-        for assignment in assignments:
-            WorkerId = assignment['WorkerId']
-            assignmentId = assignment['AssignmentId']
-            AcceptTime = assignment['AcceptTime']
-            SubmitTime = assignment['SubmitTime']
-            Duration = SubmitTime-AcceptTime
-            print(WorkerId, AcceptTime.strftime("%Y-%m-%d %H:%M:%S"), SubmitTime.strftime("%Y-%m-%d %H:%M:%S"), str(Duration))
-            MTurk_workers_assignments[WorkerId] = assignmentId
+    # #  Assignments lost
+    # if len(assignments) != MAX_ASSIGNMENTS:
+    #     print(hit_id, len(assignments), HITCreationTime, HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
+    #     for assignment in assignments:
+    #         WorkerId = assignment['WorkerId']
+    #         assignmentId = assignment['AssignmentId']
+    #         assignmentStatus = assignment['AssignmentStatus']
+    #         print(WorkerId, assignmentId, assignmentStatus)
+    #         MTurk_workers_assignments[WorkerId] = assignmentId
+    # # Assignments complete
+    # else:
+    #     print 'The assignments are fully Submitted: {}'.format(len(assignments))
+    #     for assignment in assignments:
+    #         WorkerId = assignment['WorkerId']
+    #         assignmentId = assignment['AssignmentId']
+    #         AcceptTime = assignment['AcceptTime']
+    #         SubmitTime = assignment['SubmitTime']
+    #         Duration = SubmitTime-AcceptTime
+    #         print(WorkerId, AcceptTime.strftime("%Y-%m-%d %H:%M:%S"), SubmitTime.strftime("%Y-%m-%d %H:%M:%S"), str(Duration))
+    #         MTurk_workers_assignments[WorkerId] = assignmentId
 
     return MTurk_workers_assignments
 
