@@ -128,12 +128,23 @@ if __name__ == '__main__':
     hit_collection = db['hit']
     label_collection = db['label']
 
-    file_name = sys.argv[1]
-    hit_id_list = read_HITs_log(file_name)
-    print 'Checking {} HITs......\n'.format(len(hit_id_list))
+    user_input = sys.argv[1]
+    # Get hit id(s) from log file (.txt)
+    if user_input.endswith('.txt'):
+        file_name = user_input
+        hit_id_list = read_HITs_log(file_name)
+        print 'Checking {} HITs......\n'.format(len(hit_id_list))
 
-    for index, hit_id in enumerate(hit_id_list):
-        print(index, hit_id)
+        for index, hit_id in enumerate(hit_id_list):
+            print(index, hit_id)
+            MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
+            print
+            hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
+            print
+    # Get hid id from command line
+    else:
+        hit_id = user_input
+        print 'Checking HIT {}...'.format(hit_id)
         MTurk_workers_assignments = check_submissions_MTurk(MTurk_client, hit_id)
         print
         hit_assignment_ids = check_submissions_MongoDB(hit_collection, label_collection, hit_id, MTurk_workers_assignments)
