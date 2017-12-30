@@ -63,6 +63,8 @@ def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments, MTurk_broken
     NumberOfAssignmentsAvailable = hit['HIT']['NumberOfAssignmentsAvailable']
     NumberOfAssignmentsCompleted = hit['HIT']['NumberOfAssignmentsCompleted']
 
+    Extended_HITs = ['371Q3BEXDG89WVBHASTTQ0BZECPZSB', '3CMIQF80GMPVV5CTGJ7DY233RK86Q3', '37M4O367VIH8RMENJ7QRPN5YLOZM5F', '3GITHABACXKMA7G0DP3T4VRMF0GN2E', '30EV7DWJTUU4473F7TO7BO661ZXY6V', '33KGGVH24TGKXGC8WRQOXE8FGCEX1S', '3HEADTGN2ORGMW6UU64LFKT74Z0RVF', '34R0BODSP0YAFYMA2928CF0P9895EF', '3X7837UUACXE9I8GLTN411RHDPG6JC', '3NKW03WTLL6TPKRZ71KHWW2GEPIWQG', '3VMHWJRYHUFBNV6G3Q59MGC9HMXXFT']
+
     # https://boto3.readthedocs.io/en/latest/reference/services/mturk.html#MTurk.Client.list_assignments_for_hit
     # Retrieve the results for a HIT
     response = client.list_assignments_for_hit(
@@ -72,24 +74,23 @@ def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments, MTurk_broken
 
     #  Assignments lost
     if len(assignments) != MAX_ASSIGNMENTS_PERHIT:
-        MTurk_broken_hits.append(hit_id)
-        # print(hit_id, HITStatus, HITCreationTime, len(assignments), HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
             assignmentStatus = assignment['AssignmentStatus']
             # print(WorkerId, assignmentId, assignmentStatus)
             MTurk_hits_assignments[hit_id].append((WorkerId, assignmentId))
+        if hit_id not in Extended_HITs:
+            MTurk_broken_hits.append(hit_id)
+            print(hit_id, HITStatus, HITCreationTime, len(assignments), HITReviewStatus, NumberOfAssignmentsPending, NumberOfAssignmentsAvailable, NumberOfAssignmentsCompleted)
     # Assignments complete
     else:
-        # print 'The assignments are fully Submitted: {}'.format(len(assignments))
         for assignment in assignments:
             WorkerId = assignment['WorkerId']
             assignmentId = assignment['AssignmentId']
             AcceptTime = assignment['AcceptTime']
             SubmitTime = assignment['SubmitTime']
             Duration = SubmitTime-AcceptTime
-            # print(WorkerId, assignmentId, AcceptTime.strftime("%Y-%m-%d %H:%M:%S"), SubmitTime.strftime("%Y-%m-%d %H:%M:%S"), str(Duration))
             MTurk_hits_assignments[hit_id].append((WorkerId, assignmentId))
 
     return MTurk_hits_assignments, MTurk_broken_hits
@@ -173,4 +174,4 @@ if __name__ == '__main__':
     print('MongoDB connected.')
 
     MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list)
-    check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
+    # check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
