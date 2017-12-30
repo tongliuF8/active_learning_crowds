@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime
+from dateutil.tz import tzlocal
 # # boto2
 # from create_hit import get_client
 # boto3
@@ -7,7 +8,7 @@ from create_compensation_hit import get_client
 
 def update_date(client, hit_id):
 
-    date_time_string = "2017-12-31 00:00:00"
+    date_time_string = "2018-01-05 00:00:00"
     datetime_object = datetime.strptime(date_time_string, "%Y-%m-%d %H:%M:%S")
     print(datetime_object, type(datetime_object))
 
@@ -42,7 +43,18 @@ if __name__ == '__main__':
 
     print(hit_id)
 
-    update_date(client, hit_id)
+    # Get HIT expiration datetime
+    hit = client.get_hit(HITId=hit_id)
+    HITExpiration = hit['HIT']['Expiration']
+
+    # Get current datetime
+    dateutil_tz = tzlocal()
+    current_datetime = datetime.now(dateutil_tz)
+
+    diff = HITExpiration - current_datetime
+    # Guarantee 5 days for each HIT
+    if diff.days < 5:
+        update_date(client, hit_id)
 
     # create_additional_assignments_boto2(client, hit_id, additional_assignment_perHIT)
     create_additional_assignments(client, hit_id, additional_assignment_perHIT)
