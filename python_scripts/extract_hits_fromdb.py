@@ -101,13 +101,14 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
     MongoDB_label_lost = defaultdict(set)
 
     # Sort by the number of (worker-assignment) records per HIT
-    for k, v in OrderedDict(sorted(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))).items():
+    for k in tqdm(OrderedDict(sorted(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))).keys()):
         hit_id = k
+        value = MTurk_hits_assignments[k]
         hits_saved = hit_collection.find({'hitID': hit_id}).count()
         if hits_saved < ASSIGNMENTS_PER_HIT:
             MongoDB_hit_lost[hit_id] = hits_saved
 
-        for item in v:
+        for item in value:
             WorkerId = item[0]
             assignmentId = item[1]
             worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId, 'assignmentID': assignmentId})
