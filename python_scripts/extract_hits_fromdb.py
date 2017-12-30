@@ -119,7 +119,7 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
                 # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
                 # id: tweet id
                 tweet_ids.append(label['id'])
-            if (worker_labels_num < SETS_OF_LABELS_PERHIT) and (len(set(tweet_ids)) < UNIQUE_TWEETS_PER_HIT) and (len(v) < ASSIGNMENTS_PER_HIT):
+            if (worker_labels_num < SETS_OF_LABELS_PERHIT) and (len(set(tweet_ids)) < UNIQUE_TWEETS_PER_HIT) and (len(value) < ASSIGNMENTS_PER_HIT):
                     print(hit_id, WorkerId, assignmentId)
                     print('id', len(tweet_ids), len(set(tweet_ids)), worker_labels_num)
                     MongoDB_label_lost[worker_labels_num].add(hit_id)
