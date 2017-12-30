@@ -98,56 +98,52 @@ def check_submissions_MTurk(client, hit_id, MTurk_hits_assignments, MTurk_broken
 def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments):
 
     MongoDB_hit_lost = {}
+    MongoDB_label_lost = defaultdict(set)
 
+    # Sort by the number of (worker-assignment) records per HIT
     for k, v in OrderedDict(sorted(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))).items():
         hit_id = k
         hits_saved = hit_collection.find({'hitID': hit_id}).count()
-        print(hit_id, len(v), hits_saved)
         if hits_saved < ASSIGNMENTS_PER_HIT:
             MongoDB_hit_lost[hit_id] = hits_saved
-        # for item in v:
-        #     WorkerId = item[0]
-        #     worker_hit_saved = hit_collection.find({'hitID': hit_id, 'workerID': WorkerId}).count()
-        #     if worker_hit_saved != 1:
-        #         MongoDB_hit_lost[hit_id] += 1
+        print(hit_id)
+        for item in v:
+            WorkerId = item[0]
+            assignmentId = item[1]
+            print(WorkerId, assignmentId)
 
-    print('MongoDB hit_collection exception: %d' % len(MongoDB_hit_lost))
-    if len(MongoDB_hit_lost) != 0:
-        for idx, k in enumerate(OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).keys()):
-            print(idx, k, MongoDB_hit_lost[k])
+            # worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
+            # worker_labels_num = worker_labels.count()
+            # if worker_labels_num != SETS_OF_LABELS_PERHIT:
+            #     _ids = []
+            #     id_s = []            
+            #     for label in worker_labels:
+            #         # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
+            #         # id: tweet id
+            #         id_ = label['id']
+            #         id_s.append(id_)
+            #     if len(set(id_s)) < UNIQUE_TWEETS_PERHIT:
+            #         print(hit_id, WorkerId)
+            #         print('id', len(id_s), len(set(id_s)))
+            #         MongoDB_label_lost[worker_labels_num].add(hit_id)
+            #     # extract labels for complete HITs
+            #     else:
+            #         for label in worker_labels:
+            #             # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
+            #             print(label['question1'], label['question2'], label['question3'])
 
-    # MongoDB_label_lost = defaultdict(set)
+    print('MongoDB hit_collection exceptions: %d' % len(MongoDB_hit_lost))
+    # if len(MongoDB_hit_lost) != 0:
+    #     for idx, k in enumerate(OrderedDict(sorted(MongoDB_hit_lost.items(), key=lambda k:k[1])).keys()):
+    #         print(idx, k, MongoDB_hit_lost[k])
 
-    # for k, v in MTurk_hits_assignments.items():
-    #     hit_id = k
-    #     for item in v:
-    #         WorkerId = item[0]
+    ############################################################
 
-    #         worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
-    #         worker_labels_num = worker_labels.count()
-    #         if worker_labels_num != SETS_OF_LABELS_PERHIT:
-    #             _ids = []
-    #             id_s = []            
-    #             for label in worker_labels:
-    #                 # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
-    #                 # id: tweet id
-    #                 id_ = label['id']
-    #                 id_s.append(id_)
-    #             if len(set(id_s)) < UNIQUE_TWEETS_PERHIT:
-    #                 print(hit_id, WorkerId)
-    #                 print('id', len(id_s), len(set(id_s)))
-    #                 MongoDB_label_lost[worker_labels_num].add(hit_id)
-    #             # extract labels for complete HITs
-    #             else:
-    #                 for label in worker_labels:
-    #                     # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
-    #                     print(label['question1'], label['question2'], label['question3'])
-
-    # print('MongoDB label_collection lost:')
-    # for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
-    #     print('#%d labels per worker' % k)
-    #     print('#%d HITs found' % len(v))
-    #     print(v)
+    print('MongoDB label_collection lost:')
+    for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
+        print('#%d labels per worker' % k)
+        print('#%d HITs found' % len(v))
+        print(v)
 
 def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
 
@@ -175,7 +171,7 @@ if __name__ == '__main__':
     label_collection = db[LABEL_COLLECTION]
     print('MongoDB connected.')
 
-    output = get_log_directory("HITcollection") + "/MTurk_hits_workers_assignments.json"
+    output = get_log_directory("HIT_labels") + "/MTurk_hits_workers_assignments.json"
     try:
         with open(output, "r") as fp:
             MTurk_hits_assignments = json.load(fp)
@@ -183,6 +179,7 @@ if __name__ == '__main__':
     except Exception as e:
         MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list)
         with open(output, "w") as fp:
+            # Extra arguments for pretty format: https://stackoverflow.com/a/7100202/2709595
             json.dump(MTurk_hits_assignments, fp, sort_keys=True, indent=4)
 
     check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
