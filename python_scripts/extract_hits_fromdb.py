@@ -11,7 +11,7 @@ HIT_COLLECTION = 'hit'
 LABEL_COLLECTION = 'label'
 ASSIGNMENTS_PER_HIT = 5
 SETS_OF_LABELS_PERHIT = 12
-UNIQUE_TWEETS_PERHIT = 10
+UNIQUE_TWEETS_PER_HIT = 10
 
 def read_hit_creation_log(environment):
 
@@ -106,26 +106,23 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         hits_saved = hit_collection.find({'hitID': hit_id}).count()
         if hits_saved < ASSIGNMENTS_PER_HIT:
             MongoDB_hit_lost[hit_id] = hits_saved
-        print(hit_id)
+
         for item in v:
             WorkerId = item[0]
             assignmentId = item[1]
             worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId, 'assignmentID': assignmentId})
             worker_labels_num = worker_labels.count()
-            print(WorkerId, assignmentId, worker_labels_num)
 
-            # if worker_labels_num != SETS_OF_LABELS_PERHIT:
-            #     _ids = []
-            #     id_s = []            
-            #     for label in worker_labels:
-            #         # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
-            #         # id: tweet id
-            #         id_ = label['id']
-            #         id_s.append(id_)
-            #     if len(set(id_s)) < UNIQUE_TWEETS_PERHIT:
-            #         print(hit_id, WorkerId)
-            #         print('id', len(id_s), len(set(id_s)))
-            #         MongoDB_label_lost[worker_labels_num].add(hit_id)
+            if worker_labels_num < SETS_OF_LABELS_PERHIT:
+                tweet_ids = []            
+                for label in worker_labels:
+                    # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
+                    # id: tweet id
+                    tweet_ids.append(label['id'])
+                if len(set(tweet_ids)) < UNIQUE_TWEETS_PER_HIT:
+                    print(hit_id, WorkerId, assignmentId)
+                    print('id', len(tweet_ids), len(set(tweet_ids)), worker_labels_num)
+                    MongoDB_label_lost[worker_labels_num].add(hit_id)
             #     # extract labels for complete HITs
             #     else:
             #         for label in worker_labels:
@@ -139,11 +136,11 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
 
     ############################################################
 
-    print('MongoDB label_collection lost:')
-    for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
-        print('#%d labels per worker' % k)
-        print('#%d HITs found' % len(v))
-        print(v)
+    if bool(MongoDB_label_lost) == False:
+        print('MongoDB label_collection lost: 0')
+    else:
+        for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
+            print(k, len(v), v)
 
 def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
 
