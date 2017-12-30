@@ -134,11 +134,11 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
                     print(hit_id, WorkerId)
                     print('id', len(id_s), len(set(id_s)))
                     MongoDB_label_lost[worker_labels_num].add(hit_id)
-            # # extract labels for complete HITs
-            # else:
-            #     for label in worker_labels:
-            #         # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
-            #         print(label['question1'], label['question2'], label['question3'])
+                # extract labels for complete HITs
+                else:
+                    for label in worker_labels:
+                        # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
+                        print(label['question1'], label['question2'], label['question3'])
 
     print('MongoDB label_collection lost:')
     for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
