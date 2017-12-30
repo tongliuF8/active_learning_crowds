@@ -110,10 +110,10 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
         for item in v:
             WorkerId = item[0]
             assignmentId = item[1]
-            print(WorkerId, assignmentId)
+            worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId, 'assignmentID': assignmentId})
+            worker_labels_num = worker_labels.count()
+            print(WorkerId, assignmentId, worker_labels_num)
 
-            # worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId})
-            # worker_labels_num = worker_labels.count()
             # if worker_labels_num != SETS_OF_LABELS_PERHIT:
             #     _ids = []
             #     id_s = []            
