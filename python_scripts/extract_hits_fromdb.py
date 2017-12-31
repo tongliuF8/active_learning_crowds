@@ -100,6 +100,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
     MongoDB_hit_lost = {}
     MongoDB_label_lost = defaultdict(set)
 
+    tweet_assignment_labels = defaultdict(dict)
+
     # Sort by the number of (worker-assignment) records per HIT
     for k in tqdm(OrderedDict(sorted(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))).keys()):
         hit_id = k
@@ -118,16 +120,22 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
             for label in worker_labels:
                 # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
                 # id: tweet id
-                tweet_ids.append(label['id'])
-            if (worker_labels_num < SETS_OF_LABELS_PERHIT) and (len(set(tweet_ids)) < UNIQUE_TWEETS_PER_HIT):
-                    print(hit_id, WorkerId, assignmentId)
-                    print('id', len(tweet_ids), len(set(tweet_ids)), worker_labels_num)
-                    MongoDB_label_lost[worker_labels_num].add(hit_id)
-            #     # extract labels for complete HITs
-            #     else:
-            #         for label in worker_labels:
-            #             # label.keys() = [u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']
-            #             print(label['question1'], label['question2'], label['question3'])
+                tweet_id = label['id']
+                tweet_ids.append(tweet_id)
+                question1 = label['question1']
+                question2 = label['question2']
+                question3 = label['question3']
+
+                tweet_assignment_labels[tweet_id][assignmentId] = {}
+                tweet_assignment_labels[tweet_id][assignmentId]['question1'] = question1
+                tweet_assignment_labels[tweet_id][assignmentId]['question2'] = question2
+                tweet_assignment_labels[tweet_id][assignmentId]['question3'] = question3
+
+            # # Identify incomplete HITs that cover less than 10 unique tweets
+            # if (worker_labels_num < SETS_OF_LABELS_PERHIT) and (len(set(tweet_ids)) < UNIQUE_TWEETS_PER_HIT):
+            #         print(hit_id, WorkerId, assignmentId)
+            #         print('id', len(tweet_ids), len(set(tweet_ids)), worker_labels_num)
+            #         MongoDB_label_lost[worker_labels_num].add(hit_id)
 
     print('MongoDB hit_collection exceptions: %d' % len(MongoDB_hit_lost))
     # if len(MongoDB_hit_lost) != 0:
@@ -141,6 +149,8 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
     else:
         for k, v in OrderedDict(sorted(MongoDB_label_lost.items(), key=lambda k:k[0])).items():
             print(k, len(v), v)
+
+    return tweet_assignment_labels
 
 def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
 
@@ -179,4 +189,6 @@ if __name__ == '__main__':
             # Extra arguments for pretty format: https://stackoverflow.com/a/7100202/2709595
             json.dump(MTurk_hits_assignments, fp, sort_keys=True, indent=4)
 
-    check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
+    tweet_assignment_labels = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
+    for k, v in tweet_assignment_labels.items():
+        print(k, v)
