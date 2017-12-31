@@ -122,16 +122,17 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
                 # id: tweet id
                 if len(label.keys()) != len([u'assignmentID', u'timestamp', u'question2', u'question1', u'hitID', u'question3', u'workerID', u'_id', u'id']):
                     print(hit_id, WorkerId, assignmentId, label.keys())
-                # tweet_id = label['id']
-                # tweet_ids.append(tweet_id)
-                # question1 = label['question1']
-                # question2 = label['question2']
-                # question3 = label['question3']
+                else:
+                    tweet_id = label['id']
+                    tweet_ids.append(tweet_id)
+                    question1 = label['question1']
+                    question2 = label['question2']
+                    question3 = label['question3']
 
-                # tweet_assignment_labels[tweet_id][assignmentId] = {}
-                # tweet_assignment_labels[tweet_id][assignmentId]['question1'] = question1
-                # tweet_assignment_labels[tweet_id][assignmentId]['question2'] = question2
-                # tweet_assignment_labels[tweet_id][assignmentId]['question3'] = question3
+                    tweet_assignment_labels[tweet_id][assignmentId] = {}
+                    tweet_assignment_labels[tweet_id][assignmentId]['question1'] = question1
+                    tweet_assignment_labels[tweet_id][assignmentId]['question2'] = question2
+                    tweet_assignment_labels[tweet_id][assignmentId]['question3'] = question3
 
             # # Identify incomplete HITs that cover less than 10 unique tweets
             # if (worker_labels_num < SETS_OF_LABELS_PERHIT) and (len(set(tweet_ids)) < UNIQUE_TWEETS_PER_HIT):
