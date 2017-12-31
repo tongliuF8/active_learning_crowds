@@ -193,5 +193,5 @@ if __name__ == '__main__':
             json.dump(MTurk_hits_assignments, fp, sort_keys=True, indent=4)
 
     tweet_assignment_labels = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
-    for k, v in tweet_assignment_labels.items():
-        print(k, v)
+    with open(get_log_directory("HIT_labels") + "/tweet_assignment_labels.json", "w") as fp:
+        json.dump(tweet_assignment_labels, fp, sort_keys=True, indent=4)
