@@ -194,6 +194,8 @@ if __name__ == '__main__':
 
     tweet_assignment_labels = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
     MT_labels_output = get_log_directory("HIT_labels") + "/tweet_assignment_labels.json"
+    # If not planning to open the file immediately https://stackoverflow.com/a/82852/2709595
+    # https://docs.python.org/2/library/os.path.html#os.path.isfile
     if os.path.isfile(MT_labels_output):
         print("tweet_assignment_labels.json already exists.") 
     else:
