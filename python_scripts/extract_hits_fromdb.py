@@ -168,7 +168,9 @@ def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
 
     print('MTurk broken HITs: %d' % len(MTurk_broken_hits))
 
-    return OrderedDict(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))
+    MTurk_hits_assignments = OrderedDict(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))
+
+    return MTurk_hits_assignments
             
 if __name__ == '__main__':
     environment = sys.argv[1]
