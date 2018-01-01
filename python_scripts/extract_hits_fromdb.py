@@ -185,7 +185,7 @@ if __name__ == '__main__':
     try:
         with open(output, "r") as fp:
             MTurk_hits_assignments = json.load(fp)
-            print("Data read from file.")
+            print("Data read from file (MTurk_hits_workers_assignments.json).")
     except Exception as e:
         MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list)
         with open(output, "w") as fp:
@@ -193,5 +193,9 @@ if __name__ == '__main__':
             json.dump(MTurk_hits_assignments, fp, sort_keys=True, indent=4)
 
     tweet_assignment_labels = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
-    with open(get_log_directory("HIT_labels") + "/tweet_assignment_labels.json", "w") as fp:
-        json.dump(tweet_assignment_labels, fp, sort_keys=True, indent=4)
+    MT_labels_output = get_log_directory("HIT_labels") + "/tweet_assignment_labels.json"
+    if os.path.isfile(MT_labels_output):
+        print("tweet_assignment_labels.json already exists.") 
+    else:
+        with open(MT_labels_output, "w") as fp:
+            json.dump(tweet_assignment_labels, fp, sort_keys=True, indent=4)
