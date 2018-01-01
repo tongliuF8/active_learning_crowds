@@ -193,7 +193,7 @@ if __name__ == '__main__':
         MTurk_hits_assignments = get_MTurk_hits_assignments(MTurk_client, hit_id_list)
         with open(output, "w") as fp:
             # Extra arguments for pretty format: https://stackoverflow.com/a/7100202/2709595
-            json.dump(MTurk_hits_assignments, fp, sort_keys=True, indent=4)
+            json.dump(MTurk_hits_assignments, fp, indent=4)
 
     tweet_assignment_labels = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
     MT_labels_output = get_log_directory("HIT_labels") + "/tweet_assignment_labels.json"
