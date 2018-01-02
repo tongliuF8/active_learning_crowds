@@ -101,7 +101,10 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
     MongoDB_hit_lost = {}
     MongoDB_label_lost = defaultdict(set)
 
-    tweet_assignment_labels = defaultdict(dict)
+    tweet_assignment_labels = {}
+    tweet_assignment_labels['question1'] = defaultdict(list)
+    tweet_assignment_labels['question2'] = defaultdict(list)
+    tweet_assignment_labels['question3'] = defaultdict(list)
 
     # Sort by the number of (worker-assignment) records per HIT
     for k in tqdm(OrderedDict(sorted(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))).keys()):
@@ -116,10 +119,6 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
             assignmentId = item[1]
             worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId, 'assignmentID': assignmentId})
             worker_labels_num = worker_labels.count()
-
-            tweet_assignment_labels['question1'] = defaultdict(list)
-            tweet_assignment_labels['question2'] = defaultdict(list)
-            tweet_assignment_labels['question3'] = defaultdict(list)
 
             tweet_ids = []            
             for label in worker_labels:
