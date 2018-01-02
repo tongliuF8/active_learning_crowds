@@ -117,9 +117,9 @@ def check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assig
             worker_labels = label_collection.find({'hitID': hit_id, 'workerID': WorkerId, 'assignmentID': assignmentId})
             worker_labels_num = worker_labels.count()
 
-            tweet_assignment_labels['question1'] = defaultdict(dict)
-            tweet_assignment_labels['question2'] = defaultdict(dict)
-            tweet_assignment_labels['question3'] = defaultdict(dict)
+            tweet_assignment_labels['question1'] = defaultdict(list)
+            tweet_assignment_labels['question2'] = defaultdict(list)
+            tweet_assignment_labels['question3'] = defaultdict(list)
 
             tweet_ids = []            
             for label in worker_labels:
