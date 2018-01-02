@@ -170,6 +170,10 @@ def get_MTurk_hits_assignments(MTurk_client, hit_id_list):
 
     MTurk_hits_assignments = OrderedDict(MTurk_hits_assignments.items(), key=lambda k:len(k[1]))
 
+    for k, v in MTurk_hits_assignments.items():
+        print(k, len(v))
+        print(v)
+
     return MTurk_hits_assignments
             
 if __name__ == '__main__':
@@ -197,12 +201,12 @@ if __name__ == '__main__':
             # Extra arguments for pretty format: https://stackoverflow.com/a/7100202/2709595
             json.dump(MTurk_hits_assignments, fp, indent=4)
 
-    tweet_assignment_labels = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
-    MT_labels_output = get_log_directory("HIT_labels") + "/tweet_assignment_labels.json"
-    # If not planning to open the file immediately https://stackoverflow.com/a/82852/2709595
-    # https://docs.python.org/2/library/os.path.html#os.path.isfile
-    if os.path.isfile(MT_labels_output):
-        print("tweet_assignment_labels.json already exists.") 
-    else:
-        with open(MT_labels_output, "w") as fp:
-            json.dump(tweet_assignment_labels, fp, sort_keys=True, indent=4)
+    # tweet_assignment_labels = check_submissions_MongoDB(hit_collection, label_collection, MTurk_hits_assignments)
+    # MT_labels_output = get_log_directory("HIT_labels") + "/tweet_assignment_labels.json"
+    # # If not planning to open the file immediately https://stackoverflow.com/a/82852/2709595
+    # # https://docs.python.org/2/library/os.path.html#os.path.isfile
+    # if os.path.isfile(MT_labels_output):
+    #     print("tweet_assignment_labels.json already exists.") 
+    # else:
+    #     with open(MT_labels_output, "w") as fp:
+    #         json.dump(tweet_assignment_labels, fp, sort_keys=True, indent=4)
