@@ -96,3 +96,123 @@ not support filesystems like NFS that do not allow file locking.
 => Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
 => Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
 => Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Exited from signal: SIGKILL
+[34mI20180114-07:37:12.814(0)? [39mServer is running.....
+=> Meteor server restarted
+[34mI20180114-09:46:40.243(0)? [39m
+[34mI20180114-09:46:41.285(0)? [39m<--- Last few GCs --->
+[34mI20180114-09:46:41.328(0)? [39m
+[34mI20180114-09:46:41.467(0)? [39m[14763:0x3f75fe0]  7461796 ms: Scavenge 25.6 (29.4) -> 24.7 (29.4) MB, 9.0 / 0.7 ms  allocation failure 
+[34mI20180114-09:46:43.127(0)? [39m[14763:0x3f75fe0]  7527728 ms: Scavenge 25.6 (29.4) -> 24.7 (29.4) MB, 107.3 / 5.5 ms  allocation failure 
+[34mI20180114-09:46:43.751(0)? [39m[14763:0x3f75fe0]  7601244 ms: Scavenge 25.6 (29.4) -> 24.7 (29.4) MB, 18.1 / 1.4 ms  allocation failure 
+[34mI20180114-09:46:45.783(0)? [39m[14763:0x3f75fe0]  7679184 ms: Scavenge 25.6 (29.4) -> 24.7 (29.4) MB, 120.8 / 3.0 ms  allocation failure 
+[34mI20180114-09:46:50.551(0)? [39m
+[34mI20180114-09:46:51.806(0)? [39m
+[34mI20180114-09:46:56.044(0)? [39m<--- JS stacktrace --->
+[34mI20180114-09:46:56.994(0)? [39m
+[34mW20180114-09:46:58.427(0)? (STDERR) [39m[35mFATAL ERROR: Committing semi space failed. Allocation failed - process out of memory[39m
+[34mW20180114-09:46:58.487(0)? (STDERR) [39m[35m 1: node::Abort() [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.491(0)? (STDERR) [39m[35m 2: 0x121809c [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.491(0)? (STDERR) [39m[35m 3: v8::Utils::ReportOOMFailure(char const*, bool) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.492(0)? (STDERR) [39m[35m 4: v8::internal::V8::FatalProcessOutOfMemory(char const*, bool) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.520(0)? (STDERR) [39m[35m 5: v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.532(0)? (STDERR) [39m[35m 6: v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.532(0)? (STDERR) [39m[35m 7: v8::internal::Factory::NewFixedTypedArrayWithExternalPointer(int, v8::internal::ExternalArrayType, void*, v8::internal::PretenureFlag) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.546(0)? (STDERR) [39m[35m 8: v8::internal::Factory::NewJSTypedArray(v8::internal::ExternalArrayType, v8::internal::Handle<v8::internal::JSArrayBuffer>, unsigned long, unsigned long, v8::internal::PretenureFlag) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.560(0)? (STDERR) [39m[35m 9: v8::Uint8Array::New(v8::Local<v8::ArrayBuffer>, unsigned long, unsigned long) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.564(0)? (STDERR) [39m[35m10: node::Buffer::New(node::Environment*, char*, unsigned long) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.573(0)? (STDERR) [39m[35m11: node::LibuvStreamWrap::OnReadImpl(long, uv_buf_t const*, uv_handle_type, void*) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.594(0)? (STDERR) [39m[35m12: node::LibuvStreamWrap::OnRead(uv_stream_s*, long, uv_buf_t const*) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.595(0)? (STDERR) [39m[35m13: 0x1461d6f [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.596(0)? (STDERR) [39m[35m14: 0x14623d0 [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.614(0)? (STDERR) [39m[35m15: 0x1468058 [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.615(0)? (STDERR) [39m[35m16: uv_run [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.616(0)? (STDERR) [39m[35m17: node::Start(uv_loop_s*, int, char const* const*, int, char const* const*) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.635(0)? (STDERR) [39m[35m18: node::Start(int, char**) [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+[34mW20180114-09:46:58.646(0)? (STDERR) [39m[35m19: __libc_start_main [/lib/x86_64-linux-gnu/libc.so.6][39m
+[34mW20180114-09:46:58.648(0)? (STDERR) [39m[35m20: 0x8ae371 [/home/tongliu/.meteor/packages/meteor-tool/.1.6.0.1whvdik.oongk++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node][39m
+=> Exited from signal: SIGABRT
+[34mI20180114-09:47:07.747(0)? [39mServer is running.....
+=> Meteor server restarted
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.0.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
+=> Meteor 1.6.1 is available. Update this project with 'meteor update'.
