@@ -2,7 +2,7 @@ import sys
 from collections import defaultdict
 from pymongo import MongoClient
 from helper_functions import *
-from check_HIT_submissions import *
+from check_HIT_submissions_mod import *
 
 HIT_COLLECTION = 'hit'
 LABEL_COLLECTION = 'label'
