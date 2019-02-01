@@ -1,8 +1,4 @@
-# Capstone
-
-====================================================
-    Active learning using crowds in the loop
-====================================================
+# Active learning using crowds in the loop
 
 Install python 2.7 or anaconda python 2
 
